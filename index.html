@@ -169,6 +169,36 @@
             margin-top: 15px;
         }
 
+        /* Markets Panel */
+        .markets-panel {
+            background: #252540;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .market-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+        .market-item:last-child { border-bottom: none; }
+        .market-item a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 12px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .market-item a:hover { text-decoration: underline; }
+        .market-meta {
+            font-size: 10px;
+            color: #666;
+        }
+        .market-meta .vol { color: #22c55e; }
+        .market-meta .bettors { color: #a78bfa; }
+        .market-item.relevant { background: #1e3a5f; margin: 0 -15px; padding: 8px 15px; }
+
         /* Sample Statistics Panel */
         .sample-stats {
             background: #252540;
@@ -295,6 +325,11 @@
                 </div>
             </div>
 
+            <div id="markets-panel">
+                <h2>Related Markets</h2>
+                <div class="markets-panel" id="markets-list"></div>
+            </div>
+
             <button class="reset-all" id="reset-btn" style="display: none;">Reset All Locks</button>
             <div class="sample-count" id="sample-count"></div>
         </div>
@@ -306,6 +341,7 @@
     let locks = {};
     let selected = null;
     let essEstimate = null;  // Cached ESS from full sample
+    let markets = [];  // Market metadata
 
     // State abbreviation to full name
     const stateNames = {
@@ -418,14 +454,21 @@
     }
 
     async function loadData() {
-        const resp = await fetch('data/samples.json');
-        const data = await resp.json();
-        samples = data.samples;
-        races = data.races;
+        // Load samples
+        const samplesResp = await fetch('data/samples.json');
+        const samplesData = await samplesResp.json();
+        samples = samplesData.samples;
+        races = samplesData.races;
+
+        // Load summary (includes markets metadata)
+        const summaryResp = await fetch('data/summary.json');
+        const summaryData = await summaryResp.json();
+        markets = summaryData.markets || [];
 
         // Estimate ESS from full sample (cache it)
         essEstimate = estimateESS(samples);
         console.log('ESS estimate:', essEstimate);
+        console.log('Markets loaded:', markets.length);
 
         document.getElementById('sample-count').textContent =
             `Source: ${samples.length.toLocaleString()} samples, ESS ≈ ${essEstimate.ess.toLocaleString()}`;
@@ -686,6 +729,45 @@
         } else {
             lockedPanel.style.display = 'none';
             document.getElementById('reset-btn').style.display = 'none';
+        }
+
+        // Markets panel
+        const marketsList = document.getElementById('markets-list');
+        const marketsHeader = document.querySelector('#markets-panel h2');
+
+        if (markets.length > 0) {
+            // Sort markets: relevant to selected state first, then by volume
+            let sortedMarkets = [...markets];
+            if (selected) {
+                sortedMarkets.sort((a, b) => {
+                    const aRelevant = a.related_races.includes(selected);
+                    const bRelevant = b.related_races.includes(selected);
+                    if (aRelevant && !bRelevant) return -1;
+                    if (!aRelevant && bRelevant) return 1;
+                    return (b.volume || 0) - (a.volume || 0);
+                });
+                marketsHeader.textContent = `Markets (${getStateCode(selected)})`;
+            } else {
+                sortedMarkets.sort((a, b) => (b.volume || 0) - (a.volume || 0));
+                marketsHeader.textContent = 'All Markets';
+            }
+
+            marketsList.innerHTML = sortedMarkets.map(m => {
+                const isRelevant = selected && m.related_races.includes(selected);
+                const volStr = m.volume >= 1000 ? `${(m.volume/1000).toFixed(1)}k` : Math.round(m.volume);
+                return `
+                    <div class="market-item ${isRelevant ? 'relevant' : ''}">
+                        <a href="${m.url}" target="_blank">${m.name}</a>
+                        <div class="market-meta">
+                            <span class="vol">M$${volStr} vol</span> ·
+                            <span class="bettors">${m.uniqueBettorCount} traders</span>
+                            ${m.related_races.length > 0 && m.related_races.length < 10 ? ` · ${m.related_races.length} races` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } else {
+            marketsList.innerHTML = '<div style="color: #666; text-align: center; padding: 10px;">No markets loaded</div>';
         }
     }
 
