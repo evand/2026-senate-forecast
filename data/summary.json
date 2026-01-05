@@ -38,163 +38,163 @@
   ],
   "marginals": {
     "AL_Senate": {
-      "R": 0.96434,
-      "D": 0.035660000000000025
+      "R": 0.961048,
+      "D": 0.03895199999999999
     },
     "AK_Senate": {
-      "R": 0.6557,
-      "D": 0.34430000000000005
+      "R": 0.671354,
+      "D": 0.328646
     },
     "AR_Senate": {
-      "R": 0.96224,
-      "D": 0.037760000000000016
+      "R": 0.972702,
+      "D": 0.027298000000000044
     },
     "CO_Senate": {
-      "R": 0.0125,
-      "D": 0.9875
+      "R": 0.0118,
+      "D": 0.9882
     },
     "DE_Senate": {
-      "R": 0.01788,
-      "D": 0.98212
+      "R": 0.019278,
+      "D": 0.980722
     },
     "GA_Senate": {
-      "R": 0.15496,
-      "D": 0.84504
+      "R": 0.172484,
+      "D": 0.827516
     },
     "ID_Senate": {
-      "R": 0.97836,
-      "D": 0.021639999999999993
+      "R": 0.974152,
+      "D": 0.025847999999999982
     },
     "IL_Senate": {
-      "R": 0.04966,
-      "D": 0.95034
+      "R": 0.057934,
+      "D": 0.942066
     },
     "IA_Senate": {
-      "R": 0.59914,
-      "D": 0.40086
+      "R": 0.59791,
+      "D": 0.40208999999999995
     },
     "KS_Senate": {
-      "R": 0.85496,
-      "D": 0.14503999999999995
+      "R": 0.871642,
+      "D": 0.12835799999999997
     },
     "KY_Senate": {
-      "R": 0.92336,
-      "D": 0.07664000000000004
+      "R": 0.929974,
+      "D": 0.07002600000000003
     },
     "LA_Senate": {
-      "R": 0.93772,
-      "D": 0.06228
+      "R": 0.936356,
+      "D": 0.06364400000000003
     },
     "ME_Senate": {
-      "R": 0.3383,
-      "D": 0.6617
+      "R": 0.348014,
+      "D": 0.651986
     },
     "MA_Senate": {
-      "R": 0.00956,
-      "D": 0.99044
+      "R": 0.009668,
+      "D": 0.990332
     },
     "MI_Senate": {
-      "R": 0.28358,
-      "D": 0.7164200000000001
+      "R": 0.300252,
+      "D": 0.699748
     },
     "MN_Senate": {
-      "R": 0.19948,
-      "D": 0.80052
+      "R": 0.184712,
+      "D": 0.815288
     },
     "MS_Senate": {
-      "R": 0.94572,
-      "D": 0.054279999999999995
+      "R": 0.947992,
+      "D": 0.052008000000000054
     },
     "MT_Senate": {
-      "R": 0.9032,
-      "D": 0.0968
+      "R": 0.906826,
+      "D": 0.09317399999999998
     },
     "NE_Senate": {
-      "R": 0.47294,
-      "D": 0.52706
+      "R": 0.52062,
+      "D": 0.47938000000000003
     },
     "NH_Senate": {
-      "R": 0.08372,
-      "D": 0.91628
+      "R": 0.08722,
+      "D": 0.91278
     },
     "NJ_Senate": {
-      "R": 0.03406,
-      "D": 0.96594
+      "R": 0.035518,
+      "D": 0.964482
     },
     "NM_Senate": {
-      "R": 0.0547,
-      "D": 0.9453
+      "R": 0.064282,
+      "D": 0.935718
     },
     "NC_Senate": {
-      "R": 0.25298,
-      "D": 0.74702
+      "R": 0.242692,
+      "D": 0.757308
     },
     "OK_Senate": {
-      "R": 0.97386,
-      "D": 0.026140000000000052
+      "R": 0.969426,
+      "D": 0.03057399999999999
     },
     "OR_Senate": {
-      "R": 0.00792,
-      "D": 0.99208
+      "R": 0.015562,
+      "D": 0.984438
     },
     "RI_Senate": {
-      "R": 0.01884,
-      "D": 0.98116
+      "R": 0.016908,
+      "D": 0.983092
     },
     "SC_Senate": {
-      "R": 0.9393,
-      "D": 0.060699999999999976
+      "R": 0.940796,
+      "D": 0.059204000000000034
     },
     "SD_Senate": {
-      "R": 0.95136,
-      "D": 0.04864000000000002
+      "R": 0.954102,
+      "D": 0.045897999999999994
     },
     "TN_Senate": {
-      "R": 0.96246,
-      "D": 0.03754000000000002
+      "R": 0.972414,
+      "D": 0.027586
     },
     "TX_Senate": {
-      "R": 0.71384,
-      "D": 0.28615999999999997
+      "R": 0.719164,
+      "D": 0.280836
     },
     "VA_Senate": {
-      "R": 0.03512,
-      "D": 0.96488
+      "R": 0.049288,
+      "D": 0.950712
     },
     "WV_Senate": {
-      "R": 0.97408,
-      "D": 0.025920000000000054
+      "R": 0.97102,
+      "D": 0.028980000000000006
     },
     "WY_Senate": {
-      "R": 0.97092,
-      "D": 0.029079999999999995
+      "R": 0.971412,
+      "D": 0.028587999999999947
     },
     "OH_Senate_Special": {
-      "R": 0.61702,
-      "D": 0.38298
+      "R": 0.635334,
+      "D": 0.36466600000000005
     },
     "FL_Senate_Special": {
-      "R": 0.8415,
-      "D": 0.15849999999999997
+      "R": 0.863418,
+      "D": 0.13658199999999998
     }
   },
   "aggregate": {
-    "expected_r_wins": 18.69528,
-    "p_r_control": 0.5102,
-    "p_d_control": 0.4898,
+    "expected_r_wins": 18.903274,
+    "p_r_control": 0.526044,
+    "p_d_control": 0.473956,
     "baseline": {
       "D": 34,
       "R": 31
     }
   },
   "metadata": {
-    "n_samples": 50000,
-    "max_error": 0.11654656304577399,
-    "generated_at": "2026-01-05T00:02:21.651181",
+    "n_samples": 500000,
+    "max_error": 0.10888656304577399,
+    "generated_at": "2026-01-05T16:09:20.964334",
     "snapshot_timestamp": "2026-01-04T19:59:30.270748",
     "seed": 42,
     "iterations": 60,
-    "mean_acceptance_rate": 0.2017201923076923,
+    "mean_acceptance_rate": 0.21463333333333331,
     "converged": false,
     "learning_rate": 0.05,
     "regularization": 0.1,
@@ -230,41 +230,41 @@
       "volume": 24416.52779935483,
       "totalLiquidity": 3350,
       "related_races": [
-        "FL_Senate_Special",
-        "MA_Senate",
-        "KY_Senate",
-        "MS_Senate",
-        "AL_Senate",
-        "IA_Senate",
-        "KS_Senate",
         "NJ_Senate",
-        "WY_Senate",
-        "NE_Senate",
-        "CO_Senate",
-        "SC_Senate",
-        "SD_Senate",
-        "TN_Senate",
-        "ID_Senate",
-        "AK_Senate",
-        "NM_Senate",
-        "NH_Senate",
-        "NC_Senate",
+        "KY_Senate",
         "LA_Senate",
         "IL_Senate",
-        "OH_Senate_Special",
-        "TX_Senate",
-        "VA_Senate",
+        "ID_Senate",
         "OK_Senate",
-        "DE_Senate",
-        "MI_Senate",
-        "MN_Senate",
-        "AR_Senate",
-        "GA_Senate",
+        "SC_Senate",
+        "IA_Senate",
+        "VA_Senate",
+        "KS_Senate",
+        "AK_Senate",
         "MT_Senate",
+        "FL_Senate_Special",
+        "NE_Senate",
+        "AR_Senate",
+        "MA_Senate",
+        "DE_Senate",
+        "NM_Senate",
+        "CO_Senate",
+        "TX_Senate",
+        "AL_Senate",
+        "MS_Senate",
+        "TN_Senate",
         "WV_Senate",
-        "ME_Senate",
+        "SD_Senate",
+        "MI_Senate",
+        "OH_Senate_Special",
+        "MN_Senate",
+        "NH_Senate",
+        "NC_Senate",
+        "RI_Senate",
+        "WY_Senate",
         "OR_Senate",
-        "RI_Senate"
+        "ME_Senate",
+        "GA_Senate"
       ],
       "prices": {
         "Alabama": 0.9658578671843443,
@@ -320,29 +320,6 @@
       }
     },
     {
-      "slug": "how-many-seats-will-the-democrats-h",
-      "name": "Dem Senate Seats",
-      "question": "How many seats will the Democrats hold in the U.S. Senate after the 2026 Midterm Election?",
-      "type": "seat_count",
-      "url": "https://manifold.markets/questions/how-many-seats-will-the-democrats-h",
-      "uniqueBettorCount": 23,
-      "volume": 7527.435006870192,
-      "totalLiquidity": 10000,
-      "related_races": [],
-      "prices": {
-        "44": 0.04139903411699539,
-        "45": 0.041906466518709974,
-        "46": 0.042031374301481586,
-        "47": 0.07008587006511793,
-        "48": 0.12371999183555005,
-        "49": 0.1887482007223108,
-        "50": 0.1489914571306331,
-        "51": 0.16153302536722153,
-        "52": 0.1050561492923298,
-        "Other": 0.07652843064964948
-      }
-    },
-    {
       "slug": "what-will-be-the-tipping-point-sena",
       "name": "Senate Tipping Point",
       "question": "What will be the tipping point Senate seat for Democrats in the 2026 elections?",
@@ -353,11 +330,11 @@
       "totalLiquidity": 1700,
       "related_races": [
         "NC_Senate",
-        "AK_Senate",
-        "GA_Senate",
         "TX_Senate",
+        "AK_Senate",
         "IA_Senate",
-        "ME_Senate"
+        "ME_Senate",
+        "GA_Senate"
       ],
       "prices": {
         "Maine": 0.033930668190996494,
@@ -378,66 +355,6 @@
       }
     },
     {
-      "slug": "how-many-safe-senate-seats-will-the",
-      "name": "Safe D Senate Seats",
-      "question": "How many \"safe\" Senate seats will the Democrats win in 2026? (CO DE MA NJ OR RI VA)",
-      "type": "safe_seat_count",
-      "url": "https://manifold.markets/questions/how-many-safe-senate-seats-will-the",
-      "uniqueBettorCount": 5,
-      "volume": 870.0045823667872,
-      "totalLiquidity": 400,
-      "related_races": [
-        "MA_Senate",
-        "VA_Senate",
-        "DE_Senate",
-        "OR_Senate",
-        "NJ_Senate",
-        "RI_Senate",
-        "CO_Senate"
-      ],
-      "prices": {
-        "0": 0.0028945045108322407,
-        "1": 0.0028945045108322407,
-        "2": 0.0028945045108322407,
-        "3": 0.0028945045108322407,
-        "4": 0.0028945045108322407,
-        "5": 0.007619281203839836,
-        "6": 0.010009015821686494,
-        "7": 0.9678991804203125
-      }
-    },
-    {
-      "slug": "how-many-safe-senate-seats-will-rep",
-      "name": "Safe R Senate Seats",
-      "question": "How many \"safe\" Senate seats will Republicans win in 2026? (AL AR ID KY LA MS OK SD TN WV WY)",
-      "type": "safe_seat_count",
-      "url": "https://manifold.markets/questions/how-many-safe-senate-seats-will-rep",
-      "uniqueBettorCount": 6,
-      "volume": 189.29439249028852,
-      "totalLiquidity": 300,
-      "related_races": [
-        "AR_Senate",
-        "ID_Senate",
-        "LA_Senate",
-        "KY_Senate",
-        "WV_Senate",
-        "MS_Senate",
-        "OK_Senate",
-        "WY_Senate",
-        "AL_Senate",
-        "TN_Senate",
-        "SD_Senate"
-      ],
-      "prices": {
-        "0 - 2": 0.013127755394066156,
-        "3 - 5": 0.013127755394066156,
-        "6 - 7": 0.013127755394066156,
-        "8 - 9": 0.098170482705559,
-        "10": 0.22409501430704787,
-        "11": 0.638351236805195
-      }
-    },
-    {
       "slug": "which-senate-flip-is-more-likely-de",
       "name": "Senate Flip Comparison",
       "question": "Which senate flip is more likely? Dems take TX or OH, or Reps take GA or MI?",
@@ -447,10 +364,10 @@
       "volume": 145.3139327407918,
       "totalLiquidity": 1000,
       "related_races": [
-        "MI_Senate",
-        "TX_Senate",
+        "OH_Senate_Special",
         "GA_Senate",
-        "OH_Senate_Special"
+        "TX_Senate",
+        "MI_Senate"
       ],
       "prices": {
         "Dems flip TX or OH": 0.28345343695422603,
