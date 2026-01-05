@@ -198,6 +198,18 @@
         .market-meta .vol { color: #22c55e; }
         .market-meta .bettors { color: #a78bfa; }
         .market-item.relevant { background: #1e3a5f; margin: 0 -15px; padding: 8px 15px; }
+        .price-compare {
+            font-size: 11px;
+            color: #9ca3af;
+            margin: 4px 0;
+            font-family: monospace;
+        }
+        .price-compare.warning { color: #fbbf24; }
+        .price-compare .diff {
+            color: #6b7280;
+            font-size: 10px;
+        }
+        .price-compare.warning .diff { color: #f59e0b; }
 
         /* Sample Statistics Panel */
         .sample-stats {
@@ -292,6 +304,14 @@
                     <span class="label">Margin of error (95%)</span>
                     <span class="value" id="stat-moe">--</span>
                 </div>
+                <div class="stat-row">
+                    <span class="label">Max constraint error</span>
+                    <span class="value" id="stat-max-error">--</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">Data fetched</span>
+                    <span class="value" id="stat-timestamp" style="font-size: 10px;">--</span>
+                </div>
                 <div class="ci-display">
                     <div class="label">D Control probability (95% CI)</div>
                     <div class="ci-bar" id="ci-bar">
@@ -342,6 +362,8 @@
     let selected = null;
     let essEstimate = null;  // Cached ESS from full sample
     let markets = [];  // Market metadata
+    let maxError = null;  // Max constraint error from sampler
+    let snapshotTimestamp = null;  // When data was fetched
 
     // State abbreviation to full name
     const stateNames = {
@@ -455,20 +477,25 @@
 
     async function loadData() {
         // Load samples
-        const samplesResp = await fetch('data/samples.json');
+        const cacheBust = '?v=' + Date.now();
+        const samplesResp = await fetch('data/samples.json' + cacheBust);
         const samplesData = await samplesResp.json();
         samples = samplesData.samples;
         races = samplesData.races;
 
-        // Load summary (includes markets metadata)
-        const summaryResp = await fetch('data/summary.json');
+        // Load summary (includes markets metadata and max error)
+        const summaryResp = await fetch('data/summary.json' + cacheBust);
         const summaryData = await summaryResp.json();
         markets = summaryData.markets || [];
+        maxError = summaryData.metadata?.max_error || null;
+        snapshotTimestamp = summaryData.metadata?.snapshot_timestamp || null;
 
         // Estimate ESS from full sample (cache it)
         essEstimate = estimateESS(samples);
         console.log('ESS estimate:', essEstimate);
-        console.log('Markets loaded:', markets.length);
+        console.log('Markets loaded:', markets.length, markets.map(m => m.name));
+        console.log('Max error:', maxError);
+        console.log('Snapshot timestamp:', snapshotTimestamp);
 
         document.getElementById('sample-count').textContent =
             `Source: ${samples.length.toLocaleString()} samples, ESS ≈ ${essEstimate.ess.toLocaleString()}`;
@@ -562,6 +589,24 @@
         filteredEl.className = 'value' + (filtered.length < 100 ? ' error' : filtered.length < 500 ? ' warning' : '');
 
         document.getElementById('stat-ess').textContent = currentESS.toLocaleString();
+
+        // Display max constraint error
+        const maxErrEl = document.getElementById('stat-max-error');
+        if (maxError !== null) {
+            maxErrEl.textContent = (maxError * 100).toFixed(1) + '%';
+            maxErrEl.className = 'value' + (maxError > 0.1 ? ' error' : maxError > 0.05 ? ' warning' : '');
+        } else {
+            maxErrEl.textContent = '--';
+        }
+
+        // Display snapshot timestamp
+        const tsEl = document.getElementById('stat-timestamp');
+        if (snapshotTimestamp) {
+            const ts = new Date(snapshotTimestamp);
+            tsEl.textContent = ts.toLocaleDateString() + ' ' + ts.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        } else {
+            tsEl.textContent = '--';
+        }
 
         // Compute confidence interval for D control
         if (filtered.length > 0) {
@@ -734,6 +779,7 @@
         // Markets panel
         const marketsList = document.getElementById('markets-list');
         const marketsHeader = document.querySelector('#markets-panel h2');
+        console.log('Rendering markets panel, selected:', selected, 'markets:', markets.length);
 
         if (markets.length > 0) {
             // Sort markets: relevant to selected state first, then by volume
@@ -755,9 +801,55 @@
             marketsList.innerHTML = sortedMarkets.map(m => {
                 const isRelevant = selected && m.related_races.includes(selected);
                 const volStr = m.volume >= 1000 ? `${(m.volume/1000).toFixed(1)}k` : Math.round(m.volume);
+
+                // Get price comparison for this market
+                let priceCompare = '';
+                if (m.prices && Object.keys(m.prices).length > 0) {
+                    if (m.type === 'multi_race' && selected) {
+                        // For omnibus, show selected state's price vs model
+                        const stateCode = getStateCode(selected);
+                        const stateName = Object.keys(m.prices).find(k =>
+                            k.toLowerCase().includes(stateCode.toLowerCase()) ||
+                            selected.toLowerCase().includes(k.toLowerCase().replace(' (special)', ''))
+                        );
+                        if (stateName && m.prices[stateName] !== undefined) {
+                            const mktPrice = m.prices[stateName];
+                            const modelProb = stats.marginals[selected]?.R || 0;
+                            const diff = modelProb - mktPrice;
+                            const diffClass = Math.abs(diff) > 0.05 ? 'warning' : '';
+                            priceCompare = `<div class="price-compare ${diffClass}">
+                                ${stateName}: Mkt ${(mktPrice*100).toFixed(0)}% vs Model ${(modelProb*100).toFixed(0)}%
+                                <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
+                            </div>`;
+                        }
+                    } else if (m.type === 'control') {
+                        // R Senate Control market
+                        const mktPrice = m.prices['YES'] || 0;
+                        const modelProb = 1 - (stats.dControl || 0);
+                        const diff = modelProb - mktPrice;
+                        const diffClass = Math.abs(diff) > 0.05 ? 'warning' : '';
+                        priceCompare = `<div class="price-compare ${diffClass}">
+                            R Control: Mkt ${(mktPrice*100).toFixed(0)}% vs Model ${(modelProb*100).toFixed(0)}%
+                            <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
+                        </div>`;
+                    } else if (m.type === 'joint_control') {
+                        // Balance of Power - show D Senate probability
+                        const dSenate = (m.prices['Democratic House and Senate'] || 0) +
+                                       (m.prices['Republican House, Democratic Senate'] || 0);
+                        const modelDControl = stats.dControl || 0;
+                        const diff = modelDControl - dSenate;
+                        const diffClass = Math.abs(diff) > 0.05 ? 'warning' : '';
+                        priceCompare = `<div class="price-compare ${diffClass}">
+                            D Senate: Mkt ${(dSenate*100).toFixed(0)}% vs Model ${(modelDControl*100).toFixed(0)}%
+                            <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
+                        </div>`;
+                    }
+                }
+
                 return `
                     <div class="market-item ${isRelevant ? 'relevant' : ''}">
                         <a href="${m.url}" target="_blank">${m.name}</a>
+                        ${priceCompare}
                         <div class="market-meta">
                             <span class="vol">M$${volStr} vol</span> ·
                             <span class="bettors">${m.uniqueBettorCount} traders</span>
