@@ -1,0 +1,482 @@
+{
+  "races": [
+    "AL_Senate",
+    "AK_Senate",
+    "AR_Senate",
+    "CO_Senate",
+    "DE_Senate",
+    "GA_Senate",
+    "ID_Senate",
+    "IL_Senate",
+    "IA_Senate",
+    "KS_Senate",
+    "KY_Senate",
+    "LA_Senate",
+    "ME_Senate",
+    "MA_Senate",
+    "MI_Senate",
+    "MN_Senate",
+    "MS_Senate",
+    "MT_Senate",
+    "NE_Senate",
+    "NH_Senate",
+    "NJ_Senate",
+    "NM_Senate",
+    "NC_Senate",
+    "OK_Senate",
+    "OR_Senate",
+    "RI_Senate",
+    "SC_Senate",
+    "SD_Senate",
+    "TN_Senate",
+    "TX_Senate",
+    "VA_Senate",
+    "WV_Senate",
+    "WY_Senate",
+    "OH_Senate_Special",
+    "FL_Senate_Special"
+  ],
+  "marginals": {
+    "AL_Senate": {
+      "D": 0.040992,
+      "R": 0.959008
+    },
+    "AK_Senate": {
+      "D": 0.337268,
+      "R": 0.662732
+    },
+    "AR_Senate": {
+      "D": 0.031454,
+      "R": 0.968546
+    },
+    "CO_Senate": {
+      "D": 0.985542,
+      "R": 0.014458
+    },
+    "DE_Senate": {
+      "D": 0.98111,
+      "R": 0.01889
+    },
+    "GA_Senate": {
+      "D": 0.840728,
+      "R": 0.159272
+    },
+    "ID_Senate": {
+      "D": 0.025046,
+      "R": 0.974954
+    },
+    "IL_Senate": {
+      "D": 0.951182,
+      "R": 0.048818
+    },
+    "IA_Senate": {
+      "D": 0.407628,
+      "R": 0.592372
+    },
+    "KS_Senate": {
+      "D": 0.133572,
+      "R": 0.866428
+    },
+    "KY_Senate": {
+      "D": 0.069584,
+      "R": 0.930416
+    },
+    "LA_Senate": {
+      "D": 0.057532,
+      "R": 0.942468
+    },
+    "ME_Senate": {
+      "D": 0.65005,
+      "R": 0.34995
+    },
+    "MA_Senate": {
+      "D": 0.99294,
+      "R": 0.00706
+    },
+    "MI_Senate": {
+      "D": 0.708216,
+      "R": 0.291784
+    },
+    "MN_Senate": {
+      "D": 0.817408,
+      "R": 0.182592
+    },
+    "MS_Senate": {
+      "D": 0.0473,
+      "R": 0.9527
+    },
+    "MT_Senate": {
+      "D": 0.10172,
+      "R": 0.89828
+    },
+    "NE_Senate": {
+      "D": 0.016756,
+      "R": 0.740178,
+      "I_Osborn": 0.237526,
+      "I_Other": 0.00554
+    },
+    "NH_Senate": {
+      "D": 0.922242,
+      "R": 0.077758
+    },
+    "NJ_Senate": {
+      "D": 0.967956,
+      "R": 0.032044
+    },
+    "NM_Senate": {
+      "D": 0.93559,
+      "R": 0.06441
+    },
+    "NC_Senate": {
+      "D": 0.76147,
+      "R": 0.23853
+    },
+    "OK_Senate": {
+      "D": 0.028374,
+      "R": 0.971626
+    },
+    "OR_Senate": {
+      "D": 0.98914,
+      "R": 0.01086
+    },
+    "RI_Senate": {
+      "D": 0.984526,
+      "R": 0.015474
+    },
+    "SC_Senate": {
+      "D": 0.068662,
+      "R": 0.931338
+    },
+    "SD_Senate": {
+      "D": 0.039548,
+      "R": 0.960452
+    },
+    "TN_Senate": {
+      "D": 0.02778,
+      "R": 0.97222
+    },
+    "TX_Senate": {
+      "D": 0.269538,
+      "R": 0.730462
+    },
+    "VA_Senate": {
+      "D": 0.957798,
+      "R": 0.042202
+    },
+    "WV_Senate": {
+      "D": 0.027192,
+      "R": 0.972808
+    },
+    "WY_Senate": {
+      "D": 0.02529,
+      "R": 0.97471
+    },
+    "OH_Senate_Special": {
+      "D": 0.361756,
+      "R": 0.638244
+    },
+    "FL_Senate_Special": {
+      "D": 0.152394,
+      "R": 0.847606
+    }
+  },
+  "aggregate": {
+    "expected_r_wins": 19.04165,
+    "p_r_control": 0.5908599999999999,
+    "p_d_control": 0.40914,
+    "baseline": {
+      "D": 34,
+      "R": 31
+    }
+  },
+  "metadata": {
+    "n_samples": 500000,
+    "max_error": 0.11773999999999996,
+    "rms_error": 0.029311448238692073,
+    "generated_at": "2026-01-05T23:05:14.628263",
+    "snapshot_timestamp": "2026-01-04T19:59:30.270748",
+    "seed": 42,
+    "iterations": 60,
+    "mean_acceptance_rate": 0.1812897435897436,
+    "converged": false,
+    "learning_rate": 0.05,
+    "regularization": 0.1,
+    "burn_in": 2000,
+    "samples_per_iter": 50000
+  },
+  "markets": [
+    {
+      "slug": "what-will-be-the-balance-of-power-i-QZ6sdPtE2U",
+      "name": "Balance of Power (partial)",
+      "question": "What will be the balance of power in Congress after the 2026 midterms?",
+      "type": "joint_control",
+      "url": "https://manifold.markets/questions/what-will-be-the-balance-of-power-i-QZ6sdPtE2U",
+      "uniqueBettorCount": 59,
+      "volume": 26062.340815431817,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {
+        "Democratic House and Senate": 0.28927979732167636,
+        "Democratic House, Republican Senate": 0.5719852067828025,
+        "Republican House, Democratic Senate": 0.012364025296033879,
+        "Republican House and Senate": 0.12046765303951261,
+        "Other": 0.005903317559974746
+      }
+    },
+    {
+      "slug": "will-a-republican-win-in-the-follow",
+      "name": "Senate Omnibus (R wins)",
+      "question": "Will a Republican win in the following US Senate 2026 elections?",
+      "type": "multi_race",
+      "url": "https://manifold.markets/questions/will-a-republican-win-in-the-follow",
+      "uniqueBettorCount": 59,
+      "volume": 24416.52779935483,
+      "totalLiquidity": 3350,
+      "related_races": [
+        "LA_Senate",
+        "TX_Senate",
+        "NJ_Senate",
+        "AR_Senate",
+        "OK_Senate",
+        "KS_Senate",
+        "WV_Senate",
+        "AK_Senate",
+        "RI_Senate",
+        "MI_Senate",
+        "OH_Senate_Special",
+        "OR_Senate",
+        "KY_Senate",
+        "ME_Senate",
+        "IL_Senate",
+        "IA_Senate",
+        "MN_Senate",
+        "CO_Senate",
+        "VA_Senate",
+        "TN_Senate",
+        "MS_Senate",
+        "MA_Senate",
+        "NH_Senate",
+        "NM_Senate",
+        "GA_Senate",
+        "AL_Senate",
+        "FL_Senate_Special",
+        "DE_Senate",
+        "SD_Senate",
+        "SC_Senate",
+        "ID_Senate",
+        "WY_Senate",
+        "NC_Senate",
+        "MT_Senate"
+      ],
+      "prices": {
+        "Alabama": 0.9658578671843443,
+        "Alaska": 0.6763633547286398,
+        "Arkansas": 0.9754862768381256,
+        "Colorado": 0.017598526822401952,
+        "Delaware": 0.025311699722450908,
+        "Georgia": 0.20054768631014494,
+        "Idaho": 0.9810590136620309,
+        "Illinois": 0.06231935211572974,
+        "Iowa": 0.6174445268293118,
+        "Kansas": 0.8830534719950847,
+        "Kentucky": 0.9401527096598409,
+        "Louisiana": 0.950206309260049,
+        "Maine": 0.35916240693097523,
+        "Massachusetts": 0.010065431401425962,
+        "Michigan": 0.3575770403773462,
+        "Minnesota": 0.19216208270201116,
+        "Mississippi": 0.9590163366662415,
+        "Montana": 0.9145459918911157,
+        "Nebraska": 0.5277094731584738,
+        "New Hampshire": 0.08975062713628464,
+        "New Jersey": 0.04205278387557052,
+        "New Mexico": 0.07209594753968,
+        "North Carolina": 0.25,
+        "Oklahoma": 0.9757559004105093,
+        "Oregon": 0.017118316825172307,
+        "Rhode Island": 0.02221584494786302,
+        "South Carolina": 0.9478942756879027,
+        "South Dakota": 0.9661380476864129,
+        "Tennessee": 0.9782739359565569,
+        "Texas": 0.6908605251967537,
+        "Virginia": 0.05279300217094427,
+        "West Virginia": 0.977542465848899,
+        "Wyoming": 0.9770264066205399,
+        "Ohio (Special)": 0.5592555149686806,
+        "Florida (Special)": 0.8656626479312848
+      }
+    },
+    {
+      "slug": "will-republicans-win-the-senate-in-738388924521",
+      "name": "R Senate Control",
+      "question": "Will Republicans win the Senate in the 2026 elections?",
+      "type": "control",
+      "url": "https://manifold.markets/questions/will-republicans-win-the-senate-in-738388924521",
+      "uniqueBettorCount": 45,
+      "volume": 14907.100997734513,
+      "totalLiquidity": 500,
+      "related_races": [],
+      "prices": {
+        "YES": 0.6848426908956714,
+        "NO": 0.3151573091043286
+      }
+    },
+    {
+      "slug": "how-many-seats-will-the-democrats-h",
+      "name": "Dem Senate Seats",
+      "question": "How many seats will the Democrats hold in the U.S. Senate after the 2026 Midterm Election?",
+      "type": "seat_count",
+      "url": "https://manifold.markets/questions/how-many-seats-will-the-democrats-h",
+      "uniqueBettorCount": 23,
+      "volume": 7527.435006870192,
+      "totalLiquidity": 10000,
+      "related_races": [],
+      "prices": {
+        "44": 0.04139903411699539,
+        "45": 0.041906466518709974,
+        "46": 0.042031374301481586,
+        "47": 0.07008587006511793,
+        "48": 0.12371999183555005,
+        "49": 0.1887482007223108,
+        "50": 0.1489914571306331,
+        "51": 0.16153302536722153,
+        "52": 0.1050561492923298,
+        "Other": 0.07652843064964948
+      }
+    },
+    {
+      "slug": "which-party-will-win-the-2026-nebra",
+      "name": "Nebraska Party (4-way)",
+      "question": "Which party will win the 2026 Nebraska Senate race?",
+      "type": "single_race",
+      "url": "https://manifold.markets/questions/which-party-will-win-the-2026-nebra",
+      "uniqueBettorCount": 4,
+      "volume": 4473.688868674971,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {
+        "Republican": 0.7296523908031023,
+        "Democratic": 0.018858906440878894,
+        "Independent (Dan Osborn)": 0.24398422815032655,
+        "Independent (Other)": 0.007504474605692235
+      }
+    },
+    {
+      "slug": "what-will-be-the-tipping-point-sena",
+      "name": "Senate Tipping Point",
+      "question": "What will be the tipping point Senate seat for Democrats in the 2026 elections?",
+      "type": "tipping_point",
+      "url": "https://manifold.markets/questions/what-will-be-the-tipping-point-sena",
+      "uniqueBettorCount": 10,
+      "volume": 1300.3826296351926,
+      "totalLiquidity": 1700,
+      "related_races": [
+        "AK_Senate",
+        "TX_Senate",
+        "ME_Senate",
+        "GA_Senate",
+        "IA_Senate",
+        "NC_Senate"
+      ],
+      "prices": {
+        "Maine": 0.033930668190996494,
+        "Georgia": 0.010041415168846523,
+        "North Carolina": 0.03357804200143031,
+        "Iowa": 0.23688451054094506,
+        "Texas": 0.0788815001688938,
+        "Alaska": 0.12099281411230135,
+        "Kansas": 0.019124667194950457,
+        "Montana": 0.010054799132547991,
+        "Michigan": 0.029114448435501983,
+        "Tennessee": 0.04014323483558092,
+        "Kentucky": 0.04779721603590287,
+        "Ohio": 0.10706660991987181,
+        "Florida": 0.08001527867476939,
+        "Nebraska": 0.04183068822430131,
+        "Other": 0.11054410736315982
+      }
+    },
+    {
+      "slug": "how-many-safe-senate-seats-will-the",
+      "name": "Safe D Senate Seats",
+      "question": "How many \"safe\" Senate seats will the Democrats win in 2026? (CO DE MA NJ OR RI VA)",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-safe-senate-seats-will-the",
+      "uniqueBettorCount": 5,
+      "volume": 870.0045823667872,
+      "totalLiquidity": 400,
+      "related_races": [
+        "VA_Senate",
+        "RI_Senate",
+        "DE_Senate",
+        "MA_Senate",
+        "NJ_Senate",
+        "OR_Senate",
+        "CO_Senate"
+      ],
+      "prices": {
+        "0": 0.0028945045108322407,
+        "1": 0.0028945045108322407,
+        "2": 0.0028945045108322407,
+        "3": 0.0028945045108322407,
+        "4": 0.0028945045108322407,
+        "5": 0.007619281203839836,
+        "6": 0.010009015821686494,
+        "7": 0.9678991804203125
+      }
+    },
+    {
+      "slug": "how-many-safe-senate-seats-will-rep",
+      "name": "Safe R Senate Seats",
+      "question": "How many \"safe\" Senate seats will Republicans win in 2026? (AL AR ID KY LA MS OK SD TN WV WY)",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-safe-senate-seats-will-rep",
+      "uniqueBettorCount": 6,
+      "volume": 189.29439249028852,
+      "totalLiquidity": 300,
+      "related_races": [
+        "LA_Senate",
+        "WV_Senate",
+        "WY_Senate",
+        "TN_Senate",
+        "MS_Senate",
+        "SD_Senate",
+        "KY_Senate",
+        "AR_Senate",
+        "OK_Senate",
+        "ID_Senate",
+        "AL_Senate"
+      ],
+      "prices": {
+        "0 - 2": 0.013127755394066156,
+        "3 - 5": 0.013127755394066156,
+        "6 - 7": 0.013127755394066156,
+        "8 - 9": 0.098170482705559,
+        "10": 0.22409501430704787,
+        "11": 0.638351236805195
+      }
+    },
+    {
+      "slug": "which-senate-flip-is-more-likely-de",
+      "name": "Senate Flip Comparison",
+      "question": "Which senate flip is more likely? Dems take TX or OH, or Reps take GA or MI?",
+      "type": "flip_comparison",
+      "url": "https://manifold.markets/questions/which-senate-flip-is-more-likely-de",
+      "uniqueBettorCount": 9,
+      "volume": 145.3139327407918,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "GA_Senate",
+        "TX_Senate",
+        "OH_Senate_Special",
+        "MI_Senate"
+      ],
+      "prices": {
+        "Dems flip TX or OH": 0.28345343695422603,
+        "Reps flip GA or MI": 0.3003049024245019,
+        "neither": 0.3827057254234669,
+        "both": 0.03353593519780519
+      }
+    }
+  ]
+}

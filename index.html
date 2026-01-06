@@ -141,6 +141,8 @@
         .locked-summary .locked-item .outcome { font-weight: bold; }
         .locked-summary .locked-item .outcome.D { color: #3b82f6; }
         .locked-summary .locked-item .outcome.R { color: #ef4444; }
+        .locked-summary .locked-item .outcome.I_Osborn { color: #fbbf24; }
+        .locked-summary .locked-item .outcome.I_Other { color: #d97706; }
 
         .correlations {
             background: #252540;
@@ -230,6 +232,9 @@
         .hist-bar:hover { opacity: 0.8; }
         .hist-bar.dem { background: linear-gradient(#3b82f6, #1d4ed8); }
         .hist-bar.rep { background: linear-gradient(#ef4444, #b91c1c); }
+        .hist-bar.locked {
+            box-shadow: 0 0 8px #fbbf24, inset 0 0 0 2px #fbbf24;
+        }
         .hist-bar.majority-line {
             position: absolute;
             border-left: 2px dashed #fbbf24;
@@ -420,6 +425,10 @@
                     <span class="value" id="stat-max-error">--</span>
                 </div>
                 <div class="stat-row">
+                    <span class="label" title="Root mean square of all constraint errors. Measures overall fit quality." style="cursor: help;">RMS error</span>
+                    <span class="value" id="stat-rms-error">--</span>
+                </div>
+                <div class="stat-row">
                     <span class="label">Data fetched</span>
                     <span class="value" id="stat-timestamp" style="font-size: 10px;">--</span>
                 </div>
@@ -488,10 +497,12 @@
     let samples = [];
     let races = [];
     let locks = {};
+    let seatLock = null;  // Lock to specific R seat count (e.g., 51 = 51R/49D)
     let selected = null;
     let essEstimate = null;  // Cached ESS from full sample
     let markets = [];  // Market metadata
     let maxError = null;  // Max constraint error from sampler
+    let rmsError = null;  // RMS constraint error
     let snapshotTimestamp = null;  // When data was fetched
 
     // State abbreviation to full name
@@ -540,7 +551,13 @@
         return races.find(r => r === stateCode + '_Senate');
     }
 
-    function getColor(dProb) {
+    function getColor(dProb, iProb = 0) {
+        // If Independent is leading, use gold
+        if (iProb > dProb && iProb > (1 - dProb - iProb)) {
+            if (iProb > 0.7) return '#d97706';  // amber-600
+            if (iProb > 0.5) return '#f59e0b';  // amber-500
+            return '#fbbf24';  // amber-400
+        }
         // Blue (D) to Red (R) gradient
         if (dProb > 0.9) return '#1d4ed8';
         if (dProb > 0.7) return '#3b82f6';
@@ -617,6 +634,7 @@
         const summaryData = await summaryResp.json();
         markets = summaryData.markets || [];
         maxError = summaryData.metadata?.max_error || null;
+        rmsError = summaryData.metadata?.rms_error || null;
         snapshotTimestamp = summaryData.metadata?.snapshot_timestamp || null;
 
         // Estimate ESS from full sample (cache it)
@@ -633,8 +651,15 @@
 
     function getFilteredSamples() {
         return samples.filter(s => {
+            // Filter by race locks
             for (const [race, outcome] of Object.entries(locks)) {
                 if (s[race] !== outcome) return false;
+            }
+            // Filter by seat count lock
+            if (seatLock !== null) {
+                const rWins = races.filter(r => s[r] === 'R').length;
+                const totalR = 31 + rWins;
+                if (totalR !== seatLock) return false;
             }
             return true;
         });
@@ -647,11 +672,20 @@
 
         const marginals = {};
         for (const race of races) {
-            const rCount = filteredSamples.filter(s => s[race] === 'R').length;
-            marginals[race] = {
-                R: rCount / filteredSamples.length,
-                D: 1 - rCount / filteredSamples.length
-            };
+            // Count all outcomes for this race
+            const outcomes = {};
+            for (const s of filteredSamples) {
+                const outcome = s[race];
+                outcomes[outcome] = (outcomes[outcome] || 0) + 1;
+            }
+            // Normalize to probabilities
+            marginals[race] = {};
+            for (const [outcome, count] of Object.entries(outcomes)) {
+                marginals[race][outcome] = count / filteredSamples.length;
+            }
+            // Ensure D and R exist (for binary races)
+            if (!marginals[race].D) marginals[race].D = 0;
+            if (!marginals[race].R) marginals[race].R = 0;
         }
 
         let dControlCount = 0;
@@ -659,7 +693,15 @@
         for (const s of filteredSamples) {
             const rWins = races.filter(r => s[r] === 'R').length;
             totalRWins += rWins;
-            if (35 - rWins >= 17) dControlCount++;
+            // D control requires D + I (caucusing) >= 51 total
+            // With baseline 34D + 31R, D needs 17 wins from 35 races (34 + 17 = 51)
+            // Note: Independent who doesn't caucus with D counts against D control
+            // For now, treat I outcomes as NOT contributing to either D or R control
+            const dWins = races.filter(r => s[r] === 'D').length;
+            // D needs 51 total. Has 34 baseline. Needs 17 D wins.
+            // But if NE goes Independent, it's neither D nor R win
+            // Current simplification: D control = D baseline + D wins >= 51
+            if (34 + dWins >= 51) dControlCount++;
         }
 
         return {
@@ -729,6 +771,15 @@
             maxErrEl.textContent = '--';
         }
 
+        // Display RMS constraint error
+        const rmsErrEl = document.getElementById('stat-rms-error');
+        if (rmsError !== null) {
+            rmsErrEl.textContent = (rmsError * 100).toFixed(1) + '%';
+            rmsErrEl.className = 'value' + (rmsError > 0.05 ? ' error' : rmsError > 0.025 ? ' warning' : '');
+        } else {
+            rmsErrEl.textContent = '--';
+        }
+
         // Display snapshot timestamp
         const tsEl = document.getElementById('stat-timestamp');
         if (snapshotTimestamp) {
@@ -771,9 +822,14 @@
                     const race = getRaceForState(stateCode);
                     if (race) {
                         const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
+                        const iProb = (m.I_Osborn || 0) + (m.I_Other || 0);
                         const dPct = (m.D * 100).toFixed(0);
-                        cell.style.background = getColor(m.D);
-                        cell.innerHTML = `${stateCode}<span class="prob">${dPct}</span>`;
+                        cell.style.background = getColor(m.D, iProb);
+                        // Show leading outcome's probability
+                        const leadingPct = iProb > m.D && iProb > m.R ?
+                            (iProb * 100).toFixed(0) + 'I' :
+                            m.D > m.R ? dPct + 'D' : ((m.R * 100).toFixed(0) + 'R');
+                        cell.innerHTML = `${stateCode}<span class="prob">${leadingPct.slice(0,-1)}</span>`;
                         cell.title = getStateName(race);
 
                         if (locks[race]) cell.classList.add('locked');
@@ -792,11 +848,16 @@
         }
 
         // Render snake chart
-        // Locked races use extreme values for sorting (D-locked → left, R-locked → right)
+        // Sort by P(R): lowest P(R) on left (D-leaning), highest P(R) on right (R-leaning)
+        // This handles multi-outcome races correctly (NE with I counts as "not R")
         const sortedRaces = [...races].sort((a, b) => {
-            const aD = locks[a] === 'D' ? 1.0 : locks[a] === 'R' ? 0.0 : (stats.marginals[a]?.D || 0.5);
-            const bD = locks[b] === 'D' ? 1.0 : locks[b] === 'R' ? 0.0 : (stats.marginals[b]?.D || 0.5);
-            return bD - aD;  // D-leaning first (leftmost), R-leaning last (rightmost)
+            // Locked races: D-locked → 0% R (far left), R-locked → 100% R (far right)
+            // I-locked → same as marginal P(R) since I isn't R
+            const aR = locks[a] === 'D' ? 0.0 : locks[a] === 'R' ? 1.0 :
+                       locks[a]?.startsWith('I_') ? (stats.marginals[a]?.R || 0) : (stats.marginals[a]?.R || 0.5);
+            const bR = locks[b] === 'D' ? 0.0 : locks[b] === 'R' ? 1.0 :
+                       locks[b]?.startsWith('I_') ? (stats.marginals[b]?.R || 0) : (stats.marginals[b]?.R || 0.5);
+            return aR - bR;  // Lower P(R) first (leftmost), higher P(R) last (rightmost)
         });
 
         const snakeChart = document.getElementById('snake-chart');
@@ -804,15 +865,20 @@
 
         for (const race of sortedRaces) {
             const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
+            const iProb = (m.I_Osborn || 0) + (m.I_Other || 0);
             const item = document.createElement('div');
             item.className = 'snake-item';
             if (locks[race]) item.classList.add('locked');
             if (selected === race) item.classList.add('selected');
 
-            item.style.background = getColor(m.D);
+            item.style.background = getColor(m.D, iProb);
+            // Show leading probability
+            const leadPct = iProb > m.D && iProb > m.R ?
+                (iProb * 100).toFixed(0) + '% I' :
+                m.D > m.R ? (m.D * 100).toFixed(0) + '% D' : (m.R * 100).toFixed(0) + '% R';
             item.innerHTML = `
                 <span class="state">${getStateCode(race)}</span>
-                <span class="pct">${(m.D * 100).toFixed(0)}%</span>
+                <span class="pct">${leadPct}</span>
             `;
             item.title = getStateName(race);
             item.addEventListener('click', () => selectRace(race));
@@ -865,8 +931,10 @@
 
             const bar = document.createElement('div');
             bar.className = 'hist-bar ' + (seat < 50 ? 'dem' : 'rep');
+            if (seatLock === seat) bar.classList.add('locked');
             bar.style.height = height + '%';
-            bar.title = `${seat}R / ${100-seat}D: ${(pct * 100).toFixed(1)}% (${count.toLocaleString()} samples)`;
+            bar.title = `${seat}R / ${100-seat}D: ${(pct * 100).toFixed(1)}% (${count.toLocaleString()} samples)\nClick to lock, click again to unlock`;
+            bar.addEventListener('click', () => toggleSeatLock(seat));
             histogram.appendChild(bar);
         }
 
@@ -884,15 +952,37 @@
         render();
     }
 
+    function toggleSeatLock(seats) {
+        seatLock = (seatLock === seats) ? null : seats;
+        render();
+    }
+
     function toggleLock(race) {
+        const filtered = getFilteredSamples();
+        const stats = computeStats(filtered);
+        const m = stats.marginals[race] || { D: 0.5 };
+        const hasIndependent = m.I_Osborn !== undefined;
+
         if (locks[race]) {
-            if (locks[race] === 'D') locks[race] = 'R';
-            else delete locks[race];
+            // Cycle through outcomes
+            if (hasIndependent) {
+                // D → R → I_Osborn → unlock
+                if (locks[race] === 'D') locks[race] = 'R';
+                else if (locks[race] === 'R') locks[race] = 'I_Osborn';
+                else delete locks[race];
+            } else {
+                // D → R → unlock
+                if (locks[race] === 'D') locks[race] = 'R';
+                else delete locks[race];
+            }
         } else {
-            const filtered = getFilteredSamples();
-            const stats = computeStats(filtered);
-            const m = stats.marginals[race] || { D: 0.5 };
-            locks[race] = m.D > 0.5 ? 'D' : 'R';
+            // Lock to leading outcome
+            const iProb = (m.I_Osborn || 0) + (m.I_Other || 0);
+            if (iProb > m.D && iProb > m.R) {
+                locks[race] = 'I_Osborn';
+            } else {
+                locks[race] = m.D > m.R ? 'D' : 'R';
+            }
         }
         render();
     }
@@ -903,23 +993,54 @@
         if (selected) {
             const m = stats.marginals[selected] || { D: 0.5, R: 0.5 };
             const isLocked = locks[selected];
+            const hasIndependent = m.I_Osborn !== undefined || m.I_Other !== undefined;
+            const iOsborn = m.I_Osborn || 0;
+            const iOther = m.I_Other || 0;
+
+            let probDisplay = `
+                <div class="prob-item dem">
+                    <div class="party">Democrat</div>
+                    <div class="pct">${(m.D * 100).toFixed(1)}%</div>
+                </div>
+                <div class="prob-item rep">
+                    <div class="party">Republican</div>
+                    <div class="pct">${(m.R * 100).toFixed(1)}%</div>
+                </div>`;
+
+            if (hasIndependent) {
+                probDisplay += `
+                <div class="prob-item" style="color: #fbbf24;">
+                    <div class="party">Osborn (I)</div>
+                    <div class="pct">${(iOsborn * 100).toFixed(1)}%</div>
+                </div>`;
+                if (iOther > 0.001) {
+                    probDisplay += `
+                <div class="prob-item" style="color: #d97706;">
+                    <div class="party">Other (I)</div>
+                    <div class="pct">${(iOther * 100).toFixed(1)}%</div>
+                </div>`;
+                }
+            }
+
+            let lockButtons = `
+                <button class="lock-d" onclick="lockRace('${selected}', 'D')">Lock D</button>
+                <button class="lock-r" onclick="lockRace('${selected}', 'R')">Lock R</button>`;
+            if (hasIndependent) {
+                lockButtons += `
+                <button style="background: #f59e0b; color: #000;" onclick="lockRace('${selected}', 'I_Osborn')">Lock Osborn</button>`;
+            }
+            if (isLocked) {
+                lockButtons += `<button class="unlock" onclick="unlockRace('${selected}')">Unlock</button>`;
+            }
+
             selectedRace.innerHTML = `
                 <div class="state-name">${getStateName(selected)}</div>
                 <div class="race-type">${selected.includes('Special') ? 'Special Election' : 'Class 2 Senate Race'}</div>
-                <div class="prob-display">
-                    <div class="prob-item dem">
-                        <div class="party">Democrat</div>
-                        <div class="pct">${(m.D * 100).toFixed(1)}%</div>
-                    </div>
-                    <div class="prob-item rep">
-                        <div class="party">Republican</div>
-                        <div class="pct">${(m.R * 100).toFixed(1)}%</div>
-                    </div>
+                <div class="prob-display" style="flex-wrap: wrap;">
+                    ${probDisplay}
                 </div>
                 <div class="actions">
-                    <button class="lock-d" onclick="lockRace('${selected}', 'D')">Lock D</button>
-                    <button class="lock-r" onclick="lockRace('${selected}', 'R')">Lock R</button>
-                    ${isLocked ? `<button class="unlock" onclick="unlockRace('${selected}')">Unlock</button>` : ''}
+                    ${lockButtons}
                 </div>
             `;
 
@@ -948,15 +1069,28 @@
         const lockedSummary = document.getElementById('locked-summary');
         const lockedRaces = Object.entries(locks);
 
-        if (lockedRaces.length > 0) {
+        const hasLocks = lockedRaces.length > 0 || seatLock !== null;
+        if (hasLocks) {
             lockedPanel.style.display = 'block';
             document.getElementById('reset-btn').style.display = 'block';
-            lockedSummary.innerHTML = lockedRaces.map(([race, outcome]) => `
+            let html = '';
+            if (seatLock !== null) {
+                html += `<div class="locked-item">
+                    <span>Seat count</span>
+                    <span class="outcome" style="color: #fbbf24;">${seatLock}R / ${100-seatLock}D</span>
+                </div>`;
+            }
+            html += lockedRaces.map(([race, outcome]) => {
+                const displayOutcome = outcome === 'I_Osborn' ? 'Osborn (I)' :
+                                       outcome === 'I_Other' ? 'Other (I)' : outcome;
+                return `
                 <div class="locked-item">
                     <span>${getStateCode(race)}</span>
-                    <span class="outcome ${outcome}">${outcome}</span>
-                </div>
-            `).join('') + `<div style="color: #666; font-size: 11px; margin-top: 8px;">${filtered.length} matching samples</div>`;
+                    <span class="outcome ${outcome}">${displayOutcome}</span>
+                </div>`;
+            }).join('');
+            html += `<div style="color: #666; font-size: 11px; margin-top: 8px;">${filtered.length} matching samples</div>`;
+            lockedSummary.innerHTML = html;
         } else {
             lockedPanel.style.display = 'none';
             document.getElementById('reset-btn').style.display = 'none';
@@ -1066,6 +1200,7 @@
 
     document.getElementById('reset-btn').addEventListener('click', () => {
         locks = {};
+        seatLock = null;
         render();
     });
 
