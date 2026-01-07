@@ -1406,6 +1406,15 @@
     function selectRace(race) {
         selected = (selected === race) ? null : race;
         render();
+        // Auto-scroll to selected race panel on mobile
+        if (selected && window.innerWidth <= 900) {
+            setTimeout(() => {
+                document.getElementById('selected-race').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 50);
+        }
     }
 
     function toggleSeatLock(seats) {
@@ -1417,7 +1426,9 @@
         const filtered = getFilteredSamples();
         const stats = computeStats(filtered);
         const m = stats.marginals[race] || { D: 0.5 };
-        const hasIndependent = m.I_Osborn !== undefined;
+        // Use global marginals to check for independent option
+        const globalM = marginals[race] || {};
+        const hasIndependent = globalM.I_Osborn !== undefined;
 
         if (locks[race]) {
             // Cycle through outcomes
@@ -1449,7 +1460,10 @@
         if (selected) {
             const m = stats.marginals[selected] || { D: 0.5, R: 0.5 };
             const isLocked = locks[selected];
-            const hasIndependent = m.I_Osborn !== undefined || m.I_Other !== undefined;
+            // Use global marginals to determine if race has independent option
+            // (filtered marginals won't have I_Osborn if locked to D/R)
+            const globalM = marginals[selected] || {};
+            const hasIndependent = globalM.I_Osborn !== undefined || globalM.I_Other !== undefined;
             const iOsborn = m.I_Osborn || 0;
             const iOther = m.I_Other || 0;
 
