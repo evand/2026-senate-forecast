@@ -436,6 +436,213 @@
             padding: 0 2px; font-size: 8px; color: #666;
             align-items: flex-end;
         }
+
+        /* Context info bar */
+        .context-info {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        .context-info .separator {
+            margin: 0 10px;
+        }
+
+        /* ========== MOBILE RESPONSIVENESS ========== */
+
+        /* Tablet and below: stack layout vertically */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+            }
+
+            .sidebar {
+                border-left: none;
+                border-top: 1px solid #333;
+                max-height: none;
+                order: 2;
+            }
+
+            .main-content {
+                order: 1;
+                overflow-y: visible;
+            }
+
+            /* Make hex grid horizontally scrollable */
+            .hex-map {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 10px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .hex-grid {
+                min-width: max-content;
+            }
+
+            /* Control bar: allow wrapping */
+            .control-bar {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .control-stat .value {
+                font-size: 28px;
+            }
+        }
+
+        /* Mobile phones */
+        @media (max-width: 600px) {
+            h1 { font-size: 20px; }
+            .subtitle { font-size: 12px; margin-bottom: 15px; }
+
+            .main-content {
+                padding: 12px;
+            }
+
+            .sidebar {
+                padding: 15px;
+            }
+
+            /* Compact control bar */
+            .control-bar {
+                padding: 12px;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+
+            .control-stat .label { font-size: 10px; }
+            .control-stat .value { font-size: 24px; }
+
+            /* Pre-election context: stack on mobile */
+            .context-info {
+                font-size: 11px;
+                line-height: 1.6;
+            }
+            .context-info .separator {
+                display: none;
+            }
+            .context-info span:not(.separator) {
+                display: block;
+            }
+
+            /* Smaller hex cells for mobile */
+            .hex-grid {
+                grid-template-columns: repeat(12, 36px);
+                gap: 1px;
+            }
+
+            .hex-cell {
+                width: 36px;
+                height: 32px;
+                font-size: 9px;
+                border-radius: 3px;
+            }
+
+            .hex-cell .prob {
+                font-size: 7px;
+                bottom: 1px;
+                right: 2px;
+            }
+
+            /* Snake chart: smaller items */
+            .snake-section h2 { font-size: 14px; }
+
+            .snake-chart {
+                gap: 3px;
+                padding: 8px;
+            }
+
+            .snake-item {
+                width: 42px;
+                height: 32px;
+                font-size: 9px;
+            }
+
+            .snake-item .pct { font-size: 8px; }
+
+            /* Histogram */
+            .histogram-section h2 { font-size: 14px; }
+            .histogram { height: 100px; }
+            .histogram-labels { font-size: 9px; }
+            .histogram-legend { font-size: 10px; gap: 15px; }
+
+            /* Sidebar panels */
+            .sidebar h2 { font-size: 12px; margin-bottom: 12px; }
+
+            .sample-stats, .top-maps, .selected-race,
+            .locked-summary, .correlations, .markets-panel, .methodology {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+
+            .stat-row { font-size: 11px; }
+            .stat-row .value { font-size: 11px; }
+
+            /* Selected race panel */
+            .selected-race .state-name { font-size: 18px; }
+            .selected-race .prob-item .pct { font-size: 20px; }
+            .selected-race .prob-display { gap: 15px; }
+
+            /* Larger touch targets for buttons */
+            .selected-race .actions button {
+                padding: 10px 14px;
+                font-size: 12px;
+                min-height: 40px;
+            }
+
+            .reset-all {
+                padding: 14px;
+                font-size: 14px;
+            }
+
+            /* Top maps panel */
+            .map-item {
+                padding: 8px;
+                min-height: 40px;
+            }
+
+            .map-item .bar { font-size: 10px; }
+            .map-item .seats { font-size: 11px; }
+
+            /* Markets panel */
+            .markets-panel { max-height: 250px; }
+            .market-item a { font-size: 13px; }
+            .market-meta { font-size: 11px; }
+
+            /* CI bar adjustments */
+            .ci-display .label { font-size: 10px; }
+            .ci-bar .ticks { font-size: 7px; }
+        }
+
+        /* Very small phones */
+        @media (max-width: 380px) {
+            .hex-grid {
+                grid-template-columns: repeat(12, 30px);
+            }
+
+            .hex-cell {
+                width: 30px;
+                height: 26px;
+                font-size: 8px;
+            }
+
+            .hex-cell .prob { display: none; }
+
+            .snake-item {
+                width: 36px;
+                height: 28px;
+                font-size: 8px;
+            }
+
+            .control-stat .value { font-size: 20px; }
+
+            .selected-race .prob-display {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -458,11 +665,11 @@
                     <div class="value" id="r-control">--</div>
                 </div>
             </div>
-            <div style="text-align: center; color: #666; font-size: 12px; margin-bottom: 15px;">
+            <div class="context-info">
                 <span title="Current Senate composition before 2026 elections">Pre-election: 53R-47D</span>
-                <span style="margin: 0 10px;">•</span>
+                <span class="separator">•</span>
                 <span title="Senators not up for re-election in 2026 (Class 1 & 3)">Not contested: 31R + 34D = 65 seats</span>
-                <span style="margin: 0 10px;">•</span>
+                <span class="separator">•</span>
                 <span title="Class 2 Senate seats being decided in 2026">35 races contested</span>
             </div>
 
