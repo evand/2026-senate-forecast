@@ -451,7 +451,7 @@
         /* ========== MOBILE RESPONSIVENESS ========== */
 
         /* Tablet and below: stack layout vertically */
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto auto;
@@ -1407,7 +1407,7 @@
         selected = (selected === race) ? null : race;
         render();
         // Auto-scroll to selected race panel on mobile
-        if (selected && window.innerWidth <= 900) {
+        if (selected && window.innerWidth <= 768) {
             setTimeout(() => {
                 document.getElementById('selected-race').scrollIntoView({
                     behavior: 'smooth',
