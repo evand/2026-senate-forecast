@@ -304,6 +304,97 @@
         }
         .price-compare.warning .diff { color: #f59e0b; }
 
+        /* Top Maps Panel */
+        .top-maps {
+            background: #252540;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .top-maps h3 { font-size: 12px; color: #888; margin-bottom: 10px; }
+        .map-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .map-item:hover { background: #1a1a2e; }
+        .map-item.selected { background: #2d2d50; border: 1px solid #4a4a8a; }
+        .map-item .rank {
+            width: 20px;
+            font-size: 10px;
+            color: #666;
+            flex-shrink: 0;
+        }
+        .map-item .bar-container {
+            flex: 1;
+            height: 16px;
+            background: #1a1a2e;
+            border-radius: 3px;
+            margin: 0 8px;
+            overflow: hidden;
+        }
+        .map-item .bar {
+            height: 100%;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            padding-left: 4px;
+            font-size: 9px;
+            color: rgba(255,255,255,0.9);
+        }
+        .map-item .bar.r-control { background: linear-gradient(90deg, #ef4444, #b91c1c); }
+        .map-item .bar.d-control { background: linear-gradient(90deg, #3b82f6, #1d4ed8); }
+        .map-item .seats {
+            width: 45px;
+            font-size: 10px;
+            text-align: right;
+            color: #888;
+            flex-shrink: 0;
+        }
+        .map-detail {
+            background: #1a1a2e;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 11px;
+        }
+        .map-detail .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+        }
+        .map-detail .stat-row .label { color: #888; }
+        .map-detail .stat-row .value { font-weight: bold; }
+        .map-detail .upsets {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #333;
+        }
+        .map-detail .upset-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            margin: 2px;
+            border-radius: 3px;
+            font-size: 10px;
+            background: #374151;
+        }
+        .clear-map-btn {
+            width: 100%;
+            padding: 6px;
+            margin-top: 10px;
+            background: #374151;
+            color: #888;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .clear-map-btn:hover { background: #4b5563; color: #fff; }
+
         /* Sample Statistics Panel */
         .sample-stats {
             background: #252540;
@@ -443,6 +534,13 @@
                 </div>
             </div>
 
+            <div id="top-maps-panel">
+                <h2>Top Outcome Maps</h2>
+                <div class="top-maps" id="top-maps">
+                    <div style="color: #666; text-align: center;">Loading...</div>
+                </div>
+            </div>
+
             <details class="methodology">
                 <summary>Methodology</summary>
                 <p>This forecast uses Monte Carlo sampling to generate election scenarios consistent with all market constraints.</p>
@@ -504,6 +602,9 @@
     let maxError = null;  // Max constraint error from sampler
     let rmsError = null;  // RMS constraint error
     let snapshotTimestamp = null;  // When data was fetched
+    let topOutcomes = [];  // Top outcome maps from sampler
+    let selectedMap = null;  // Currently selected outcome map (index)
+    let marginals = {};  // Cached marginals for independent prob calculation
 
     // State abbreviation to full name
     const stateNames = {
@@ -636,6 +737,9 @@
         maxError = summaryData.metadata?.max_error || null;
         rmsError = summaryData.metadata?.rms_error || null;
         snapshotTimestamp = summaryData.metadata?.snapshot_timestamp || null;
+        topOutcomes = summaryData.top_outcomes || [];
+        marginals = summaryData.marginals || {};
+        console.log('Top outcomes loaded:', topOutcomes.length);
 
         // Estimate ESS from full sample (cache it)
         essEstimate = estimateESS(samples);
@@ -735,6 +839,110 @@
         return correlations.slice(0, 5);
     }
 
+    // Compute independent probability for a specific outcome map
+    // Returns P(map) = ∏ P(state=outcome) assuming independence
+    function computeIndependentProb(outcomeMap) {
+        if (!marginals || Object.keys(marginals).length === 0) return null;
+
+        let logProb = 0;
+        for (const [race, outcome] of Object.entries(outcomeMap)) {
+            const raceProbs = marginals[race];
+            if (!raceProbs) continue;
+            const p = raceProbs[outcome] || 0.001;  // Small floor to avoid log(0)
+            logProb += Math.log(p);
+        }
+        return Math.exp(logProb);
+    }
+
+    function selectMap(index) {
+        selectedMap = (selectedMap === index) ? null : index;
+        render();
+    }
+
+    function renderTopMaps() {
+        const container = document.getElementById('top-maps');
+
+        if (topOutcomes.length === 0) {
+            container.innerHTML = '<div style="color: #666; text-align: center;">No outcome data</div>';
+            return;
+        }
+
+        // Find max probability for bar scaling
+        const maxProb = Math.max(...topOutcomes.slice(0, 15).map(o => o.model_prob));
+
+        let html = '';
+        const displayCount = Math.min(15, topOutcomes.length);
+
+        for (let i = 0; i < displayCount; i++) {
+            const outcome = topOutcomes[i];
+            const barWidth = (outcome.model_prob / maxProb) * 100;
+            const isSelected = selectedMap === i;
+            const controlClass = outcome.control === 'R' ? 'r-control' : 'd-control';
+
+            html += `
+                <div class="map-item ${isSelected ? 'selected' : ''}" onclick="selectMap(${i})">
+                    <span class="rank">#${outcome.rank}</span>
+                    <div class="bar-container">
+                        <div class="bar ${controlClass}" style="width: ${barWidth}%">
+                            ${outcome.model_prob.toFixed(1)}%
+                        </div>
+                    </div>
+                    <span class="seats">${outcome.r_seats}R-${outcome.d_seats}D</span>
+                </div>
+            `;
+        }
+
+        // Detail panel for selected map
+        if (selectedMap !== null && topOutcomes[selectedMap]) {
+            const outcome = topOutcomes[selectedMap];
+
+            // Compute independent probability directly from marginals
+            const indepProb = outcome.outcomes ? computeIndependentProb(outcome.outcomes) : null;
+            const indepPct = indepProb ? (indepProb * 100) : outcome.indep_prob;
+            const ratio = indepPct > 0 ? (outcome.model_prob / indepPct) : 0;
+
+            html += `
+                <div class="map-detail">
+                    <div class="stat-row">
+                        <span class="label">Model probability</span>
+                        <span class="value">${outcome.model_prob.toFixed(2)}%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">Independent probability</span>
+                        <span class="value">${indepPct.toFixed(2)}%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">Correlation boost</span>
+                        <span class="value" style="color: ${ratio > 1.5 ? '#22c55e' : ratio < 0.7 ? '#ef4444' : '#888'}">
+                            ${ratio.toFixed(2)}×
+                        </span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">Control</span>
+                        <span class="value" style="color: ${outcome.control === 'R' ? '#ef4444' : '#3b82f6'}">
+                            ${outcome.control === 'R' ? 'Republican' : 'Democrat'}
+                        </span>
+                    </div>
+                    ${outcome.upsets && outcome.upsets.length > 0 ? `
+                        <div class="upsets">
+                            <span class="label">Upsets vs baseline:</span>
+                            <div style="margin-top: 4px;">
+                                ${outcome.upsets.map(u => `<span class="upset-tag">${u}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="upsets">
+                            <span class="label" style="color: #22c55e;">No upsets (baseline scenario)</span>
+                        </div>
+                    `}
+                </div>
+                <button class="clear-map-btn" onclick="selectMap(null)">Clear selection</button>
+            `;
+        }
+
+        container.innerHTML = html;
+    }
+
     function render() {
         const filtered = getFilteredSamples();
         const stats = computeStats(filtered);
@@ -811,6 +1019,11 @@
         const hexGrid = document.getElementById('hex-grid');
         hexGrid.innerHTML = '';
 
+        // Get selected outcome map if any
+        const selectedOutcome = (selectedMap !== null && topOutcomes[selectedMap])
+            ? topOutcomes[selectedMap].outcomes
+            : null;
+
         for (const row of hexLayout) {
             for (const stateCode of row) {
                 const cell = document.createElement('div');
@@ -821,16 +1034,33 @@
                 } else {
                     const race = getRaceForState(stateCode);
                     if (race) {
-                        const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
-                        const iProb = (m.I_Osborn || 0) + (m.I_Other || 0);
-                        const dPct = (m.D * 100).toFixed(0);
-                        cell.style.background = getColor(m.D, iProb);
-                        // Show leading outcome's probability
-                        const leadingPct = iProb > m.D && iProb > m.R ?
-                            (iProb * 100).toFixed(0) + 'I' :
-                            m.D > m.R ? dPct + 'D' : ((m.R * 100).toFixed(0) + 'R');
-                        cell.innerHTML = `${stateCode}<span class="prob">${leadingPct.slice(0,-1)}</span>`;
-                        cell.title = getStateName(race);
+                        // If showing a specific outcome map, use solid colors
+                        if (selectedOutcome && selectedOutcome[race]) {
+                            const outcome = selectedOutcome[race];
+                            if (outcome === 'D') {
+                                cell.style.background = '#3b82f6';
+                                cell.innerHTML = `${stateCode}<span class="prob">D</span>`;
+                            } else if (outcome === 'R') {
+                                cell.style.background = '#ef4444';
+                                cell.innerHTML = `${stateCode}<span class="prob">R</span>`;
+                            } else {
+                                cell.style.background = '#fbbf24';
+                                cell.innerHTML = `${stateCode}<span class="prob">I</span>`;
+                            }
+                            cell.title = `${getStateName(race)}: ${outcome}`;
+                        } else {
+                            // Show marginal probabilities
+                            const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
+                            const iProb = (m.I_Osborn || 0) + (m.I_Other || 0);
+                            const dPct = (m.D * 100).toFixed(0);
+                            cell.style.background = getColor(m.D, iProb);
+                            // Show leading outcome's probability
+                            const leadingPct = iProb > m.D && iProb > m.R ?
+                                (iProb * 100).toFixed(0) + 'I' :
+                                m.D > m.R ? dPct + 'D' : ((m.R * 100).toFixed(0) + 'R');
+                            cell.innerHTML = `${stateCode}<span class="prob">${leadingPct.slice(0,-1)}</span>`;
+                            cell.title = getStateName(race);
+                        }
 
                         if (locks[race]) cell.classList.add('locked');
                         if (selected === race) cell.classList.add('selected');
@@ -871,16 +1101,32 @@
             if (locks[race]) item.classList.add('locked');
             if (selected === race) item.classList.add('selected');
 
-            item.style.background = getColor(m.D, iProb);
-            // Show leading probability
-            const leadPct = iProb > m.D && iProb > m.R ?
-                (iProb * 100).toFixed(0) + '% I' :
-                m.D > m.R ? (m.D * 100).toFixed(0) + '% D' : (m.R * 100).toFixed(0) + '% R';
-            item.innerHTML = `
-                <span class="state">${getStateCode(race)}</span>
-                <span class="pct">${leadPct}</span>
-            `;
-            item.title = getStateName(race);
+            // If showing a specific outcome map, use solid colors
+            if (selectedOutcome && selectedOutcome[race]) {
+                const outcome = selectedOutcome[race];
+                if (outcome === 'D') {
+                    item.style.background = '#3b82f6';
+                    item.innerHTML = `<span class="state">${getStateCode(race)}</span><span class="pct">D</span>`;
+                } else if (outcome === 'R') {
+                    item.style.background = '#ef4444';
+                    item.innerHTML = `<span class="state">${getStateCode(race)}</span><span class="pct">R</span>`;
+                } else {
+                    item.style.background = '#fbbf24';
+                    item.innerHTML = `<span class="state">${getStateCode(race)}</span><span class="pct">I</span>`;
+                }
+                item.title = `${getStateName(race)}: ${outcome}`;
+            } else {
+                item.style.background = getColor(m.D, iProb);
+                // Show leading probability
+                const leadPct = iProb > m.D && iProb > m.R ?
+                    (iProb * 100).toFixed(0) + '% I' :
+                    m.D > m.R ? (m.D * 100).toFixed(0) + '% D' : (m.R * 100).toFixed(0) + '% R';
+                item.innerHTML = `
+                    <span class="state">${getStateCode(race)}</span>
+                    <span class="pct">${leadPct}</span>
+                `;
+                item.title = getStateName(race);
+            }
             item.addEventListener('click', () => selectRace(race));
             item.addEventListener('dblclick', () => toggleLock(race));
             snakeChart.appendChild(item);
@@ -888,6 +1134,9 @@
 
         // Render histogram
         renderHistogram(filtered);
+
+        // Render top outcome maps
+        renderTopMaps();
 
         // Update sidebar
         updateSidebar(stats, filtered);
