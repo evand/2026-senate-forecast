@@ -728,7 +728,11 @@
                 </div>
                 <div class="stat-row">
                     <span class="label">Data fetched</span>
-                    <span class="value" id="stat-timestamp" style="font-size: 10px;">--</span>
+                    <span class="value" id="stat-data-timestamp" style="font-size: 10px;">--</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">Model run</span>
+                    <span class="value" id="stat-model-timestamp" style="font-size: 10px;">--</span>
                 </div>
                 <div class="ci-display">
                     <div class="label">D Control probability (95% CI)</div>
@@ -809,6 +813,7 @@
     let maxError = null;  // Max constraint error from sampler
     let rmsError = null;  // RMS constraint error
     let snapshotTimestamp = null;  // When data was fetched
+    let modelTimestamp = null;  // When model was run
     let topOutcomes = [];  // Top outcome maps from sampler
     let selectedMap = null;  // Currently selected outcome map (index)
     let marginals = {};  // Cached marginals for independent prob calculation
@@ -944,6 +949,7 @@
         maxError = summaryData.metadata?.max_error || null;
         rmsError = summaryData.metadata?.rms_error || null;
         snapshotTimestamp = summaryData.metadata?.snapshot_timestamp || null;
+        modelTimestamp = summaryData.metadata?.generated_at || null;
         topOutcomes = summaryData.top_outcomes || [];
         marginals = summaryData.marginals || {};
         console.log('Top outcomes loaded:', topOutcomes.length);
@@ -1195,13 +1201,21 @@
             rmsErrEl.textContent = '--';
         }
 
-        // Display snapshot timestamp
-        const tsEl = document.getElementById('stat-timestamp');
+        // Display timestamps
+        const dataTs = document.getElementById('stat-data-timestamp');
         if (snapshotTimestamp) {
             const ts = new Date(snapshotTimestamp);
-            tsEl.textContent = ts.toLocaleDateString() + ' ' + ts.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+            dataTs.textContent = ts.toLocaleDateString() + ' ' + ts.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
         } else {
-            tsEl.textContent = '--';
+            dataTs.textContent = '--';
+        }
+
+        const modelTs = document.getElementById('stat-model-timestamp');
+        if (modelTimestamp) {
+            const ts = new Date(modelTimestamp);
+            modelTs.textContent = ts.toLocaleDateString() + ' ' + ts.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        } else {
+            modelTs.textContent = '--';
         }
 
         // Compute confidence interval for D control
