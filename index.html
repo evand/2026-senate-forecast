@@ -1638,17 +1638,55 @@
                             D Senate: Mkt ${(dSenate*100).toFixed(0)}% vs Model ${(modelDControl*100).toFixed(0)}%
                             <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
                         </div>`;
-                    } else if (m.type === 'union_constraint') {
-                        // Union constraint - show YES probability vs model
+                    } else if (m.type === 'union_constraint' && m.condition) {
+                        // Union constraint - compute from filtered samples for conditional probs
                         const mktPrice = m.prices['YES'] || 0;
-                        const modelProb = stats.aggregate?.union_probs?.[m.name] || 0;
-                        if (modelProb > 0) {
-                            const diff = modelProb - mktPrice;
-                            const diffClass = Math.abs(diff) > 0.05 ? 'warning' : '';
-                            priceCompare = `<div class="price-compare ${diffClass}">
-                                Mkt ${(mktPrice*100).toFixed(0)}% vs Model ${(modelProb*100).toFixed(0)}%
-                                <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
-                            </div>`;
+                        // Parse condition: "(RACE == OUTCOME) OR (RACE == OUTCOME) OR ..."
+                        const conditions = m.condition.split(' OR ').map(part => {
+                            const match = part.match(/(\w+)\s*==\s*(\w+)/);
+                            return match ? { race: match[1], outcome: match[2] } : null;
+                        }).filter(c => c);
+
+                        // Compute from filtered samples
+                        let matchCount = 0;
+                        for (const s of filtered) {
+                            if (conditions.some(c => s[c.race] === c.outcome)) {
+                                matchCount++;
+                            }
+                        }
+                        const modelProb = filtered.length > 0 ? matchCount / filtered.length : 0;
+
+                        const diff = modelProb - mktPrice;
+                        const diffClass = Math.abs(diff) > 0.05 ? 'warning' : '';
+                        priceCompare = `<div class="price-compare ${diffClass}">
+                            Mkt ${(mktPrice*100).toFixed(0)}% vs Model ${(modelProb*100).toFixed(0)}%
+                            <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
+                        </div>`;
+                    } else if (m.type === 'single_race' && m.race) {
+                        // Single race market (e.g., Nebraska 4-way)
+                        // Show model vs market for each outcome
+                        const modelM = stats.marginals[m.race] || {};
+                        const priceLines = [];
+                        // Map answer text to outcome codes
+                        const outcomeMap = {
+                            'Republican': 'R',
+                            'Democratic': 'D',
+                            'Independent (Dan Osborn)': 'I_Osborn',
+                            'Independent (Other)': 'I_Other'
+                        };
+                        for (const [text, mktPrice] of Object.entries(m.prices)) {
+                            const outcome = outcomeMap[text];
+                            if (outcome && modelM[outcome] !== undefined) {
+                                const modelProb = modelM[outcome];
+                                const diff = modelProb - mktPrice;
+                                if (Math.abs(diff) > 0.02) {  // Only show if >2% diff
+                                    const diffClass = Math.abs(diff) > 0.05 ? 'warning' : '';
+                                    priceLines.push(`<span class="${diffClass}">${text.substring(0,3)}: ${(mktPrice*100).toFixed(0)}→${(modelProb*100).toFixed(0)}%</span>`);
+                                }
+                            }
+                        }
+                        if (priceLines.length > 0) {
+                            priceCompare = `<div class="price-compare">${priceLines.join(' · ')}</div>`;
                         }
                     }
                 }

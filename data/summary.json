@@ -38,170 +38,170 @@
   ],
   "marginals": {
     "AL_Senate": {
-      "D": 0.031502,
-      "R": 0.968498
+      "D": 0.029842,
+      "R": 0.970158
     },
     "AK_Senate": {
-      "D": 0.382392,
-      "R": 0.617608
+      "D": 0.36015,
+      "R": 0.63985
     },
     "AR_Senate": {
-      "D": 0.039024,
-      "R": 0.960976
+      "D": 0.040008,
+      "R": 0.959992
     },
     "CO_Senate": {
-      "D": 0.966622,
-      "R": 0.033378
+      "D": 0.964846,
+      "R": 0.035154
     },
     "DE_Senate": {
-      "D": 0.952148,
-      "R": 0.047852
+      "D": 0.953736,
+      "R": 0.046264
     },
     "GA_Senate": {
-      "D": 0.85935,
-      "R": 0.14065
+      "D": 0.849984,
+      "R": 0.150016
     },
     "ID_Senate": {
-      "D": 0.0372,
-      "R": 0.9628
+      "D": 0.038624,
+      "R": 0.961376
     },
     "IL_Senate": {
-      "D": 0.924506,
-      "R": 0.075494
+      "D": 0.922726,
+      "R": 0.077274
     },
     "IA_Senate": {
-      "D": 0.338792,
-      "R": 0.661208
+      "D": 0.333682,
+      "R": 0.666318
     },
     "KS_Senate": {
-      "D": 0.089802,
-      "R": 0.910198
+      "D": 0.08955,
+      "R": 0.91045
     },
     "KY_Senate": {
-      "D": 0.123266,
-      "R": 0.876734
+      "D": 0.12341,
+      "R": 0.87659
     },
     "LA_Senate": {
-      "D": 0.045978,
-      "R": 0.954022
+      "D": 0.046256,
+      "R": 0.953744
     },
     "ME_Senate": {
-      "D": 0.651846,
-      "R": 0.348154
+      "D": 0.661438,
+      "R": 0.338562
     },
     "MA_Senate": {
-      "D": 0.997032,
-      "R": 0.002968
+      "D": 0.996514,
+      "R": 0.003486
     },
     "MI_Senate": {
-      "D": 0.796696,
-      "R": 0.203304
+      "D": 0.78617,
+      "R": 0.21383
     },
     "MN_Senate": {
-      "D": 0.783546,
-      "R": 0.216454
+      "D": 0.78398,
+      "R": 0.21602
     },
     "MS_Senate": {
-      "D": 0.035604,
-      "R": 0.964396
+      "D": 0.040084,
+      "R": 0.959916
     },
     "MT_Senate": {
-      "D": 0.085938,
-      "R": 0.914062
+      "D": 0.08564,
+      "R": 0.91436
     },
     "NE_Senate": {
-      "D": 0.02033,
-      "R": 0.712966,
-      "I_Osborn": 0.2589,
-      "I_Other": 0.007804
+      "D": 0.021052,
+      "R": 0.717012,
+      "I_Osborn": 0.254364,
+      "I_Other": 0.007572
     },
     "NH_Senate": {
-      "D": 0.890106,
-      "R": 0.109894
+      "D": 0.886878,
+      "R": 0.113122
     },
     "NJ_Senate": {
-      "D": 0.986918,
-      "R": 0.013082
+      "D": 0.987226,
+      "R": 0.012774
     },
     "NM_Senate": {
-      "D": 0.910208,
-      "R": 0.089792
+      "D": 0.909284,
+      "R": 0.090716
     },
     "NC_Senate": {
-      "D": 0.777416,
-      "R": 0.222584
+      "D": 0.770502,
+      "R": 0.229498
     },
     "OK_Senate": {
-      "D": 0.020358,
-      "R": 0.979642
+      "D": 0.017836,
+      "R": 0.982164
     },
     "OR_Senate": {
-      "D": 0.99173,
-      "R": 0.00827
+      "D": 0.991272,
+      "R": 0.008728
     },
     "RI_Senate": {
-      "D": 0.98696,
-      "R": 0.01304
+      "D": 0.986192,
+      "R": 0.013808
     },
     "SC_Senate": {
-      "D": 0.054008,
-      "R": 0.945992
+      "D": 0.053392,
+      "R": 0.946608
     },
     "SD_Senate": {
-      "D": 0.02775,
-      "R": 0.97225
+      "D": 0.027442,
+      "R": 0.972558
     },
     "TN_Senate": {
-      "D": 0.015274,
-      "R": 0.984726
+      "D": 0.014086,
+      "R": 0.985914
     },
     "TX_Senate": {
-      "D": 0.298046,
-      "R": 0.701954
+      "D": 0.30194,
+      "R": 0.69806
     },
     "VA_Senate": {
-      "D": 0.94784,
-      "R": 0.05216
+      "D": 0.948242,
+      "R": 0.051758
     },
     "WV_Senate": {
-      "D": 0.017038,
-      "R": 0.982962
+      "D": 0.017374,
+      "R": 0.982626
     },
     "WY_Senate": {
-      "D": 0.017286,
-      "R": 0.982714
+      "D": 0.016354,
+      "R": 0.983646
     },
     "OH_Senate_Special": {
-      "D": 0.320986,
-      "R": 0.679014
+      "D": 0.315564,
+      "R": 0.684436
     },
     "FL_Senate_Special": {
-      "D": 0.1182,
-      "R": 0.8818
+      "D": 0.114656,
+      "R": 0.885344
     }
   },
   "aggregate": {
-    "expected_r_wins": 19.191598,
-    "p_r_control": 0.622572,
-    "p_d_control": 0.377428,
+    "expected_r_wins": 19.252132,
+    "p_r_control": 0.629012,
+    "p_d_control": 0.370988,
     "baseline": {
       "D": 34,
       "R": 31
     },
     "union_probs": {
-      "Dems win at least one of OH/IA/AK": 0.74681
+      "Dems win at least one of OH/IA/AK": 0.732818
     }
   },
   "metadata": {
     "n_samples": 500000,
-    "max_error": 0.03638018027712686,
-    "rms_error": 0.012359324288917721,
-    "generated_at": "2026-01-07T19:51:31.372406",
+    "max_error": 0.027980180277126898,
+    "rms_error": 0.010848436464153169,
+    "generated_at": "2026-01-07T20:04:20.801804",
     "snapshot_timestamp": "2026-01-07T19:44:12.413941",
     "seed": 42,
     "iterations": 60,
-    "mean_acceptance_rate": 0.1733179487179487,
-    "converged": false,
+    "mean_acceptance_rate": 0.17286923076923075,
+    "converged": true,
     "learning_rate": 0.02,
     "regularization": 0.1,
     "burn_in": 2000,
@@ -218,40 +218,40 @@
       "volume": 25244.536473011583,
       "totalLiquidity": 3350,
       "related_races": [
-        "KS_Senate",
-        "MS_Senate",
-        "MA_Senate",
         "MT_Senate",
-        "KY_Senate",
-        "NJ_Senate",
-        "GA_Senate",
-        "TN_Senate",
-        "VA_Senate",
-        "NC_Senate",
-        "SD_Senate",
-        "NM_Senate",
-        "FL_Senate_Special",
-        "LA_Senate",
-        "AK_Senate",
-        "CO_Senate",
-        "SC_Senate",
-        "WY_Senate",
-        "IL_Senate",
-        "ME_Senate",
-        "AR_Senate",
-        "RI_Senate",
-        "OK_Senate",
-        "OH_Senate_Special",
-        "NH_Senate",
-        "MI_Senate",
         "OR_Senate",
-        "IA_Senate",
-        "MN_Senate",
-        "WV_Senate",
-        "AL_Senate",
+        "TN_Senate",
+        "NH_Senate",
+        "AR_Senate",
         "DE_Senate",
+        "NC_Senate",
+        "LA_Senate",
+        "OK_Senate",
+        "IA_Senate",
+        "KY_Senate",
+        "NM_Senate",
+        "SC_Senate",
+        "CO_Senate",
+        "GA_Senate",
+        "AK_Senate",
+        "WV_Senate",
+        "ID_Senate",
+        "VA_Senate",
+        "MN_Senate",
+        "MA_Senate",
+        "KS_Senate",
+        "NJ_Senate",
+        "AL_Senate",
+        "RI_Senate",
+        "MS_Senate",
+        "OH_Senate_Special",
+        "MI_Senate",
+        "FL_Senate_Special",
+        "IL_Senate",
         "TX_Senate",
-        "ID_Senate"
+        "SD_Senate",
+        "WY_Senate",
+        "ME_Senate"
       ],
       "prices": {
         "Alabama": 0.9670605604606128,
@@ -346,7 +346,8 @@
         "Democratic": 0.018093791688337715,
         "Independent (Dan Osborn)": 0.2537774401057049,
         "Independent (Other)": 0.007321621749989128
-      }
+      },
+      "race": "NE_Senate"
     },
     {
       "slug": "how-many-safe-senate-seats-will-the",
@@ -358,13 +359,13 @@
       "volume": 893.5545823667871,
       "totalLiquidity": 400,
       "related_races": [
-        "NJ_Senate",
-        "CO_Senate",
+        "VA_Senate",
         "OR_Senate",
         "MA_Senate",
-        "VA_Senate",
+        "NJ_Senate",
         "DE_Senate",
-        "RI_Senate"
+        "RI_Senate",
+        "CO_Senate"
       ],
       "prices": {
         "0": 0.0026579399196798013,
@@ -387,16 +388,16 @@
       "volume": 499.29439249028843,
       "totalLiquidity": 300,
       "related_races": [
-        "OK_Senate",
-        "LA_Senate",
-        "TN_Senate",
-        "MS_Senate",
-        "WY_Senate",
         "WV_Senate",
+        "TN_Senate",
+        "KY_Senate",
+        "AR_Senate",
         "AL_Senate",
         "SD_Senate",
-        "AR_Senate",
-        "KY_Senate",
+        "WY_Senate",
+        "MS_Senate",
+        "LA_Senate",
+        "OK_Senate",
         "ID_Senate"
       ],
       "prices": {
@@ -418,10 +419,10 @@
       "volume": 280.9539327407918,
       "totalLiquidity": 1000,
       "related_races": [
+        "TX_Senate",
         "OH_Senate_Special",
         "GA_Senate",
-        "MI_Senate",
-        "TX_Senate"
+        "MI_Senate"
       ],
       "prices": {
         "Dems flip TX or OH": 0.4009002821310626,
@@ -440,22 +441,23 @@
       "volume": 93.165741205101,
       "totalLiquidity": 250,
       "related_races": [
-        "IA_Senate",
+        "OH_Senate_Special",
         "AK_Senate",
-        "OH_Senate_Special"
+        "IA_Senate"
       ],
       "prices": {
         "YES": 0.730142676108883,
         "NO": 0.26985732389111705
-      }
+      },
+      "condition": "(OH_Senate_Special == D) OR (IA_Senate == D) OR (AK_Senate == D)"
     }
   ],
   "top_outcomes": [
     {
       "rank": 1,
-      "model_prob": 2.11,
-      "indep_prob": 1.079,
-      "ratio": 2.0,
+      "model_prob": 2.07,
+      "indep_prob": 1.1112,
+      "ratio": 1.9,
       "d_wins": 15,
       "r_wins": 20,
       "i_wins": 0,
@@ -503,9 +505,9 @@
     },
     {
       "rank": 2,
-      "model_prob": 1.65,
-      "indep_prob": 0.6681,
-      "ratio": 2.5,
+      "model_prob": 1.51,
+      "indep_prob": 0.6255,
+      "ratio": 2.4,
       "d_wins": 16,
       "r_wins": 19,
       "i_wins": 0,
@@ -555,8 +557,8 @@
     },
     {
       "rank": 3,
-      "model_prob": 1.39,
-      "indep_prob": 0.5529,
+      "model_prob": 1.38,
+      "indep_prob": 0.5565,
       "ratio": 2.5,
       "d_wins": 16,
       "r_wins": 19,
@@ -607,9 +609,9 @@
     },
     {
       "rank": 4,
-      "model_prob": 1.1,
+      "model_prob": 1.06,
       "indep_prob": 0.0786,
-      "ratio": 13.9,
+      "ratio": 13.5,
       "d_wins": 17,
       "r_wins": 17,
       "i_wins": 1,
@@ -661,9 +663,63 @@
     },
     {
       "rank": 5,
-      "model_prob": 0.91,
-      "indep_prob": 0.3568,
-      "ratio": 2.5,
+      "model_prob": 0.95,
+      "indep_prob": 0.1247,
+      "ratio": 7.6,
+      "d_wins": 18,
+      "r_wins": 17,
+      "i_wins": 0,
+      "d_seats": 52,
+      "r_seats": 48,
+      "control": "D",
+      "upsets": [
+        "AK",
+        "TX",
+        "OH (Sp)"
+      ],
+      "outcomes": {
+        "AL_Senate": "R",
+        "AK_Senate": "D",
+        "AR_Senate": "R",
+        "CO_Senate": "D",
+        "DE_Senate": "D",
+        "GA_Senate": "D",
+        "ID_Senate": "R",
+        "IL_Senate": "D",
+        "IA_Senate": "R",
+        "KS_Senate": "R",
+        "KY_Senate": "R",
+        "LA_Senate": "R",
+        "ME_Senate": "D",
+        "MA_Senate": "D",
+        "MI_Senate": "D",
+        "MN_Senate": "D",
+        "MS_Senate": "R",
+        "MT_Senate": "R",
+        "NE_Senate": "R",
+        "NH_Senate": "D",
+        "NJ_Senate": "D",
+        "NM_Senate": "D",
+        "NC_Senate": "D",
+        "OK_Senate": "R",
+        "OR_Senate": "D",
+        "RI_Senate": "D",
+        "SC_Senate": "R",
+        "SD_Senate": "R",
+        "TN_Senate": "R",
+        "TX_Senate": "D",
+        "VA_Senate": "D",
+        "WV_Senate": "R",
+        "WY_Senate": "R",
+        "OH_Senate_Special": "D",
+        "FL_Senate_Special": "R"
+      }
+    },
+    {
+      "rank": 6,
+      "model_prob": 0.93,
+      "indep_prob": 0.3201,
+      "ratio": 2.9,
       "d_wins": 15,
       "r_wins": 20,
       "i_wins": 0,
@@ -713,10 +769,10 @@
       }
     },
     {
-      "rank": 6,
-      "model_prob": 0.88,
-      "indep_prob": 0.5763,
-      "ratio": 1.5,
+      "rank": 7,
+      "model_prob": 0.93,
+      "indep_prob": 0.5688,
+      "ratio": 1.6,
       "d_wins": 14,
       "r_wins": 21,
       "i_wins": 0,
@@ -765,10 +821,64 @@
       }
     },
     {
-      "rank": 7,
-      "model_prob": 0.84,
-      "indep_prob": 0.2166,
-      "ratio": 3.9,
+      "rank": 8,
+      "model_prob": 0.92,
+      "indep_prob": 0.111,
+      "ratio": 8.3,
+      "d_wins": 18,
+      "r_wins": 17,
+      "i_wins": 0,
+      "d_seats": 52,
+      "r_seats": 48,
+      "control": "D",
+      "upsets": [
+        "IA",
+        "TX",
+        "OH (Sp)"
+      ],
+      "outcomes": {
+        "AL_Senate": "R",
+        "AK_Senate": "R",
+        "AR_Senate": "R",
+        "CO_Senate": "D",
+        "DE_Senate": "D",
+        "GA_Senate": "D",
+        "ID_Senate": "R",
+        "IL_Senate": "D",
+        "IA_Senate": "D",
+        "KS_Senate": "R",
+        "KY_Senate": "R",
+        "LA_Senate": "R",
+        "ME_Senate": "D",
+        "MA_Senate": "D",
+        "MI_Senate": "D",
+        "MN_Senate": "D",
+        "MS_Senate": "R",
+        "MT_Senate": "R",
+        "NE_Senate": "R",
+        "NH_Senate": "D",
+        "NJ_Senate": "D",
+        "NM_Senate": "D",
+        "NC_Senate": "D",
+        "OK_Senate": "R",
+        "OR_Senate": "D",
+        "RI_Senate": "D",
+        "SC_Senate": "R",
+        "SD_Senate": "R",
+        "TN_Senate": "R",
+        "TX_Senate": "D",
+        "VA_Senate": "D",
+        "WV_Senate": "R",
+        "WY_Senate": "R",
+        "OH_Senate_Special": "D",
+        "FL_Senate_Special": "R"
+      }
+    },
+    {
+      "rank": 9,
+      "model_prob": 0.9,
+      "indep_prob": 0.2216,
+      "ratio": 4.1,
       "d_wins": 17,
       "r_wins": 18,
       "i_wins": 0,
@@ -818,64 +928,10 @@
       }
     },
     {
-      "rank": 8,
-      "model_prob": 0.83,
-      "indep_prob": 0.1341,
-      "ratio": 6.2,
-      "d_wins": 18,
-      "r_wins": 17,
-      "i_wins": 0,
-      "d_seats": 52,
-      "r_seats": 48,
-      "control": "D",
-      "upsets": [
-        "AK",
-        "TX",
-        "OH (Sp)"
-      ],
-      "outcomes": {
-        "AL_Senate": "R",
-        "AK_Senate": "D",
-        "AR_Senate": "R",
-        "CO_Senate": "D",
-        "DE_Senate": "D",
-        "GA_Senate": "D",
-        "ID_Senate": "R",
-        "IL_Senate": "D",
-        "IA_Senate": "R",
-        "KS_Senate": "R",
-        "KY_Senate": "R",
-        "LA_Senate": "R",
-        "ME_Senate": "D",
-        "MA_Senate": "D",
-        "MI_Senate": "D",
-        "MN_Senate": "D",
-        "MS_Senate": "R",
-        "MT_Senate": "R",
-        "NE_Senate": "R",
-        "NH_Senate": "D",
-        "NJ_Senate": "D",
-        "NM_Senate": "D",
-        "NC_Senate": "D",
-        "OK_Senate": "R",
-        "OR_Senate": "D",
-        "RI_Senate": "D",
-        "SC_Senate": "R",
-        "SD_Senate": "R",
-        "TN_Senate": "R",
-        "TX_Senate": "D",
-        "VA_Senate": "D",
-        "WV_Senate": "R",
-        "WY_Senate": "R",
-        "OH_Senate_Special": "D",
-        "FL_Senate_Special": "R"
-      }
-    },
-    {
-      "rank": 9,
-      "model_prob": 0.81,
-      "indep_prob": 0.2953,
-      "ratio": 2.7,
+      "rank": 10,
+      "model_prob": 0.75,
+      "indep_prob": 0.2848,
+      "ratio": 2.6,
       "d_wins": 15,
       "r_wins": 20,
       "i_wins": 0,
@@ -925,10 +981,10 @@
       }
     },
     {
-      "rank": 10,
-      "model_prob": 0.8,
-      "indep_prob": 0.1243,
-      "ratio": 6.4,
+      "rank": 11,
+      "model_prob": 0.74,
+      "indep_prob": 0.1111,
+      "ratio": 6.7,
       "d_wins": 17,
       "r_wins": 17,
       "i_wins": 1,
@@ -979,119 +1035,10 @@
       }
     },
     {
-      "rank": 11,
-      "model_prob": 0.74,
-      "indep_prob": 0.111,
-      "ratio": 6.7,
-      "d_wins": 18,
-      "r_wins": 17,
-      "i_wins": 0,
-      "d_seats": 52,
-      "r_seats": 48,
-      "control": "D",
-      "upsets": [
-        "IA",
-        "TX",
-        "OH (Sp)"
-      ],
-      "outcomes": {
-        "AL_Senate": "R",
-        "AK_Senate": "R",
-        "AR_Senate": "R",
-        "CO_Senate": "D",
-        "DE_Senate": "D",
-        "GA_Senate": "D",
-        "ID_Senate": "R",
-        "IL_Senate": "D",
-        "IA_Senate": "D",
-        "KS_Senate": "R",
-        "KY_Senate": "R",
-        "LA_Senate": "R",
-        "ME_Senate": "D",
-        "MA_Senate": "D",
-        "MI_Senate": "D",
-        "MN_Senate": "D",
-        "MS_Senate": "R",
-        "MT_Senate": "R",
-        "NE_Senate": "R",
-        "NH_Senate": "D",
-        "NJ_Senate": "D",
-        "NM_Senate": "D",
-        "NC_Senate": "D",
-        "OK_Senate": "R",
-        "OR_Senate": "D",
-        "RI_Senate": "D",
-        "SC_Senate": "R",
-        "SD_Senate": "R",
-        "TN_Senate": "R",
-        "TX_Senate": "D",
-        "VA_Senate": "D",
-        "WV_Senate": "R",
-        "WY_Senate": "R",
-        "OH_Senate_Special": "D",
-        "FL_Senate_Special": "R"
-      }
-    },
-    {
       "rank": 12,
-      "model_prob": 0.62,
-      "indep_prob": 0.0687,
-      "ratio": 9.0,
-      "d_wins": 19,
-      "r_wins": 16,
-      "i_wins": 0,
-      "d_seats": 53,
-      "r_seats": 47,
-      "control": "D",
-      "upsets": [
-        "AK",
-        "IA",
-        "TX",
-        "OH (Sp)"
-      ],
-      "outcomes": {
-        "AL_Senate": "R",
-        "AK_Senate": "D",
-        "AR_Senate": "R",
-        "CO_Senate": "D",
-        "DE_Senate": "D",
-        "GA_Senate": "D",
-        "ID_Senate": "R",
-        "IL_Senate": "D",
-        "IA_Senate": "D",
-        "KS_Senate": "R",
-        "KY_Senate": "R",
-        "LA_Senate": "R",
-        "ME_Senate": "D",
-        "MA_Senate": "D",
-        "MI_Senate": "D",
-        "MN_Senate": "D",
-        "MS_Senate": "R",
-        "MT_Senate": "R",
-        "NE_Senate": "R",
-        "NH_Senate": "D",
-        "NJ_Senate": "D",
-        "NM_Senate": "D",
-        "NC_Senate": "D",
-        "OK_Senate": "R",
-        "OR_Senate": "D",
-        "RI_Senate": "D",
-        "SC_Senate": "R",
-        "SD_Senate": "R",
-        "TN_Senate": "R",
-        "TX_Senate": "D",
-        "VA_Senate": "D",
-        "WV_Senate": "R",
-        "WY_Senate": "R",
-        "OH_Senate_Special": "D",
-        "FL_Senate_Special": "R"
-      }
-    },
-    {
-      "rank": 13,
-      "model_prob": 0.6,
-      "indep_prob": 0.3918,
-      "ratio": 1.5,
+      "model_prob": 0.54,
+      "indep_prob": 0.3942,
+      "ratio": 1.4,
       "d_wins": 15,
       "r_wins": 19,
       "i_wins": 1,
@@ -1140,9 +1087,61 @@
       }
     },
     {
-      "rank": 14,
+      "rank": 13,
       "model_prob": 0.54,
-      "indep_prob": 0.3423,
+      "indep_prob": 0.331,
+      "ratio": 1.6,
+      "d_wins": 14,
+      "r_wins": 21,
+      "i_wins": 0,
+      "d_seats": 48,
+      "r_seats": 52,
+      "control": "R",
+      "upsets": [
+        "NC"
+      ],
+      "outcomes": {
+        "AL_Senate": "R",
+        "AK_Senate": "R",
+        "AR_Senate": "R",
+        "CO_Senate": "D",
+        "DE_Senate": "D",
+        "GA_Senate": "D",
+        "ID_Senate": "R",
+        "IL_Senate": "D",
+        "IA_Senate": "R",
+        "KS_Senate": "R",
+        "KY_Senate": "R",
+        "LA_Senate": "R",
+        "ME_Senate": "D",
+        "MA_Senate": "D",
+        "MI_Senate": "D",
+        "MN_Senate": "D",
+        "MS_Senate": "R",
+        "MT_Senate": "R",
+        "NE_Senate": "R",
+        "NH_Senate": "D",
+        "NJ_Senate": "D",
+        "NM_Senate": "D",
+        "NC_Senate": "R",
+        "OK_Senate": "R",
+        "OR_Senate": "D",
+        "RI_Senate": "D",
+        "SC_Senate": "R",
+        "SD_Senate": "R",
+        "TN_Senate": "R",
+        "TX_Senate": "R",
+        "VA_Senate": "D",
+        "WV_Senate": "R",
+        "WY_Senate": "R",
+        "OH_Senate_Special": "R",
+        "FL_Senate_Special": "R"
+      }
+    },
+    {
+      "rank": 14,
+      "model_prob": 0.52,
+      "indep_prob": 0.3132,
       "ratio": 1.6,
       "d_wins": 17,
       "r_wins": 18,
@@ -1194,70 +1193,20 @@
     },
     {
       "rank": 15,
-      "model_prob": 0.53,
-      "indep_prob": 0.3089,
-      "ratio": 1.7,
-      "d_wins": 14,
-      "r_wins": 21,
-      "i_wins": 0,
-      "d_seats": 48,
-      "r_seats": 52,
-      "control": "R",
-      "upsets": [
-        "NC"
-      ],
-      "outcomes": {
-        "AL_Senate": "R",
-        "AK_Senate": "R",
-        "AR_Senate": "R",
-        "CO_Senate": "D",
-        "DE_Senate": "D",
-        "GA_Senate": "D",
-        "ID_Senate": "R",
-        "IL_Senate": "D",
-        "IA_Senate": "R",
-        "KS_Senate": "R",
-        "KY_Senate": "R",
-        "LA_Senate": "R",
-        "ME_Senate": "D",
-        "MA_Senate": "D",
-        "MI_Senate": "D",
-        "MN_Senate": "D",
-        "MS_Senate": "R",
-        "MT_Senate": "R",
-        "NE_Senate": "R",
-        "NH_Senate": "D",
-        "NJ_Senate": "D",
-        "NM_Senate": "D",
-        "NC_Senate": "R",
-        "OK_Senate": "R",
-        "OR_Senate": "D",
-        "RI_Senate": "D",
-        "SC_Senate": "R",
-        "SD_Senate": "R",
-        "TN_Senate": "R",
-        "TX_Senate": "R",
-        "VA_Senate": "D",
-        "WV_Senate": "R",
-        "WY_Senate": "R",
-        "OH_Senate_Special": "R",
-        "FL_Senate_Special": "R"
-      }
-    },
-    {
-      "rank": 16,
       "model_prob": 0.52,
-      "indep_prob": 0.1913,
-      "ratio": 2.7,
-      "d_wins": 15,
-      "r_wins": 20,
+      "indep_prob": 0.0625,
+      "ratio": 8.3,
+      "d_wins": 19,
+      "r_wins": 16,
       "i_wins": 0,
-      "d_seats": 49,
-      "r_seats": 51,
-      "control": "R",
+      "d_seats": 53,
+      "r_seats": 47,
+      "control": "D",
       "upsets": [
         "AK",
-        "NC"
+        "IA",
+        "TX",
+        "OH (Sp)"
       ],
       "outcomes": {
         "AL_Senate": "R",
@@ -1268,7 +1217,7 @@
         "GA_Senate": "D",
         "ID_Senate": "R",
         "IL_Senate": "D",
-        "IA_Senate": "R",
+        "IA_Senate": "D",
         "KS_Senate": "R",
         "KY_Senate": "R",
         "LA_Senate": "R",
@@ -1282,25 +1231,25 @@
         "NH_Senate": "D",
         "NJ_Senate": "D",
         "NM_Senate": "D",
-        "NC_Senate": "R",
+        "NC_Senate": "D",
         "OK_Senate": "R",
         "OR_Senate": "D",
         "RI_Senate": "D",
         "SC_Senate": "R",
         "SD_Senate": "R",
         "TN_Senate": "R",
-        "TX_Senate": "R",
+        "TX_Senate": "D",
         "VA_Senate": "D",
         "WV_Senate": "R",
         "WY_Senate": "R",
-        "OH_Senate_Special": "R",
+        "OH_Senate_Special": "D",
         "FL_Senate_Special": "R"
       }
     },
     {
-      "rank": 17,
-      "model_prob": 0.48,
-      "indep_prob": 0.2981,
+      "rank": 16,
+      "model_prob": 0.49,
+      "indep_prob": 0.3062,
       "ratio": 1.6,
       "d_wins": 14,
       "r_wins": 21,
@@ -1350,10 +1299,63 @@
       }
     },
     {
+      "rank": 17,
+      "model_prob": 0.48,
+      "indep_prob": 0.1863,
+      "ratio": 2.6,
+      "d_wins": 15,
+      "r_wins": 20,
+      "i_wins": 0,
+      "d_seats": 49,
+      "r_seats": 51,
+      "control": "R",
+      "upsets": [
+        "AK",
+        "NC"
+      ],
+      "outcomes": {
+        "AL_Senate": "R",
+        "AK_Senate": "D",
+        "AR_Senate": "R",
+        "CO_Senate": "D",
+        "DE_Senate": "D",
+        "GA_Senate": "D",
+        "ID_Senate": "R",
+        "IL_Senate": "D",
+        "IA_Senate": "R",
+        "KS_Senate": "R",
+        "KY_Senate": "R",
+        "LA_Senate": "R",
+        "ME_Senate": "D",
+        "MA_Senate": "D",
+        "MI_Senate": "D",
+        "MN_Senate": "D",
+        "MS_Senate": "R",
+        "MT_Senate": "R",
+        "NE_Senate": "R",
+        "NH_Senate": "D",
+        "NJ_Senate": "D",
+        "NM_Senate": "D",
+        "NC_Senate": "R",
+        "OK_Senate": "R",
+        "OR_Senate": "D",
+        "RI_Senate": "D",
+        "SC_Senate": "R",
+        "SD_Senate": "R",
+        "TN_Senate": "R",
+        "TX_Senate": "R",
+        "VA_Senate": "D",
+        "WV_Senate": "R",
+        "WY_Senate": "R",
+        "OH_Senate_Special": "R",
+        "FL_Senate_Special": "R"
+      }
+    },
+    {
       "rank": 18,
       "model_prob": 0.48,
-      "indep_prob": 0.1846,
-      "ratio": 2.6,
+      "indep_prob": 0.1723,
+      "ratio": 2.8,
       "d_wins": 15,
       "r_wins": 20,
       "i_wins": 0,
@@ -1404,9 +1406,9 @@
     },
     {
       "rank": 19,
-      "model_prob": 0.48,
-      "indep_prob": 0.1157,
-      "ratio": 4.1,
+      "model_prob": 0.45,
+      "indep_prob": 0.1134,
+      "ratio": 3.9,
       "d_wins": 16,
       "r_wins": 19,
       "i_wins": 0,
@@ -1458,9 +1460,9 @@
     },
     {
       "rank": 20,
-      "model_prob": 0.42,
-      "indep_prob": 0.2426,
-      "ratio": 1.7,
+      "model_prob": 0.41,
+      "indep_prob": 0.1974,
+      "ratio": 2.1,
       "d_wins": 16,
       "r_wins": 18,
       "i_wins": 1,
@@ -1468,19 +1470,19 @@
       "r_seats": 49,
       "control": "R",
       "upsets": [
-        "AK",
+        "IA",
         "NE"
       ],
       "outcomes": {
         "AL_Senate": "R",
-        "AK_Senate": "D",
+        "AK_Senate": "R",
         "AR_Senate": "R",
         "CO_Senate": "D",
         "DE_Senate": "D",
         "GA_Senate": "D",
         "ID_Senate": "R",
         "IL_Senate": "D",
-        "IA_Senate": "R",
+        "IA_Senate": "D",
         "KS_Senate": "R",
         "KY_Senate": "R",
         "LA_Senate": "R",
@@ -1511,8 +1513,8 @@
     }
   ],
   "outcome_stats": {
-    "unique_outcomes": 28238,
-    "top_10_coverage": 11.3,
-    "top_20_coverage": 16.7
+    "unique_outcomes": 28252,
+    "top_10_coverage": 11.4,
+    "top_20_coverage": 16.6
   }
 }
