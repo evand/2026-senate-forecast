@@ -1638,6 +1638,18 @@
                             D Senate: Mkt ${(dSenate*100).toFixed(0)}% vs Model ${(modelDControl*100).toFixed(0)}%
                             <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
                         </div>`;
+                    } else if (m.type === 'union_constraint') {
+                        // Union constraint - show YES probability vs model
+                        const mktPrice = m.prices['YES'] || 0;
+                        const modelProb = stats.aggregate?.union_probs?.[m.name] || 0;
+                        if (modelProb > 0) {
+                            const diff = modelProb - mktPrice;
+                            const diffClass = Math.abs(diff) > 0.05 ? 'warning' : '';
+                            priceCompare = `<div class="price-compare ${diffClass}">
+                                Mkt ${(mktPrice*100).toFixed(0)}% vs Model ${(modelProb*100).toFixed(0)}%
+                                <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
+                            </div>`;
+                        }
                     }
                 }
 
