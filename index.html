@@ -25,6 +25,41 @@
         h1 { text-align: center; margin-bottom: 5px; font-size: 24px; }
         .subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 14px; }
 
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 20px;
+            padding: 4px;
+            background: #1a1a2e;
+            border-radius: 8px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tab-btn {
+            padding: 10px 24px;
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover { color: #ccc; background: #252540; }
+        .tab-btn.active {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .tab-btn.active.senate { background: #6366f1; }
+        .tab-btn.active.house { background: #8b5cf6; }
+        .tab-btn.active.congress { background: #10b981; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
         /* Control Bar */
         .control-bar {
             display: flex; justify-content: center; gap: 40px;
@@ -348,6 +383,7 @@
         }
         .map-item .bar.r-control { background: linear-gradient(90deg, #ef4444, #b91c1c); }
         .map-item .bar.d-control { background: linear-gradient(90deg, #3b82f6, #1d4ed8); }
+        .map-item .bar.split-control { background: linear-gradient(90deg, #8b5cf6, #6d28d9); }
         .map-item .seats {
             width: 45px;
             font-size: 10px;
@@ -648,9 +684,17 @@
 <body>
     <div class="container">
         <div class="main-content">
-            <h1>2026 Senate Forecast</h1>
+            <h1 id="main-title">2026 Congress Forecast</h1>
             <p class="subtitle">Click states to select, double-click to lock outcomes</p>
 
+            <div class="tab-nav">
+                <button class="tab-btn senate active" data-tab="senate">Senate</button>
+                <button class="tab-btn house" data-tab="house">House</button>
+                <button class="tab-btn congress" data-tab="congress">Congress</button>
+            </div>
+
+            <!-- Senate Tab -->
+            <div id="senate-tab" class="tab-content active">
             <div class="control-bar">
                 <div class="control-stat dem">
                     <div class="label">D Control</div>
@@ -697,6 +741,83 @@
                     </div>
                 </div>
             </div>
+            </div><!-- End Senate Tab -->
+
+            <!-- House Tab -->
+            <div id="house-tab" class="tab-content">
+                <div class="control-bar">
+                    <div class="control-stat dem">
+                        <div class="label">D Control</div>
+                        <div class="value" id="house-d-control">--</div>
+                    </div>
+                    <div class="control-stat">
+                        <div class="label">Projected</div>
+                        <div class="value" id="house-expected-seats">--</div>
+                    </div>
+                    <div class="control-stat rep">
+                        <div class="label">R Control</div>
+                        <div class="value" id="house-r-control">--</div>
+                    </div>
+                </div>
+                <div class="context-info">
+                    <span>435 House seats</span>
+                    <span class="separator">•</span>
+                    <span>218 needed for control</span>
+                </div>
+                <div class="map-placeholder" style="text-align: center; padding: 40px; background: #1a1a2e; border-radius: 10px; margin-bottom: 20px; color: #666;">
+                    District map coming soon
+                </div>
+                <div class="snake-section">
+                    <h2>House Races by Competitiveness</h2>
+                    <div class="snake-chart" id="house-snake-chart"></div>
+                </div>
+
+                <div class="histogram-section">
+                    <h2>House Seat Count Distribution</h2>
+                    <div class="histogram-container">
+                        <div class="histogram" id="house-histogram"></div>
+                        <div class="histogram-labels">
+                            <span>200D</span>
+                            <span>218 (Control)</span>
+                            <span>235R</span>
+                        </div>
+                        <div class="histogram-legend">
+                            <span><div class="legend-box dem"></div> D majority</span>
+                            <span><div class="legend-box rep"></div> R majority</span>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End House Tab -->
+
+            <!-- Congress Tab -->
+            <div id="congress-tab" class="tab-content">
+                <div class="congress-matrix" style="text-align: center; padding: 40px;">
+                    <h2 style="margin-bottom: 20px; color: #888;">Congress Control Matrix</h2>
+                    <div id="control-matrix" style="display: inline-block;">
+                        <table style="border-collapse: collapse; margin: 0 auto;">
+                            <tr>
+                                <th style="padding: 10px;"></th>
+                                <th style="padding: 10px; color: #3b82f6;">D House</th>
+                                <th style="padding: 10px; color: #ef4444;">R House</th>
+                            </tr>
+                            <tr>
+                                <th style="padding: 10px; color: #3b82f6;">D Senate</th>
+                                <td id="matrix-dd" style="padding: 20px; background: #1a1a2e; border-radius: 8px; margin: 2px;">--%</td>
+                                <td id="matrix-dr" style="padding: 20px; background: #1a1a2e; border-radius: 8px; margin: 2px;">--%</td>
+                            </tr>
+                            <tr>
+                                <th style="padding: 10px; color: #ef4444;">R Senate</th>
+                                <td id="matrix-rd" style="padding: 20px; background: #1a1a2e; border-radius: 8px; margin: 2px;">--%</td>
+                                <td id="matrix-rr" style="padding: 20px; background: #1a1a2e; border-radius: 8px; margin: 2px;">--%</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="margin-top: 30px; color: #666;">
+                        <p>D Trifecta: <span id="d-trifecta">--%</span> (D Senate + D House + D President)</p>
+                        <p>R Trifecta: <span id="r-trifecta">--%</span> (R Senate + R House + R President)</p>
+                    </div>
+                </div>
+            </div><!-- End Congress Tab -->
         </div>
 
         <div class="sidebar">
@@ -810,13 +931,45 @@
     let selected = null;
     let essEstimate = null;  // Cached ESS from full sample
     let markets = [];  // Market metadata
-    let maxError = null;  // Max constraint error from sampler
+    let maxError = null;  // Max constraint error from sampler (real constraints only)
     let rmsError = null;  // RMS constraint error
+    let weightedRms = null;  // Weighted RMS (optimizer health metric)
     let snapshotTimestamp = null;  // When data was fetched
     let modelTimestamp = null;  // When model was run
-    let topOutcomes = [];  // Top outcome maps from sampler
+    let topOutcomes = [];  // Top outcome maps from sampler (combined)
+    let topSenateOutcomes = [];  // Senate-only outcome maps
+    let topHouseOutcomes = [];  // House-only outcome maps
     let selectedMap = null;  // Currently selected outcome map (index)
     let marginals = {};  // Cached marginals for independent prob calculation
+    let currentTab = 'senate';  // Current active tab
+    let senateRaces = [];  // Senate races only
+    let houseRaces = [];  // House races only
+
+    // Tab switching
+    function switchTab(tabName) {
+        currentTab = tabName;
+        // Update button states
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.tab === tabName) btn.classList.add('active');
+        });
+        // Update content visibility
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.getElementById(tabName + '-tab').classList.add('active');
+        // Update display
+        if (samples.length > 0) {
+            updateCongressMatrix();
+            updateHouseControl();
+            renderTopMaps();  // Re-render with chamber-specific data
+        }
+    }
+
+    // Initialize tab handlers
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
 
     // State abbreviation to full name
     const stateNames = {
@@ -898,10 +1051,11 @@
 
     // Estimate effective sample size from D Control indicator
     function estimateESS(samples) {
-        // Compute D control indicator (binary)
+        // Compute D control indicator (binary) - use Senate races for ESS
+        const senateRaces = races.filter(r => r.includes('Senate'));
         const dControlIndicator = samples.map(s => {
-            const rWins = races.filter(r => s[r] === 'R').length;
-            return (35 - rWins >= 17) ? 1 : 0;
+            const rWins = senateRaces.filter(r => s[r] === 'R').length;
+            return (senateRaces.length - rWins >= 17) ? 1 : 0;
         });
 
         // Estimate integrated autocorrelation time using initial sequence estimator
@@ -942,17 +1096,26 @@
         samples = samplesData.samples;
         races = samplesData.races;
 
+        // Separate races by chamber
+        senateRaces = races.filter(r => r.includes('Senate'));
+        houseRaces = races.filter(r => r.includes('House'));
+        console.log('Senate races:', senateRaces.length, 'House races:', houseRaces.length);
+
         // Load summary (includes markets metadata and max error)
         const summaryResp = await fetch('data/summary.json' + cacheBust);
         const summaryData = await summaryResp.json();
         markets = summaryData.markets || [];
-        maxError = summaryData.metadata?.max_error || null;
+        // Prefer real_max (excludes synthetic priors) over max_error
+        maxError = summaryData.metadata?.real_max || summaryData.metadata?.max_error || null;
         rmsError = summaryData.metadata?.rms_error || null;
+        weightedRms = summaryData.metadata?.weighted_rms || null;
         snapshotTimestamp = summaryData.metadata?.snapshot_timestamp || null;
         modelTimestamp = summaryData.metadata?.generated_at || null;
         topOutcomes = summaryData.top_outcomes || [];
+        topSenateOutcomes = summaryData.top_senate_outcomes || [];
+        topHouseOutcomes = summaryData.top_house_outcomes || [];
         marginals = summaryData.marginals || {};
-        console.log('Top outcomes loaded:', topOutcomes.length);
+        console.log('Top outcomes loaded:', topOutcomes.length, 'Senate:', topSenateOutcomes.length, 'House:', topHouseOutcomes.length);
 
         // Estimate ESS from full sample (cache it)
         essEstimate = estimateESS(samples);
@@ -964,6 +1127,10 @@
         document.getElementById('sample-count').textContent =
             `Source: ${samples.length.toLocaleString()} samples, ESS ≈ ${essEstimate.ess.toLocaleString()}`;
         render();
+
+        // Update House and Congress tabs
+        updateHouseControl();
+        updateCongressMatrix();
     }
 
     function getFilteredSamples() {
@@ -972,11 +1139,11 @@
             for (const [race, outcome] of Object.entries(locks)) {
                 if (s[race] !== outcome) return false;
             }
-            // Filter by seat count lock
+            // Filter by seat count lock (Senate only - histogram is Senate-only)
             if (seatLock !== null) {
-                const rWins = races.filter(r => s[r] === 'R').length;
-                const totalR = 31 + rWins;
-                if (totalR !== seatLock) return false;
+                const senateRWins = senateRaces.filter(r => s[r] === 'R').length;
+                const totalSenateR = 31 + senateRWins;
+                if (totalSenateR !== seatLock) return false;
             }
             return true;
         });
@@ -984,48 +1151,48 @@
 
     function computeStats(filteredSamples) {
         if (filteredSamples.length === 0) {
-            return { marginals: {}, dControl: 0, rControl: 0, expectedR: 0 };
+            return { marginals: {}, dControl: 0, rControl: 0, dHouseControl: 0, rHouseControl: 0, expectedR: 0 };
         }
 
+        // Compute marginals for ALL races (both chambers)
         const marginals = {};
         for (const race of races) {
-            // Count all outcomes for this race
             const outcomes = {};
             for (const s of filteredSamples) {
                 const outcome = s[race];
                 outcomes[outcome] = (outcomes[outcome] || 0) + 1;
             }
-            // Normalize to probabilities
             marginals[race] = {};
             for (const [outcome, count] of Object.entries(outcomes)) {
                 marginals[race][outcome] = count / filteredSamples.length;
             }
-            // Ensure D and R exist (for binary races)
             if (!marginals[race].D) marginals[race].D = 0;
             if (!marginals[race].R) marginals[race].R = 0;
         }
 
-        let dControlCount = 0;
-        let totalRWins = 0;
+        // Compute Senate control (using senateRaces only)
+        let dSenateControlCount = 0;
+        let dHouseControlCount = 0;
+        let totalSenateRWins = 0;
         for (const s of filteredSamples) {
-            const rWins = races.filter(r => s[r] === 'R').length;
-            totalRWins += rWins;
-            // D control requires D + I (caucusing) >= 51 total
-            // With baseline 34D + 31R, D needs 17 wins from 35 races (34 + 17 = 51)
-            // Note: Independent who doesn't caucus with D counts against D control
-            // For now, treat I outcomes as NOT contributing to either D or R control
-            const dWins = races.filter(r => s[r] === 'D').length;
-            // D needs 51 total. Has 34 baseline. Needs 17 D wins.
-            // But if NE goes Independent, it's neither D nor R win
-            // Current simplification: D control = D baseline + D wins >= 51
-            if (34 + dWins >= 51) dControlCount++;
+            const senateRWins = senateRaces.filter(r => s[r] === 'R').length;
+            totalSenateRWins += senateRWins;
+            const senateDWins = senateRaces.filter(r => s[r] === 'D').length;
+            // D needs 51 total. Has 34 baseline. Needs 17 D wins from 35 races.
+            if (34 + senateDWins >= 51) dSenateControlCount++;
+
+            // House control: D needs 218 seats (no baseline, all 435 modeled)
+            const houseDWins = houseRaces.filter(r => s[r] === 'D').length;
+            if (houseDWins >= 218) dHouseControlCount++;
         }
 
         return {
             marginals,
-            dControl: dControlCount / filteredSamples.length,
-            rControl: 1 - dControlCount / filteredSamples.length,
-            expectedR: totalRWins / filteredSamples.length
+            dControl: dSenateControlCount / filteredSamples.length,
+            rControl: 1 - dSenateControlCount / filteredSamples.length,
+            dHouseControl: dHouseControlCount / filteredSamples.length,
+            rHouseControl: 1 - dHouseControlCount / filteredSamples.length,
+            expectedR: totalSenateRWins / filteredSamples.length  // Senate R wins only
         };
     }
 
@@ -1072,25 +1239,81 @@
         render();
     }
 
+    // Compute Senate/House breakdown from an outcome map
+    function getOutcomeBreakdown(outcomes) {
+        if (!outcomes) return { senateR: 0, senateD: 0, houseR: 0, houseD: 0 };
+        let senateR = 31, senateD = 34;  // Baseline non-contested seats
+        let houseR = 0, houseD = 0;
+        for (const [race, result] of Object.entries(outcomes)) {
+            if (race.includes('Senate')) {
+                if (result === 'R') senateR++;
+                else if (result === 'D') senateD++;
+            } else if (race.includes('House')) {
+                if (result === 'R') houseR++;
+                else if (result === 'D') houseD++;
+            }
+        }
+        return { senateR, senateD, houseR, houseD };
+    }
+
     function renderTopMaps() {
         const container = document.getElementById('top-maps');
 
-        if (topOutcomes.length === 0) {
+        // Select data source based on current tab
+        let outcomes;
+        if (currentTab === 'senate' && topSenateOutcomes.length > 0) {
+            outcomes = topSenateOutcomes;
+        } else if (currentTab === 'house' && topHouseOutcomes.length > 0) {
+            outcomes = topHouseOutcomes;
+        } else {
+            outcomes = topOutcomes;  // Fallback to combined (Congress tab or missing data)
+        }
+
+        if (outcomes.length === 0) {
             container.innerHTML = '<div style="color: #666; text-align: center;">No outcome data</div>';
             return;
         }
 
+        // Determine what chambers are in the data
+        const hasSenate = outcomes[0]?.outcomes && Object.keys(outcomes[0].outcomes).some(r => r.includes('Senate'));
+        const hasHouse = outcomes[0]?.outcomes && Object.keys(outcomes[0].outcomes).some(r => r.includes('House'));
+
         // Find max probability for bar scaling
-        const maxProb = Math.max(...topOutcomes.slice(0, 15).map(o => o.model_prob));
+        const maxProb = Math.max(...outcomes.slice(0, 15).map(o => o.model_prob));
 
         let html = '';
-        const displayCount = Math.min(15, topOutcomes.length);
+        const displayCount = Math.min(15, outcomes.length);
 
         for (let i = 0; i < displayCount; i++) {
-            const outcome = topOutcomes[i];
+            const outcome = outcomes[i];
             const barWidth = (outcome.model_prob / maxProb) * 100;
             const isSelected = selectedMap === i;
-            const controlClass = outcome.control === 'R' ? 'r-control' : 'd-control';
+
+            // Compute Senate/House breakdown
+            const breakdown = getOutcomeBreakdown(outcome.outcomes);
+            const senateControl = breakdown.senateR >= 51 ? 'R' : 'D';
+            const houseControl = breakdown.houseR >= 218 ? 'R' : 'D';
+
+            // Determine control class based on what chambers are present
+            let controlClass;
+            if (hasSenate && hasHouse) {
+                controlClass = senateControl === 'R' && houseControl === 'R' ? 'r-control' :
+                               senateControl === 'D' && houseControl === 'D' ? 'd-control' : 'split-control';
+            } else if (hasSenate) {
+                controlClass = senateControl === 'R' ? 'r-control' : 'd-control';
+            } else {
+                controlClass = houseControl === 'R' ? 'r-control' : 'd-control';
+            }
+
+            // Build seats display based on what's in the data
+            let seatsDisplay = '';
+            if (hasSenate && hasHouse) {
+                seatsDisplay = `S: ${breakdown.senateR}-${breakdown.senateD}<br>H: ${breakdown.houseR}-${breakdown.houseD}`;
+            } else if (hasSenate) {
+                seatsDisplay = `${breakdown.senateR}R-${breakdown.senateD}D`;
+            } else if (hasHouse) {
+                seatsDisplay = `${breakdown.houseR}R-${breakdown.houseD}D`;
+            }
 
             html += `
                 <div class="map-item ${isSelected ? 'selected' : ''}" onclick="selectMap(${i})">
@@ -1100,19 +1323,24 @@
                             ${outcome.model_prob.toFixed(1)}%
                         </div>
                     </div>
-                    <span class="seats">${outcome.r_seats}R-${outcome.d_seats}D</span>
+                    <span class="seats" style="width: 65px; font-size: 9px; line-height: 1.2;">
+                        ${seatsDisplay}
+                    </span>
                 </div>
             `;
         }
 
         // Detail panel for selected map
-        if (selectedMap !== null && topOutcomes[selectedMap]) {
-            const outcome = topOutcomes[selectedMap];
+        if (selectedMap !== null && outcomes[selectedMap]) {
+            const outcome = outcomes[selectedMap];
 
             // Compute independent probability directly from marginals
             const indepProb = outcome.outcomes ? computeIndependentProb(outcome.outcomes) : null;
             const indepPct = indepProb ? (indepProb * 100) : outcome.indep_prob;
-            const ratio = indepPct > 0 ? (outcome.model_prob / indepPct) : 0;
+            const detailBreakdown = getOutcomeBreakdown(outcome.outcomes);
+
+            // Get sample count (may be from new field or computed from model_prob)
+            const sampleCount = outcome.sample_count || Math.round(outcome.model_prob * samples.length / 100);
 
             html += `
                 <div class="map-detail">
@@ -1125,17 +1353,25 @@
                         <span class="value">${indepPct.toFixed(2)}%</span>
                     </div>
                     <div class="stat-row">
-                        <span class="label">Correlation boost</span>
-                        <span class="value" style="color: ${ratio > 1.5 ? '#22c55e' : ratio < 0.7 ? '#ef4444' : '#888'}">
-                            ${ratio.toFixed(2)}×
-                        </span>
+                        <span class="label">Matching samples</span>
+                        <span class="value">${sampleCount.toLocaleString()} (${outcome.model_prob.toFixed(1)}%)</span>
                     </div>
+                    ${hasSenate ? `
                     <div class="stat-row">
-                        <span class="label">Control</span>
-                        <span class="value" style="color: ${outcome.control === 'R' ? '#ef4444' : '#3b82f6'}">
-                            ${outcome.control === 'R' ? 'Republican' : 'Democrat'}
+                        <span class="label">Senate</span>
+                        <span class="value" style="color: ${detailBreakdown.senateR >= 51 ? '#ef4444' : '#3b82f6'}">
+                            ${detailBreakdown.senateR}R-${detailBreakdown.senateD}D
                         </span>
                     </div>
+                    ` : ''}
+                    ${hasHouse ? `
+                    <div class="stat-row">
+                        <span class="label">House</span>
+                        <span class="value" style="color: ${detailBreakdown.houseR >= 218 ? '#ef4444' : '#3b82f6'}">
+                            ${detailBreakdown.houseR}R-${detailBreakdown.houseD}D
+                        </span>
+                    </div>
+                    ` : ''}
                     ${outcome.upsets && outcome.upsets.length > 0 ? `
                         <div class="upsets">
                             <span class="label">Upsets vs baseline:</span>
@@ -1298,21 +1534,46 @@
             }
         }
 
-        // Render snake chart
+        // Render snake charts for each chamber
+        renderSnakeChart(senateRaces, 'snake-chart', stats, selectedOutcome);
+        renderSnakeChart(houseRaces, 'house-snake-chart', stats, selectedOutcome);
+
+        // Render histograms for each chamber
+        renderHistogram(filtered, senateRaces, 'histogram', 31, 51);  // Senate: 31 baseline R, 51 for control
+        renderHistogram(filtered, houseRaces, 'house-histogram', 0, 218);  // House: 0 baseline, 218 for control
+
+        // Render top outcome maps
+        renderTopMaps();
+
+        // Update sidebar
+        updateSidebar(stats, filtered);
+    }
+
+    // Helper to get display name for a race
+    function getRaceDisplayName(race) {
+        if (race.includes('House')) {
+            // Format: AZ_01_House -> AZ-01
+            const parts = race.replace('_House', '').split('_');
+            if (parts[1] === 'AL') return parts[0] + '-AL';  // At-large
+            return parts[0] + '-' + parts[1];
+        }
+        return getStateCode(race);  // Senate uses state code
+    }
+
+    function renderSnakeChart(raceList, elementId, stats, selectedOutcome = null) {
+        const chart = document.getElementById(elementId);
+        if (!chart || raceList.length === 0) return;
+
         // Sort by P(R): lowest P(R) on left (D-leaning), highest P(R) on right (R-leaning)
-        // This handles multi-outcome races correctly (NE with I counts as "not R")
-        const sortedRaces = [...races].sort((a, b) => {
-            // Locked races: D-locked → 0% R (far left), R-locked → 100% R (far right)
-            // I-locked → same as marginal P(R) since I isn't R
+        const sortedRaces = [...raceList].sort((a, b) => {
             const aR = locks[a] === 'D' ? 0.0 : locks[a] === 'R' ? 1.0 :
                        locks[a]?.startsWith('I_') ? (stats.marginals[a]?.R || 0) : (stats.marginals[a]?.R || 0.5);
             const bR = locks[b] === 'D' ? 0.0 : locks[b] === 'R' ? 1.0 :
                        locks[b]?.startsWith('I_') ? (stats.marginals[b]?.R || 0) : (stats.marginals[b]?.R || 0.5);
-            return aR - bR;  // Lower P(R) first (leftmost), higher P(R) last (rightmost)
+            return aR - bR;
         });
 
-        const snakeChart = document.getElementById('snake-chart');
-        snakeChart.innerHTML = '';
+        chart.innerHTML = '';
 
         for (const race of sortedRaces) {
             const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
@@ -1327,69 +1588,66 @@
                 const outcome = selectedOutcome[race];
                 if (outcome === 'D') {
                     item.style.background = '#3b82f6';
-                    item.innerHTML = `<span class="state">${getStateCode(race)}</span><span class="pct">D</span>`;
+                    item.innerHTML = `<span class="state">${getRaceDisplayName(race)}</span><span class="pct">D</span>`;
                 } else if (outcome === 'R') {
                     item.style.background = '#ef4444';
-                    item.innerHTML = `<span class="state">${getStateCode(race)}</span><span class="pct">R</span>`;
+                    item.innerHTML = `<span class="state">${getRaceDisplayName(race)}</span><span class="pct">R</span>`;
                 } else {
                     item.style.background = '#fbbf24';
-                    item.innerHTML = `<span class="state">${getStateCode(race)}</span><span class="pct">I</span>`;
+                    item.innerHTML = `<span class="state">${getRaceDisplayName(race)}</span><span class="pct">I</span>`;
                 }
-                item.title = `${getStateName(race)}: ${outcome}`;
+                item.title = `${race}: ${outcome}`;
             } else {
                 item.style.background = getColor(m.D, iProb);
-                // Show leading probability
                 const leadPct = iProb > m.D && iProb > m.R ?
                     (iProb * 100).toFixed(0) + '% I' :
                     m.D > m.R ? (m.D * 100).toFixed(0) + '% D' : (m.R * 100).toFixed(0) + '% R';
                 item.innerHTML = `
-                    <span class="state">${getStateCode(race)}</span>
+                    <span class="state">${getRaceDisplayName(race)}</span>
                     <span class="pct">${leadPct}</span>
                 `;
-                item.title = getStateName(race);
+                item.title = race;
             }
             item.addEventListener('click', () => selectRace(race));
             item.addEventListener('dblclick', () => toggleLock(race));
-            snakeChart.appendChild(item);
+            chart.appendChild(item);
         }
-
-        // Render histogram
-        renderHistogram(filtered);
-
-        // Render top outcome maps
-        renderTopMaps();
-
-        // Update sidebar
-        updateSidebar(stats, filtered);
     }
 
-    function renderHistogram(filteredSamples) {
-        const histogram = document.getElementById('histogram');
+    function renderHistogram(filteredSamples, raceList, elementId, baselineR, controlThreshold) {
+        const histogram = document.getElementById(elementId);
+        if (!histogram || raceList.length === 0) return;
 
         if (filteredSamples.length === 0) {
             histogram.innerHTML = '<div style="color: #666; text-align: center; width: 100%;">No matching samples</div>';
             return;
         }
 
-        // Count total seats per sample (R seats from 35 races + 31 baseline R = 66 - D seats)
-        // We have 35 races up for election. Current split before election: 34D, 31R = 65
-        // After election: (34 - D_losses + D_wins) D seats
-        // Total Senate = 100, so R = 100 - D
-        // The races array has 35 races. Base is 65 senators not up (computed from 34D + 31R)
-        // Actually, looking at the data: baseline D=34, R=31, 35 races
-        // For each sample, we count R wins in the 35 races, add to baseline 31
+        const totalSeats = raceList.length + baselineR + (controlThreshold * 2 - raceList.length - baselineR * 2);
+        // For Senate: 100 total, for House: 435 total
+        const chamberTotal = elementId === 'histogram' ? 100 : 435;
 
+        // Compute seat counts for each sample
+        const seatValues = [];
         const seatCounts = {};
         for (const s of filteredSamples) {
-            const rWins = races.filter(r => s[r] === 'R').length;
-            const totalR = 31 + rWins;  // 31 baseline R + R wins from 35 races
+            const rWins = raceList.filter(r => s[r] === 'R').length;
+            const totalR = baselineR + rWins;
+            seatValues.push(totalR);
             seatCounts[totalR] = (seatCounts[totalR] || 0) + 1;
         }
 
-        // Find range and max
-        const seats = Object.keys(seatCounts).map(Number);
-        const minSeat = Math.min(...seats, 45);  // At least show 45-55 range
-        const maxSeat = Math.max(...seats, 55);
+        // Find 1st and 99th percentile for range, ensuring we include the control threshold
+        seatValues.sort((a, b) => a - b);
+        const p01Idx = Math.floor(seatValues.length * 0.01);
+        const p99Idx = Math.min(seatValues.length - 1, Math.floor(seatValues.length * 0.99));
+        let minSeat = Math.min(seatValues[p01Idx], controlThreshold - 1);
+        let maxSeat = Math.max(seatValues[p99Idx], controlThreshold);
+        // Ensure at least a small range
+        if (minSeat >= maxSeat) {
+            minSeat = Math.max(0, maxSeat - 5);
+            maxSeat = minSeat + 10;
+        }
         const maxCount = Math.max(...Object.values(seatCounts));
 
         // Build bars
@@ -1400,21 +1658,31 @@
             const height = maxCount > 0 ? (count / maxCount) * 100 : 0;
 
             const bar = document.createElement('div');
-            bar.className = 'hist-bar ' + (seat < 50 ? 'dem' : 'rep');
-            if (seatLock === seat) bar.classList.add('locked');
+            // For Senate: < 50 is D control, for House: < 218 is D control
+            const isDControl = seat < controlThreshold;
+            bar.className = 'hist-bar ' + (isDControl ? 'dem' : 'rep');
+            if (seatLock === seat && elementId === 'histogram') bar.classList.add('locked');
             bar.style.height = height + '%';
-            bar.title = `${seat}R / ${100-seat}D: ${(pct * 100).toFixed(1)}% (${count.toLocaleString()} samples)\nClick to lock, click again to unlock`;
-            bar.addEventListener('click', () => toggleSeatLock(seat));
+            bar.title = `${seat}R / ${chamberTotal-seat}D: ${(pct * 100).toFixed(1)}% (${count.toLocaleString()} samples)`;
+            if (elementId === 'histogram') {
+                bar.addEventListener('click', () => toggleSeatLock(seat));
+            }
             histogram.appendChild(bar);
         }
 
         // Update labels to match actual range
-        const labels = document.querySelector('.histogram-labels');
-        labels.innerHTML = `
-            <span>${100 - minSeat}D</span>
-            <span>50-50</span>
-            <span>${maxSeat}R</span>
-        `;
+        const container = histogram.closest('.histogram-container');
+        if (container) {
+            const labels = container.querySelector('.histogram-labels');
+            if (labels) {
+                const mid = elementId === 'histogram' ? '50-50' : '218 (Control)';
+                labels.innerHTML = `
+                    <span>${chamberTotal - minSeat}D</span>
+                    <span>${mid}</span>
+                    <span>${maxSeat}R</span>
+                `;
+            }
+        }
     }
 
     function selectRace(race) {
@@ -1466,6 +1734,73 @@
             }
         }
         render();
+    }
+
+    // Update House control display
+    function updateHouseControl() {
+        if (houseRaces.length === 0) return;
+
+        const filtered = getFilteredSamples();
+        let dControl = 0;
+        let totalDSeats = 0;
+
+        filtered.forEach(s => {
+            const dWins = houseRaces.filter(r => s[r] === 'D').length;
+            totalDSeats += dWins;
+            if (dWins >= 218) dControl++;
+        });
+
+        const dControlPct = (dControl / filtered.length * 100).toFixed(1);
+        const rControlPct = (100 - dControlPct).toFixed(1);
+        const avgDSeats = (totalDSeats / filtered.length).toFixed(0);
+        const avgRSeats = 435 - avgDSeats;
+
+        document.getElementById('house-d-control').textContent = dControlPct + '%';
+        document.getElementById('house-r-control').textContent = rControlPct + '%';
+        document.getElementById('house-expected-seats').textContent = `${avgDSeats}D - ${avgRSeats}R`;
+    }
+
+    // Update Congress control matrix
+    function updateCongressMatrix() {
+        if (senateRaces.length === 0 || houseRaces.length === 0) return;
+
+        const filtered = getFilteredSamples();
+        let counts = { dd: 0, dr: 0, rd: 0, rr: 0 };
+
+        filtered.forEach(s => {
+            const senateDWins = senateRaces.filter(r => s[r] === 'D').length;
+            const houseDWins = houseRaces.filter(r => s[r] === 'D').length;
+            const senateD = 34 + senateDWins >= 51;  // 34 baseline D + wins >= 51 for majority
+            const houseD = houseDWins >= 218;
+
+            if (senateD && houseD) counts.dd++;
+            else if (senateD && !houseD) counts.dr++;
+            else if (!senateD && houseD) counts.rd++;
+            else counts.rr++;
+        });
+
+        const n = filtered.length;
+        document.getElementById('matrix-dd').textContent = (counts.dd / n * 100).toFixed(1) + '%';
+        document.getElementById('matrix-dr').textContent = (counts.dr / n * 100).toFixed(1) + '%';
+        document.getElementById('matrix-rd').textContent = (counts.rd / n * 100).toFixed(1) + '%';
+        document.getElementById('matrix-rr').textContent = (counts.rr / n * 100).toFixed(1) + '%';
+
+        // Color the cells
+        const cells = [
+            { id: 'matrix-dd', val: counts.dd / n, color: '#3b82f6' },
+            { id: 'matrix-dr', val: counts.dr / n, color: '#8b5cf6' },
+            { id: 'matrix-rd', val: counts.rd / n, color: '#8b5cf6' },
+            { id: 'matrix-rr', val: counts.rr / n, color: '#ef4444' }
+        ];
+        cells.forEach(c => {
+            const el = document.getElementById(c.id);
+            const alpha = 0.3 + c.val * 0.7;  // Scale opacity by probability
+            el.style.background = c.color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+        });
+
+        // Trifectas (assuming R president for 2026 midterms)
+        document.getElementById('d-trifecta').textContent = '0%';  // Can't have D trifecta with R president
+        document.getElementById('r-trifecta').textContent = (counts.rr / n * 100).toFixed(1) + '%';
     }
 
     function updateSidebar(stats, filtered) {
@@ -1632,13 +1967,15 @@
                             </div>`;
                         }
                     } else if (m.type === 'control') {
-                        // R Senate Control market
+                        // R Control market - determine if Senate or House from name
+                        const isHouse = m.name.toLowerCase().includes('house');
                         const mktPrice = m.prices['YES'] || 0;
-                        const modelProb = 1 - (stats.dControl || 0);
+                        const modelProb = isHouse ? stats.rHouseControl : stats.rControl;
                         const diff = modelProb - mktPrice;
                         const diffClass = Math.abs(diff) > 0.05 ? 'warning' : '';
+                        const chamberLabel = isHouse ? 'House' : 'Senate';
                         priceCompare = `<div class="price-compare ${diffClass}">
-                            R Control: Mkt ${(mktPrice*100).toFixed(0)}% vs Model ${(modelProb*100).toFixed(0)}%
+                            R ${chamberLabel}: Mkt ${(mktPrice*100).toFixed(0)}% vs Model ${(modelProb*100).toFixed(0)}%
                             <span class="diff">(${diff > 0 ? '+' : ''}${(diff*100).toFixed(1)}%)</span>
                         </div>`;
                     } else if (m.type === 'joint_control') {
