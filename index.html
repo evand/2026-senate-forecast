@@ -926,10 +926,11 @@
     <script>
     let samples = [];
     let races = [];
+    let chainIds = [];  // Chain ID for each sample (for per-chain ESS)
     let locks = {};
     let seatLock = null;  // Lock to specific R seat count (e.g., 51 = 51R/49D)
     let selected = null;
-    let essEstimate = null;  // Cached ESS from full sample
+    let essEstimate = null;  // ESS estimate (recomputed on filter)
     let markets = [];  // Market metadata
     let maxError = null;  // Max constraint error from sampler (real constraints only)
     let rmsError = null;  // RMS constraint error
@@ -1034,7 +1035,7 @@
         return '#b91c1c';
     }
 
-    // Compute autocorrelation at lag k for a binary sequence
+    // Compute autocorrelation at lag k for a numeric sequence
     function autocorrelation(values, lag) {
         const n = values.length;
         if (lag >= n) return 0;
@@ -1049,29 +1050,69 @@
         return cov / ((n - lag) * variance);
     }
 
-    // Estimate effective sample size from D Control indicator
-    function estimateESS(samples) {
-        // Compute D control indicator (binary) - use Senate races for ESS
-        const senateRaces = races.filter(r => r.includes('Senate'));
-        const dControlIndicator = samples.map(s => {
-            const rWins = senateRaces.filter(r => s[r] === 'R').length;
-            return (senateRaces.length - rWins >= 17) ? 1 : 0;
+    // Compute ESS for a single chain's values using Geyer's initial positive sequence
+    function computeChainESS(values) {
+        const n = values.length;
+        if (n < 4) return n;  // Too few samples, return raw count
+
+        const mean = values.reduce((a, b) => a + b, 0) / n;
+        const variance = values.reduce((a, b) => a + (b - mean) ** 2, 0) / n;
+        if (variance < 1e-10) return n;  // Constant series
+
+        // Geyer's initial positive sequence: sum consecutive pairs until negative
+        let tau = 1;
+        const maxLag = Math.min(100, Math.floor(n / 4));
+        for (let k = 1; k < maxLag - 1; k += 2) {
+            const rho1 = autocorrelation(values, k);
+            const rho2 = autocorrelation(values, k + 1);
+            const pairSum = rho1 + rho2;
+            if (pairSum < 0) break;  // Stop at first negative pair sum
+            tau += 2 * pairSum;
+        }
+
+        return Math.max(1, n / tau);
+    }
+
+    // Estimate ESS with per-chain awareness
+    // Uses House seat count as the binding constraint (lowest ESS metric)
+    function estimateESS(filteredSamples, filteredChainIds) {
+        if (filteredSamples.length === 0) {
+            return { n: 0, ess: 0, nChains: 0 };
+        }
+
+        // Compute House seat count for each sample (binding constraint)
+        const houseSeats = filteredSamples.map(s => {
+            return houseRaces.filter(r => s[r] === 'D').length;
         });
 
-        // Estimate integrated autocorrelation time using initial sequence estimator
-        // τ = 1 + 2 * sum(ρ(k)) for k where ρ(k) > 0
-        let tau = 1;
-        const maxLag = Math.min(100, Math.floor(samples.length / 4));
-        for (let k = 1; k < maxLag; k++) {
-            const rho = autocorrelation(dControlIndicator, k);
-            if (rho < 0.05) break;  // Truncate when autocorrelation is negligible
-            tau += 2 * rho;
+        // If no chain_ids, compute ESS on the full sequence (legacy behavior)
+        if (!filteredChainIds || filteredChainIds.length === 0) {
+            const ess = computeChainESS(houseSeats);
+            return { n: filteredSamples.length, ess: Math.round(ess), nChains: 1 };
+        }
+
+        // Group samples by chain, preserving order within each chain
+        const chainSamples = {};
+        for (let i = 0; i < filteredSamples.length; i++) {
+            const cid = filteredChainIds[i];
+            if (!chainSamples[cid]) chainSamples[cid] = [];
+            chainSamples[cid].push(houseSeats[i]);
+        }
+
+        // Compute ESS per chain and sum (chains are independent)
+        let totalESS = 0;
+        let nChains = 0;
+        for (const cid of Object.keys(chainSamples)) {
+            const values = chainSamples[cid];
+            const chainESS = computeChainESS(values);
+            totalESS += chainESS;
+            nChains++;
         }
 
         return {
-            n: samples.length,
-            tau: tau,
-            ess: Math.round(samples.length / tau)
+            n: filteredSamples.length,
+            ess: Math.round(totalESS),
+            nChains: nChains
         };
     }
 
@@ -1095,6 +1136,8 @@
         const samplesData = await samplesResp.json();
         samples = samplesData.samples;
         races = samplesData.races;
+        chainIds = samplesData.chain_ids || [];  // For per-chain ESS computation
+        console.log('Loaded', samples.length, 'samples with', new Set(chainIds).size, 'chains');
 
         // Separate races by chamber
         senateRaces = races.filter(r => r.includes('Senate'));
@@ -1117,15 +1160,15 @@
         marginals = summaryData.marginals || {};
         console.log('Top outcomes loaded:', topOutcomes.length, 'Senate:', topSenateOutcomes.length, 'House:', topHouseOutcomes.length);
 
-        // Estimate ESS from full sample (cache it)
-        essEstimate = estimateESS(samples);
+        // Estimate ESS from full sample with per-chain awareness
+        essEstimate = estimateESS(samples, chainIds);
         console.log('ESS estimate:', essEstimate);
         console.log('Markets loaded:', markets.length, markets.map(m => m.name));
         console.log('Max error:', maxError);
         console.log('Snapshot timestamp:', snapshotTimestamp);
 
         document.getElementById('sample-count').textContent =
-            `Source: ${samples.length.toLocaleString()} samples, ESS ≈ ${essEstimate.ess.toLocaleString()}`;
+            `Source: ${samples.length.toLocaleString()} samples (${essEstimate.nChains} chains), ESS ≈ ${essEstimate.ess.toLocaleString()}`;
         render();
 
         // Update House and Congress tabs
@@ -1134,19 +1177,26 @@
     }
 
     function getFilteredSamples() {
-        return samples.filter(s => {
+        const filteredSamples = [];
+        const filteredChainIds = [];
+        for (let i = 0; i < samples.length; i++) {
+            const s = samples[i];
             // Filter by race locks
+            let pass = true;
             for (const [race, outcome] of Object.entries(locks)) {
-                if (s[race] !== outcome) return false;
+                if (s[race] !== outcome) { pass = false; break; }
             }
+            if (!pass) continue;
             // Filter by seat count lock (Senate only - histogram is Senate-only)
             if (seatLock !== null) {
                 const senateRWins = senateRaces.filter(r => s[r] === 'R').length;
                 const totalSenateR = 31 + senateRWins;
-                if (totalSenateR !== seatLock) return false;
+                if (totalSenateR !== seatLock) continue;
             }
-            return true;
-        });
+            filteredSamples.push(s);
+            if (chainIds.length > 0) filteredChainIds.push(chainIds[i]);
+        }
+        return { samples: filteredSamples, chainIds: filteredChainIds };
     }
 
     function computeStats(filteredSamples) {
@@ -1393,7 +1443,9 @@
     }
 
     function render() {
-        const filtered = getFilteredSamples();
+        const filterResult = getFilteredSamples();
+        const filtered = filterResult.samples;
+        const filteredChainIds = filterResult.chainIds;
         const stats = computeStats(filtered);
 
         // Update control bar
@@ -1405,19 +1457,18 @@
         document.getElementById('expected-seats').textContent =
             projectedR !== null ? `${projectedR}R-${100-projectedR}D` : '--';
 
-        // Update sample statistics
-        const nLocks = Object.keys(locks).length;
-        // When filtering, ESS scales proportionally to sample fraction
-        const effectiveFiltered = nLocks > 0 ? filtered.length : samples.length;
-        const essFraction = effectiveFiltered / samples.length;
-        const currentESS = Math.round((essEstimate?.ess || filtered.length) * essFraction);
+        // Compute ESS on filtered samples with per-chain awareness
+        essEstimate = estimateESS(filtered, filteredChainIds);
+        const currentESS = essEstimate.ess;
 
         document.getElementById('stat-total').textContent = samples.length.toLocaleString();
         const filteredEl = document.getElementById('stat-filtered');
         filteredEl.textContent = filtered.length.toLocaleString();
         filteredEl.className = 'value' + (filtered.length < 100 ? ' error' : filtered.length < 500 ? ' warning' : '');
 
-        document.getElementById('stat-ess').textContent = currentESS.toLocaleString();
+        const essEl = document.getElementById('stat-ess');
+        essEl.textContent = currentESS.toLocaleString();
+        essEl.className = 'value' + (currentESS < 100 ? ' error' : currentESS < 400 ? ' warning' : '');
 
         // Display max constraint error
         const maxErrEl = document.getElementById('stat-max-error');
@@ -1705,7 +1756,7 @@
     }
 
     function toggleLock(race) {
-        const filtered = getFilteredSamples();
+        const filtered = getFilteredSamples().samples;
         const stats = computeStats(filtered);
         const m = stats.marginals[race] || { D: 0.5 };
         // Use global marginals to check for independent option
@@ -1740,7 +1791,7 @@
     function updateHouseControl() {
         if (houseRaces.length === 0) return;
 
-        const filtered = getFilteredSamples();
+        const filtered = getFilteredSamples().samples;
         let dControl = 0;
         let totalDSeats = 0;
 
@@ -1764,7 +1815,7 @@
     function updateCongressMatrix() {
         if (senateRaces.length === 0 || houseRaces.length === 0) return;
 
-        const filtered = getFilteredSamples();
+        const filtered = getFilteredSamples().samples;
         let counts = { dd: 0, dr: 0, rd: 0, rr: 0 };
 
         filtered.forEach(s => {
