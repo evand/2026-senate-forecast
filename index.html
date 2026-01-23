@@ -1130,9 +1130,12 @@
     }
 
     async function loadData() {
-        // Load samples
+        // Load samples (use ?web parameter for downsampled version)
+        const useWeb = new URLSearchParams(window.location.search).has('web');
+        const samplesFile = useWeb ? 'samples_web.json' : 'samples.json';
         const cacheBust = '?v=' + Date.now();
-        const samplesResp = await fetch('data/samples.json' + cacheBust);
+        if (useWeb) console.log('Using downsampled samples_web.json for performance');
+        const samplesResp = await fetch('data/' + samplesFile + cacheBust);
         const samplesData = await samplesResp.json();
         samples = samplesData.samples;
         races = samplesData.races;
