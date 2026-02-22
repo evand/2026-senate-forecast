@@ -989,6 +989,7 @@
     // Tab switching
     function switchTab(tabName) {
         currentTab = tabName;
+        selected = null;  // Clear race selection when switching tabs
         selectedMap = null;  // Reset selected outcome map when switching tabs
         houseExpandedState = null;  // Collapse any expanded state
         // Update button states
