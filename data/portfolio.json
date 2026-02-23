@@ -1,0 +1,2481 @@
+{
+  "metadata": {
+    "run_dir": "tasks/election_2026/runs/latest",
+    "config": "tasks/election_2026/problems/congress_joint_weighted_priors.yaml",
+    "snapshot": "None",
+    "n_samples": 75000,
+    "n_outcomes": 245,
+    "regularization": 0.01,
+    "threshold": 0.02,
+    "optimization_method": "covariance"
+  },
+  "metrics": {
+    "expected_return": 100.54220391817542,
+    "std": 6.804545017005438,
+    "sharpe": 14.77574234087767,
+    "win_rate": 1.0,
+    "max_loss": 23.0973421594693,
+    "max_profit": 126.55545163992014,
+    "var_5pct": 89.9720197501995,
+    "var_1pct": 75.73655023716559,
+    "var_01pct": 57.10430833506904,
+    "total_abs_weight": 561.1788466440827,
+    "net_exposure": 54.61953634589037,
+    "gross_exposure": 561.1788466440827,
+    "net_to_gross_ratio": 0.09732999857803229,
+    "long_weight": 307.8991914949865,
+    "short_weight": 253.27965514909613
+  },
+  "positions": [
+    {
+      "name": "R Flips (gains from D): >= 5",
+      "market_slug": "how-many-house-seats-do-the-republi",
+      "outcome_key": ">= 5",
+      "side": "YES",
+      "weight": 40.71630164909177,
+      "model_price": 1.0,
+      "market_price": 0.5928369835090823,
+      "edge": 0.4071630164909177
+    },
+    {
+      "name": "R Flips (gains from D): >= 10",
+      "market_slug": "how-many-house-seats-do-the-republi",
+      "outcome_key": ">= 10",
+      "side": "YES",
+      "weight": 22.78773602836258,
+      "model_price": 0.98784,
+      "market_price": 0.39835848488494474,
+      "edge": 0.5894815151150553
+    },
+    {
+      "name": "Dem House Seats >= 257 (wins>=257)",
+      "market_slug": "how-many-house-seats-will-the-democ",
+      "outcome_key": "257+ (2008 result)",
+      "side": "NO",
+      "weight": 22.593514974842172,
+      "model_price": 0.00124,
+      "market_price": 0.25815553789998963,
+      "edge": -0.2569155378999896
+    },
+    {
+      "name": "R wins Kamala state (incl ME)",
+      "market_slug": "republicans-win-a-2026-us-senate-el",
+      "outcome_key": "R wins Kamala state (incl ME)",
+      "side": "NO",
+      "weight": 20.24260616068527,
+      "model_price": 0.6578,
+      "market_price": 0.35671203607275387,
+      "edge": 0.3010879639272462
+    },
+    {
+      "name": "D Flips (gains from R): >= 10",
+      "market_slug": "how-many-house-seats-do-the-democra",
+      "outcome_key": ">= 10",
+      "side": "YES",
+      "weight": 17.64358228088746,
+      "model_price": 1.0,
+      "market_price": 0.8235641771911254,
+      "edge": 0.1764358228088746
+    },
+    {
+      "name": "CA D Representatives >= 48",
+      "market_slug": "how-many-democratic-representatives",
+      "outcome_key": "48+",
+      "side": "NO",
+      "weight": 14.835052816958884,
+      "model_price": 0.008133333333333333,
+      "market_price": 0.3826669991295951,
+      "edge": -0.3745336657962618
+    },
+    {
+      "name": "Dem House Seats >= 213 (wins>=213)",
+      "market_slug": "how-many-house-seats-will-the-democ",
+      "outcome_key": "213+ (2022 result)",
+      "side": "YES",
+      "weight": 12.696246245634944,
+      "model_price": 0.73128,
+      "market_price": 0.6277424440036729,
+      "edge": 0.10353755599632719
+    },
+    {
+      "name": "D House > 240",
+      "market_slug": "will-the-democratic-party-win-more-Sh65d0959n",
+      "outcome_key": "D House > 240",
+      "side": "YES",
+      "weight": 11.240116103140053,
+      "model_price": 0.01888,
+      "market_price": 0.18150960741737324,
+      "edge": -0.16262960741737323
+    },
+    {
+      "name": "R Flips (gains from D): >= 20",
+      "market_slug": "how-many-house-seats-do-the-republi",
+      "outcome_key": ">= 20",
+      "side": "NO",
+      "weight": 10.751394350496428,
+      "model_price": 0.3228,
+      "market_price": 0.13197725052427342,
+      "edge": 0.19082274947572656
+    },
+    {
+      "name": "D Flips (gains from R): >= 20",
+      "market_slug": "how-many-house-seats-do-the-democra",
+      "outcome_key": ">= 20",
+      "side": "YES",
+      "weight": 8.92405385848605,
+      "model_price": 0.8041466666666667,
+      "market_price": 0.4517999042733945,
+      "edge": 0.3523467623932722
+    },
+    {
+      "name": "Safe D Senate Seats = 7",
+      "market_slug": "how-many-safe-senate-seats-will-the",
+      "outcome_key": "7",
+      "side": "NO",
+      "weight": 8.627174481271442,
+      "model_price": 0.34304,
+      "market_price": 0.9499161504444849,
+      "edge": -0.6068761504444848
+    },
+    {
+      "name": "R Flips (gains from D): >= 2",
+      "market_slug": "how-many-house-seats-do-the-republi",
+      "outcome_key": ">= 2",
+      "side": "YES",
+      "weight": 8.068420040575685,
+      "model_price": 1.0,
+      "market_price": 0.9193157995942431,
+      "edge": 0.08068420040575686
+    },
+    {
+      "name": "R wins Kamala state (excl ME)",
+      "market_slug": "republicans-win-a-2026-us-senate-el-Ey80cnEUzc",
+      "outcome_key": "R wins Kamala state (excl ME)",
+      "side": "NO",
+      "weight": 7.780634569577851,
+      "model_price": 0.65696,
+      "market_price": 0.21416194006400605,
+      "edge": 0.44279805993599397
+    },
+    {
+      "name": "Congress Control: R Senate, D House",
+      "market_slug": "who-controls-congress-after-the-202",
+      "outcome_key": "R Senate, D House",
+      "side": "NO",
+      "weight": 7.700448034717782,
+      "model_price": 0.46869333333333335,
+      "market_price": 0.5297640250044868,
+      "edge": -0.061070691671153476
+    },
+    {
+      "name": "Congress Control: D Senate, R House",
+      "market_slug": "who-controls-congress-after-the-202",
+      "outcome_key": "D Senate, R House",
+      "side": "YES",
+      "weight": 7.596234291956408,
+      "model_price": 0.10436,
+      "market_price": 0.015968262964085433,
+      "edge": 0.08839173703591456
+    },
+    {
+      "name": "D Flips (gains from R): >= 5",
+      "market_slug": "how-many-house-seats-do-the-democra",
+      "outcome_key": ">= 5",
+      "side": "YES",
+      "weight": 7.584683452045038,
+      "model_price": 1.0,
+      "market_price": 0.9241531654795496,
+      "edge": 0.07584683452045038
+    },
+    {
+      "name": "CA D Representatives >= 46",
+      "market_slug": "how-many-democratic-representatives",
+      "outcome_key": "46+ (2018 result)",
+      "side": "NO",
+      "weight": 7.052458784619216,
+      "model_price": 0.04238666666666667,
+      "market_price": 0.6630210736497848,
+      "edge": -0.6206344069831181
+    },
+    {
+      "name": "D House Seats (linear)",
+      "market_slug": "democratic-house-seats-after-2026-2",
+      "outcome_key": "D House Seats (linear)",
+      "side": "YES",
+      "weight": 6.871934245764707,
+      "model_price": 0.35644373333324986,
+      "market_price": 0.5337191749026626,
+      "edge": -0.17727544156941277
+    },
+    {
+      "name": "R Senate Seats (linear)",
+      "market_slug": "republican-senate-seats-after-2026",
+      "outcome_key": "R Senate Seats (linear)",
+      "side": "NO",
+      "weight": 6.755750236717353,
+      "model_price": 0.5859599999999187,
+      "market_price": 0.585711747705512,
+      "edge": 0.00024825229440661456
+    },
+    {
+      "name": "NY D Representatives 22-23",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "22-23",
+      "side": "NO",
+      "weight": 6.055182275463603,
+      "model_price": 0.005826666666666667,
+      "market_price": 0.13889573430576357,
+      "edge": -0.1330690676390969
+    },
+    {
+      "name": "NY D Representatives 24-26",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "24-26",
+      "side": "NO",
+      "weight": 5.849939438881769,
+      "model_price": 0.0,
+      "market_price": 0.058499394388817696,
+      "edge": -0.058499394388817696
+    },
+    {
+      "name": "Dem House Seats >= 235 (wins>=235)",
+      "market_slug": "how-many-house-seats-will-the-democ",
+      "outcome_key": "235+ (2018 result)",
+      "side": "NO",
+      "weight": 5.755391042928661,
+      "model_price": 0.028386666666666668,
+      "market_price": 0.45179991235183214,
+      "edge": -0.4234132456851655
+    },
+    {
+      "name": "Dem House Seats >= 218 (wins>=218)",
+      "market_slug": "how-many-house-seats-will-the-democ",
+      "outcome_key": "218+ (majority)",
+      "side": "NO",
+      "weight": 5.421065690751449,
+      "model_price": 0.7256266666666666,
+      "market_price": 0.8805623290915806,
+      "edge": -0.15493566242491397
+    },
+    {
+      "name": "OH House D Count 8-9",
+      "market_slug": "how-many-democratic-representatives-90qlU6RNUC",
+      "outcome_key": "8-9",
+      "side": "NO",
+      "weight": 5.266832972202834,
+      "model_price": 0.009573333333333333,
+      "market_price": 0.1169415462494659,
+      "edge": -0.10736821291613256
+    },
+    {
+      "name": "Senate Flip Comparison - Dems flip TX or OH",
+      "market_slug": "which-senate-flip-is-more-likely-de",
+      "outcome_key": "Dems flip TX or OH",
+      "side": "YES",
+      "weight": 5.244225066173394,
+      "model_price": 0.8427066666666667,
+      "market_price": 0.43557357844163636,
+      "edge": 0.40713308822503036
+    },
+    {
+      "name": "D Flips (gains from R): >= 30",
+      "market_slug": "how-many-house-seats-do-the-democra",
+      "outcome_key": ">= 30",
+      "side": "YES",
+      "weight": 5.152055873100667,
+      "model_price": 0.23372,
+      "market_price": 0.19512887182081662,
+      "edge": 0.03859112817918339
+    },
+    {
+      "name": "R House Control",
+      "market_slug": "republicans-have-house-majority-aft",
+      "outcome_key": "YES",
+      "side": "YES",
+      "weight": 5.121851289086679,
+      "model_price": 0.27437333333333336,
+      "market_price": 0.12242981492506727,
+      "edge": 0.1519435184082661
+    },
+    {
+      "name": "TX R Representatives 31-33",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "31-33",
+      "side": "NO",
+      "weight": 4.823446058600825,
+      "model_price": 0.00018666666666666666,
+      "market_price": 0.04955534090790123,
+      "edge": -0.04936867424123456
+    },
+    {
+      "name": "Senate Omnibus (R wins) - NJ_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "New Jersey",
+      "side": "YES",
+      "weight": 4.67095174066272,
+      "model_price": 0.3956133333333333,
+      "market_price": 0.03803921238940902,
+      "edge": 0.35757412094392427
+    },
+    {
+      "name": "Safe R Senate Seats = 11",
+      "market_slug": "how-many-safe-senate-seats-will-rep",
+      "outcome_key": "11",
+      "side": "NO",
+      "weight": 4.613474658367291,
+      "model_price": 0.10129333333333333,
+      "market_price": 0.8515179057008995,
+      "edge": -0.7502245723675661
+    },
+    {
+      "name": "Safe Seat Flips: \u226520",
+      "market_slug": "how-many-safe-house-seats-will-flip",
+      "outcome_key": "\u226520",
+      "side": "NO",
+      "weight": 4.4831516796116775,
+      "model_price": 0.14646666666666666,
+      "market_price": 0.0999999999999999,
+      "edge": 0.04646666666666677
+    },
+    {
+      "name": "Senate Omnibus (R wins) - MA_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Massachusetts",
+      "side": "YES",
+      "weight": 4.383866923064676,
+      "model_price": 0.47917333333333334,
+      "market_price": 0.02760390347685537,
+      "edge": 0.45156942985647797
+    },
+    {
+      "name": "Senate Omnibus (R wins) - DE_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Delaware",
+      "side": "YES",
+      "weight": 3.9930299876807975,
+      "model_price": 0.5023066666666667,
+      "market_price": 0.04629705002284143,
+      "edge": 0.4560096166438252
+    },
+    {
+      "name": "Senate Omnibus (R wins) - CO_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Colorado",
+      "side": "YES",
+      "weight": 3.666856360746842,
+      "model_price": 0.4658,
+      "market_price": 0.03451421146205512,
+      "edge": 0.43128578853794486
+    },
+    {
+      "name": "Senate Omnibus (R wins) - NC_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "North Carolina",
+      "side": "YES",
+      "weight": 3.5288408939207834,
+      "model_price": 0.42593333333333333,
+      "market_price": 0.16926357459123928,
+      "edge": 0.2566697587420941
+    },
+    {
+      "name": "Senate Omnibus (R wins) - RI_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Rhode Island",
+      "side": "YES",
+      "weight": 3.499842438590491,
+      "model_price": 0.4428,
+      "market_price": 0.03442276099306875,
+      "edge": 0.4083772390069313
+    },
+    {
+      "name": "Safe R Senate Seats 8 - 9",
+      "market_slug": "how-many-safe-senate-seats-will-rep",
+      "outcome_key": "8 - 9",
+      "side": "YES",
+      "weight": 3.4596823490182955,
+      "model_price": 0.8144,
+      "market_price": 0.0471738541985136,
+      "edge": 0.7672261458014864
+    },
+    {
+      "name": "Senate Omnibus (R wins) - MN_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Minnesota",
+      "side": "YES",
+      "weight": 3.347031953164842,
+      "model_price": 0.39352,
+      "market_price": 0.07787747717677253,
+      "edge": 0.31564252282322747
+    },
+    {
+      "name": "TX R Representatives 34-38",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "34-38",
+      "side": "NO",
+      "weight": 3.3240497659315436,
+      "model_price": 0.0,
+      "market_price": 0.033240497659315436,
+      "edge": -0.033240497659315436
+    },
+    {
+      "name": "Reps win at least one of ME/MN/NC",
+      "market_slug": "republicans-win-at-least-one-of-mem",
+      "outcome_key": "YES",
+      "side": "NO",
+      "weight": 3.28370200941001,
+      "model_price": 0.44425333333333333,
+      "market_price": 0.3138398999988141,
+      "edge": 0.1304134333345192
+    },
+    {
+      "name": "Safe D Senate Seats = 2",
+      "market_slug": "how-many-safe-senate-seats-will-the",
+      "outcome_key": "2",
+      "side": "YES",
+      "weight": 3.2250915104632005,
+      "model_price": 0.6096533333333334,
+      "market_price": 0.014734829771537995,
+      "edge": 0.5949185035617954
+    },
+    {
+      "name": "Senate Omnibus (R wins) - FL_Senate_Special",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Florida (Special)",
+      "side": "NO",
+      "weight": 3.120721012439923,
+      "model_price": 0.19202666666666668,
+      "market_price": 0.8656425884610033,
+      "edge": -0.6736159217943366
+    },
+    {
+      "name": "R Senate Control",
+      "market_slug": "will-republicans-win-the-senate-in-738388924521",
+      "outcome_key": "YES",
+      "side": "YES",
+      "weight": 2.9974459015783808,
+      "model_price": 0.7493333333333333,
+      "market_price": 0.6124667716600025,
+      "edge": 0.13686656167333078
+    },
+    {
+      "name": "NY D Representatives 15-16",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "15-16",
+      "side": "YES",
+      "weight": 2.9829284905088995,
+      "model_price": 0.24606666666666666,
+      "market_price": 0.058576918216576,
+      "edge": 0.18748974845009064
+    },
+    {
+      "name": "Dem Senate Seats = 49 (wins=15)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "49",
+      "side": "YES",
+      "weight": 2.9563924218939786,
+      "model_price": 0.18674666666666667,
+      "market_price": 0.1957300218177057,
+      "edge": -0.00898335515103904
+    },
+    {
+      "name": "NY D Representatives 13-14",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "13-14",
+      "side": "YES",
+      "weight": 2.9546584846321142,
+      "model_price": 0.19125333333333333,
+      "market_price": 0.011917631207890078,
+      "edge": 0.17933570212544325
+    },
+    {
+      "name": "Senate Omnibus (R wins) - VA_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Virginia",
+      "side": "YES",
+      "weight": 2.8574499191108713,
+      "model_price": 0.49424,
+      "market_price": 0.05375614805984577,
+      "edge": 0.44048385194015427
+    },
+    {
+      "name": "TX R Representatives 25",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "25",
+      "side": "YES",
+      "weight": 2.814050417361186,
+      "model_price": 0.16377333333333333,
+      "market_price": 0.10219197223059816,
+      "edge": 0.06158136110273517
+    },
+    {
+      "name": "Senate Omnibus (R wins) - OR_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Oregon",
+      "side": "YES",
+      "weight": 2.743521138551319,
+      "model_price": 0.5307733333333333,
+      "market_price": 0.057638711248808136,
+      "edge": 0.47313462208452517
+    },
+    {
+      "name": "Safe D Senate Seats = 3",
+      "market_slug": "how-many-safe-senate-seats-will-the",
+      "outcome_key": "3",
+      "side": "YES",
+      "weight": 2.7174547854178974,
+      "model_price": 0.01524,
+      "market_price": 0.011992696069203031,
+      "edge": 0.003247303930796969
+    },
+    {
+      "name": "CA D Representatives >= 43",
+      "market_slug": "how-many-democratic-representatives",
+      "outcome_key": "43+ (2024 result)",
+      "side": "NO",
+      "weight": 2.6306242122778127,
+      "model_price": 0.17936,
+      "market_price": 0.826133160953867,
+      "edge": -0.646773160953867
+    },
+    {
+      "name": "NY D Representatives 17",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "17",
+      "side": "YES",
+      "weight": 2.493250671593972,
+      "model_price": 0.15741333333333332,
+      "market_price": 0.08734839566323231,
+      "edge": 0.07006493767010101
+    },
+    {
+      "name": "Dem House Seats >= 222 (wins>=222)",
+      "market_slug": "how-many-house-seats-will-the-democ",
+      "outcome_key": "222+ (2020 result)",
+      "side": "NO",
+      "weight": 2.4209587006610835,
+      "model_price": 0.15621333333333334,
+      "market_price": 0.8549139250778236,
+      "edge": -0.6987005917444903
+    },
+    {
+      "name": "Dem Senate Seats = 50 (wins=16)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "50",
+      "side": "NO",
+      "weight": 2.4142924785171735,
+      "model_price": 0.09610666666666667,
+      "market_price": 0.14624958786769113,
+      "edge": -0.050142921201024454
+    },
+    {
+      "name": "TX R Representatives 26",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "26",
+      "side": "YES",
+      "weight": 2.349714979246957,
+      "model_price": 0.16081333333333334,
+      "market_price": 0.0933077368371945,
+      "edge": 0.06750559649613884
+    },
+    {
+      "name": "OH House D Count 4",
+      "market_slug": "how-many-democratic-representatives-90qlU6RNUC",
+      "outcome_key": "4",
+      "side": "YES",
+      "weight": 2.3253642874817784,
+      "model_price": 0.3038666666666667,
+      "market_price": 0.18431563356947606,
+      "edge": 0.11955103309719062
+    },
+    {
+      "name": "Dem House Seats >= 215 (wins>=215)",
+      "market_slug": "how-many-house-seats-will-the-democ",
+      "outcome_key": "215+ (2024 result)",
+      "side": "YES",
+      "weight": 2.3158498700883294,
+      "model_price": 0.7262133333333334,
+      "market_price": 0.7936589526199284,
+      "edge": -0.06744561928659498
+    },
+    {
+      "name": "House Omnibus (D wins) - OH_09_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Ohio 9",
+      "side": "YES",
+      "weight": 2.3090792068753405,
+      "model_price": 0.4212666666666667,
+      "market_price": 0.3267243870026317,
+      "edge": 0.094542279664035
+    },
+    {
+      "name": "TX R Representatives 27",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "27",
+      "side": "YES",
+      "weight": 2.2829115697845386,
+      "model_price": 0.12328,
+      "market_price": 0.07551479560594887,
+      "edge": 0.04776520439405113
+    },
+    {
+      "name": "OH House D Count 0-2",
+      "market_slug": "how-many-democratic-representatives-90qlU6RNUC",
+      "outcome_key": "0-2",
+      "side": "YES",
+      "weight": 2.2780320460621377,
+      "model_price": 0.07137333333333333,
+      "market_price": 0.015426154057111738,
+      "edge": 0.055947179276221594
+    },
+    {
+      "name": "NY D Representatives 9-12",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "9-12",
+      "side": "YES",
+      "weight": 2.275026906590271,
+      "model_price": 0.05904,
+      "market_price": 0.010290549365146897,
+      "edge": 0.04874945063485311
+    },
+    {
+      "name": "House Omnibus (D wins) - OH_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Ohio 1",
+      "side": "YES",
+      "weight": 2.266228575400328,
+      "model_price": 0.39728,
+      "market_price": 0.2616024458601323,
+      "edge": 0.1356775541398677
+    },
+    {
+      "name": "TX Senate + House: Non-Dem Senator, >= 14 Dem Reps",
+      "market_slug": "will-texas-elect-a-democratic-senat",
+      "outcome_key": "Non-Dem Senator, >= 14 Dem Reps",
+      "side": "YES",
+      "weight": 2.2568178321935948,
+      "model_price": 0.18481333333333333,
+      "market_price": 0.21269047100826025,
+      "edge": -0.027877137674926916
+    },
+    {
+      "name": "TX Senate + House: Dem Senator, < 14 Dem Reps",
+      "market_slug": "will-texas-elect-a-democratic-senat",
+      "outcome_key": "Dem Senator, < 14 Dem Reps",
+      "side": "NO",
+      "weight": 2.1944709648337124,
+      "model_price": 0.19253333333333333,
+      "market_price": 0.16211970689464136,
+      "edge": 0.03041362643869197
+    },
+    {
+      "name": "OH Senate + House: Non-Dem Senator, < 4 Dem Reps",
+      "market_slug": "will-oh-elect-a-democratic-senator",
+      "outcome_key": "Non-Dem Senator, < 4 Dem Reps",
+      "side": "YES",
+      "weight": 2.185411911982023,
+      "model_price": 0.21328,
+      "market_price": 0.2237743909395894,
+      "edge": -0.010494390939589399
+    },
+    {
+      "name": "Senate Omnibus (R wins) - NH_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "New Hampshire",
+      "side": "YES",
+      "weight": 2.140241851362849,
+      "model_price": 0.63652,
+      "market_price": 0.07057086911206469,
+      "edge": 0.5659491308879353
+    },
+    {
+      "name": "Senate Omnibus (R wins) - TX_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Texas",
+      "side": "YES",
+      "weight": 2.1313613782308583,
+      "model_price": 0.6019466666666666,
+      "market_price": 0.663493961938416,
+      "edge": -0.0615472952717494
+    },
+    {
+      "name": "Senate Omnibus (R wins) - IL_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Illinois",
+      "side": "YES",
+      "weight": 2.055634725084394,
+      "model_price": 0.63432,
+      "market_price": 0.07703587462103394,
+      "edge": 0.5572841253789661
+    },
+    {
+      "name": "OH Senate + House: Dem Senator, >= 4 Dem Reps",
+      "market_slug": "will-oh-elect-a-democratic-senator",
+      "outcome_key": "Dem Senator, >= 4 Dem Reps",
+      "side": "NO",
+      "weight": 2.0175724242283493,
+      "model_price": 0.34054666666666666,
+      "market_price": 0.3257105890488672,
+      "edge": 0.014836077617799481
+    },
+    {
+      "name": "House Omnibus (D wins) - NH_02_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New Hampshire 2",
+      "side": "NO",
+      "weight": 2.014629268201946,
+      "model_price": 0.62296,
+      "market_price": 0.9414529246212687,
+      "edge": -0.31849292462126877
+    },
+    {
+      "name": "FL D Representatives 0-4",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "0-4",
+      "side": "NO",
+      "weight": 2.0105566749993415,
+      "model_price": 8e-05,
+      "market_price": 0.019999999999999997,
+      "edge": -0.019919999999999997
+    },
+    {
+      "name": "House Omnibus (D wins) - PA_17_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Pennsylvania 17",
+      "side": "NO",
+      "weight": 2.0085138218084957,
+      "model_price": 0.42084,
+      "market_price": 0.8408408495837014,
+      "edge": -0.42000084958370143
+    },
+    {
+      "name": "TX R Representatives 9-13",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "9-13",
+      "side": "NO",
+      "weight": 2.0042305313311437,
+      "model_price": 0.0002933333333333333,
+      "market_price": 0.020597496583225888,
+      "edge": -0.020304163249892555
+    },
+    {
+      "name": "House Omnibus (D wins) - WA_08_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Washington 8",
+      "side": "NO",
+      "weight": 1.9957683209727186,
+      "model_price": 0.41313333333333335,
+      "market_price": 0.9501567444192199,
+      "edge": -0.5370234110858866
+    },
+    {
+      "name": "NY D Representatives 18",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "18",
+      "side": "YES",
+      "weight": 1.9513406946173428,
+      "model_price": 0.1364,
+      "market_price": 0.12084325470623429,
+      "edge": 0.015556745293765703
+    },
+    {
+      "name": "CA D Representatives >= 40",
+      "market_slug": "how-many-democratic-representatives",
+      "outcome_key": "40+ (2022 result)",
+      "side": "NO",
+      "weight": 1.9104294240099362,
+      "model_price": 0.44092,
+      "market_price": 0.8870978780655925,
+      "edge": -0.4461778780655925
+    },
+    {
+      "name": "House Omnibus (D wins) - OR_05_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Oregon 5",
+      "side": "NO",
+      "weight": 1.874912123630059,
+      "model_price": 0.4720533333333333,
+      "market_price": 0.9488828544485475,
+      "edge": -0.47682952111521415
+    },
+    {
+      "name": "House Omnibus (D wins) - NY_18_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New York 18",
+      "side": "NO",
+      "weight": 1.8131168207225488,
+      "model_price": 0.3284533333333333,
+      "market_price": 0.7393187361867344,
+      "edge": -0.41086540285340106
+    },
+    {
+      "name": "House Omnibus (D wins) - NV_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Nevada 1",
+      "side": "NO",
+      "weight": 1.7209847554003301,
+      "model_price": 0.51148,
+      "market_price": 0.927046217214187,
+      "edge": -0.41556621721418696
+    },
+    {
+      "name": "Congress Control: Democrats Sweep",
+      "market_slug": "who-controls-congress-after-the-202",
+      "outcome_key": "Democrats Sweep",
+      "side": "YES",
+      "weight": 1.6699798630886542,
+      "model_price": 0.25693333333333335,
+      "market_price": 0.356892328895868,
+      "edge": -0.09995899556253468
+    },
+    {
+      "name": "Total House Flips (linear)",
+      "market_slug": "how-many-house-seats-will-flip-in-2",
+      "outcome_key": "Total House Flips (linear)",
+      "side": "YES",
+      "weight": 1.6209497694779222,
+      "model_price": 0.5540798666665755,
+      "market_price": 0.4141011509739192,
+      "edge": 0.1399787156926563
+    },
+    {
+      "name": "House Omnibus (D wins) - VA_07_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Virginia 7",
+      "side": "NO",
+      "weight": 1.5946087653817669,
+      "model_price": 0.36476,
+      "market_price": 0.7216531991944805,
+      "edge": -0.3568931991944805
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_40_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 40",
+      "side": "YES",
+      "weight": 1.5927483091305892,
+      "model_price": 0.3992,
+      "market_price": 0.26102149301993366,
+      "edge": 0.13817850698006634
+    },
+    {
+      "name": "Ohio Senate Special D wins",
+      "market_slug": "if-jd-vances-senate-seat-opens-up-w",
+      "outcome_key": "Ohio Senate Special D wins",
+      "side": "NO",
+      "weight": 1.5788569361936569,
+      "model_price": 0.5367066666666667,
+      "market_price": 0.4840143641104122,
+      "edge": 0.052692302556254456
+    },
+    {
+      "name": "House Omnibus (D wins) - CT_05_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Connecticut 5",
+      "side": "NO",
+      "weight": 1.5726848863467129,
+      "model_price": 0.5528933333333333,
+      "market_price": 0.9446918976789151,
+      "edge": -0.3917985643455818
+    },
+    {
+      "name": "House Omnibus (D wins) - TX_15_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Texas 15",
+      "side": "NO",
+      "weight": 1.5633591317914302,
+      "model_price": 0.41301333333333334,
+      "market_price": 0.5587869530228629,
+      "edge": -0.1457736196895295
+    },
+    {
+      "name": "Safe R Senate Seats 6 - 7",
+      "market_slug": "how-many-safe-senate-seats-will-rep",
+      "outcome_key": "6 - 7",
+      "side": "YES",
+      "weight": 1.5481169046660403,
+      "model_price": 0.04781333333333333,
+      "market_price": 0.01993499265768297,
+      "edge": 0.027878340675650364
+    },
+    {
+      "name": "Senate Flip Comparison - Reps flip GA or MI",
+      "market_slug": "which-senate-flip-is-more-likely-de",
+      "outcome_key": "Reps flip GA or MI",
+      "side": "YES",
+      "weight": 1.544387959673524,
+      "model_price": 0.15194666666666667,
+      "market_price": 0.22796058669098743,
+      "edge": -0.07601392002432075
+    },
+    {
+      "name": "IL D Representatives \u226516",
+      "market_slug": "how-many-democratic-representatives-z8ynIAnUPL",
+      "outcome_key": "\u226516",
+      "side": "NO",
+      "weight": 1.5388531914705443,
+      "model_price": 0.0020533333333333332,
+      "market_price": 0.022473573638192884,
+      "edge": -0.02042024030485955
+    },
+    {
+      "name": "House Omnibus (D wins) - VA_10_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Virginia 10",
+      "side": "NO",
+      "weight": 1.5338691085343628,
+      "model_price": 0.44894666666666666,
+      "market_price": 0.7963232316899187,
+      "edge": -0.34737656502325204
+    },
+    {
+      "name": "House Omnibus (D wins) - OH_13_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Ohio 13",
+      "side": "YES",
+      "weight": 1.5268356515745325,
+      "model_price": 0.35308,
+      "market_price": 0.35952259079339466,
+      "edge": -0.006442590793394654
+    },
+    {
+      "name": "Dem House Seats >= 194 (wins>=194)",
+      "market_slug": "how-many-house-seats-will-the-democ",
+      "outcome_key": "194+ (2016 result)",
+      "side": "YES",
+      "weight": 1.5129216475907894,
+      "model_price": 0.9202266666666666,
+      "market_price": 0.807042553148917,
+      "edge": 0.1131841135177496
+    },
+    {
+      "name": "Senate Omnibus (R wins) - OH_Senate_Special",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Ohio (Special)",
+      "side": "YES",
+      "weight": 1.5056535780862952,
+      "model_price": 0.46329333333333333,
+      "market_price": 0.5167176694706612,
+      "edge": -0.05342433613732789
+    },
+    {
+      "name": "House Omnibus (D wins) - IA_03_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Iowa 3",
+      "side": "NO",
+      "weight": 1.486634647329322,
+      "model_price": 0.6704933333333334,
+      "market_price": 0.8315794550413254,
+      "edge": -0.16108612170799197
+    },
+    {
+      "name": "Dems win Iowa or Texas",
+      "market_slug": "democrats-win-iowa-texas-or-both-in",
+      "outcome_key": "Dems win Iowa or Texas",
+      "side": "YES",
+      "weight": 1.4552525635277078,
+      "model_price": 0.8142933333333333,
+      "market_price": 0.43298776993766697,
+      "edge": 0.38130556339566635
+    },
+    {
+      "name": "House Omnibus (D wins) - PA_08_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Pennsylvania 8",
+      "side": "NO",
+      "weight": 1.4376740661323182,
+      "model_price": 0.60792,
+      "market_price": 0.8010592837126247,
+      "edge": -0.19313928371262468
+    },
+    {
+      "name": "TX R Representatives 19-21",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "19-21",
+      "side": "YES",
+      "weight": 1.3922932499558005,
+      "model_price": 0.07932,
+      "market_price": 0.07583011992198611,
+      "edge": 0.0034898800780138878
+    },
+    {
+      "name": "House Omnibus (D wins) - IN_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Indiana 1",
+      "side": "NO",
+      "weight": 1.3859415814476383,
+      "model_price": 0.32221333333333335,
+      "market_price": 0.66035444846912,
+      "edge": -0.3381411151357866
+    },
+    {
+      "name": "House Omnibus (D wins) - NJ_05_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New Jersey 5",
+      "side": "NO",
+      "weight": 1.3685148041160218,
+      "model_price": 0.3716933333333333,
+      "market_price": 0.5878840726268568,
+      "edge": -0.2161907392935235
+    },
+    {
+      "name": "NY D Representatives 19",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "19",
+      "side": "YES",
+      "weight": 1.3674946665264291,
+      "model_price": 0.10530666666666667,
+      "market_price": 0.15126384043182792,
+      "edge": -0.045957173765161244
+    },
+    {
+      "name": "Safe Seat Flips: \u226525",
+      "market_slug": "how-many-safe-house-seats-will-flip",
+      "outcome_key": "\u226525",
+      "side": "NO",
+      "weight": 1.3596010226866138,
+      "model_price": 0.12990666666666667,
+      "market_price": 0.07548764930868233,
+      "edge": 0.05441901735798434
+    },
+    {
+      "name": "Safe D Senate Seats = 4",
+      "market_slug": "how-many-safe-senate-seats-will-the",
+      "outcome_key": "4",
+      "side": "YES",
+      "weight": 1.3497087124414795,
+      "model_price": 0.0022,
+      "market_price": 0.004401512788144108,
+      "edge": -0.002201512788144108
+    },
+    {
+      "name": "D Flips (linear)",
+      "market_slug": "how-many-house-seats-will-the-democ-29Rtl8ZcQU",
+      "outcome_key": "D Flips (linear)",
+      "side": "NO",
+      "weight": 1.3438699064498578,
+      "model_price": 0.30465373333334794,
+      "market_price": 0.2995453767997519,
+      "edge": 0.005108356533596037
+    },
+    {
+      "name": "House Omnibus (D wins) - FL_23_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Florida 23",
+      "side": "NO",
+      "weight": 1.34352234035473,
+      "model_price": 0.25628,
+      "market_price": 0.5081290986705385,
+      "edge": -0.25184909867053845
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_27_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 27",
+      "side": "NO",
+      "weight": 1.3400301274777808,
+      "model_price": 0.42402666666666666,
+      "market_price": 0.9575433672008271,
+      "edge": -0.5335167005341604
+    },
+    {
+      "name": "House Omnibus (D wins) - WI_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Wisconsin 1",
+      "side": "YES",
+      "weight": 1.339137255331521,
+      "model_price": 0.5625066666666667,
+      "market_price": 0.16820778087060106,
+      "edge": 0.39429888579606565
+    },
+    {
+      "name": "House Omnibus (D wins) - AZ_06_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Arizona 6",
+      "side": "NO",
+      "weight": 1.3297136846907962,
+      "model_price": 0.6685066666666667,
+      "market_price": 0.8041628779276244,
+      "edge": -0.13565621126095773
+    },
+    {
+      "name": "Safe Seat Flips: \u226516",
+      "market_slug": "how-many-safe-house-seats-will-flip",
+      "outcome_key": "\u226516",
+      "side": "NO",
+      "weight": 1.3138790283392159,
+      "model_price": 0.20990666666666666,
+      "market_price": 0.14999999999999997,
+      "edge": 0.05990666666666669
+    },
+    {
+      "name": "House Omnibus (D wins) - TX_28_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Texas 28",
+      "side": "NO",
+      "weight": 1.2799599787342113,
+      "model_price": 0.44068,
+      "market_price": 0.7844587888677196,
+      "edge": -0.34377878886771956
+    },
+    {
+      "name": "NY D Representatives 21",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "21",
+      "side": "NO",
+      "weight": 1.2163696046229981,
+      "model_price": 0.031946666666666665,
+      "market_price": 0.1737491642428355,
+      "edge": -0.14180249757616886
+    },
+    {
+      "name": "TX R Representatives 23",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "23",
+      "side": "YES",
+      "weight": 1.2023031645481626,
+      "model_price": 0.09526666666666667,
+      "market_price": 0.07359682386702174,
+      "edge": 0.02166984279964493
+    },
+    {
+      "name": "Senate Omnibus (R wins) - NM_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "New Mexico",
+      "side": "YES",
+      "weight": 1.1861163169384887,
+      "model_price": 0.6428533333333334,
+      "market_price": 0.09743466707540775,
+      "edge": 0.5454186662579257
+    },
+    {
+      "name": "Senate Omnibus (R wins) - IA_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Iowa",
+      "side": "YES",
+      "weight": 1.1716098227834766,
+      "model_price": 0.2513066666666667,
+      "market_price": 0.5813081438419292,
+      "edge": -0.3300014771752625
+    },
+    {
+      "name": "OH House D Count 5",
+      "market_slug": "how-many-democratic-representatives-90qlU6RNUC",
+      "outcome_key": "5",
+      "side": "YES",
+      "weight": 1.1495212414217457,
+      "model_price": 0.18161333333333332,
+      "market_price": 0.14873502284098056,
+      "edge": 0.032878310492352764
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_13_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 13",
+      "side": "YES",
+      "weight": 1.1418448134173127,
+      "model_price": 0.31478666666666666,
+      "market_price": 0.5687133500383391,
+      "edge": -0.25392668337167246
+    },
+    {
+      "name": "House Omnibus (D wins) - PA_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Pennsylvania 1",
+      "side": "NO",
+      "weight": 1.1394113378057042,
+      "model_price": 0.67524,
+      "market_price": 0.7358759264120275,
+      "edge": -0.06063592641202753
+    },
+    {
+      "name": "TX R Representatives 0-8",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "0-8",
+      "side": "NO",
+      "weight": 1.1375901544071638,
+      "model_price": 0.0,
+      "market_price": 0.011375901544071637,
+      "edge": -0.011375901544071637
+    },
+    {
+      "name": "House Omnibus (D wins) - CO_08_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Colorado 8",
+      "side": "NO",
+      "weight": 1.1054236333340335,
+      "model_price": 0.67284,
+      "market_price": 0.7564585759121241,
+      "edge": -0.08361857591212407
+    },
+    {
+      "name": "House Omnibus (D wins) - NJ_09_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New Jersey 9",
+      "side": "NO",
+      "weight": 1.1029414159462883,
+      "model_price": 0.3847466666666667,
+      "market_price": 0.7653402098353879,
+      "edge": -0.3805935431687212
+    },
+    {
+      "name": "Congress Control: Republicans Sweep",
+      "market_slug": "who-controls-congress-after-the-202",
+      "outcome_key": "Republicans Sweep",
+      "side": "NO",
+      "weight": 1.090866402600155,
+      "model_price": 0.17001333333333332,
+      "market_price": 0.09262638595830341,
+      "edge": 0.07738694737502991
+    },
+    {
+      "name": "House Omnibus (D wins) - NJ_07_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New Jersey 7",
+      "side": "NO",
+      "weight": 1.082985978334288,
+      "model_price": 0.6915866666666667,
+      "market_price": 0.7686753711454167,
+      "edge": -0.07708870447875005
+    },
+    {
+      "name": "House Omnibus (D wins) - WI_03_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Wisconsin 3",
+      "side": "NO",
+      "weight": 1.0571977254891782,
+      "model_price": 0.6517866666666666,
+      "market_price": 0.7600767029614852,
+      "edge": -0.10829003629481859
+    },
+    {
+      "name": "Deep South D Representatives \u22649",
+      "market_slug": "d-representatives-from-deep-south-a",
+      "outcome_key": "\u22649",
+      "side": "NO",
+      "weight": 1.0507379929005345,
+      "model_price": 0.023333333333333334,
+      "market_price": 0.06805285469712748,
+      "edge": -0.044719521363794146
+    },
+    {
+      "name": "House Omnibus (D wins) - ME_02_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Maine 2",
+      "side": "NO",
+      "weight": 1.037204356351898,
+      "model_price": 0.48164,
+      "market_price": 0.7443926141507875,
+      "edge": -0.2627526141507875
+    },
+    {
+      "name": "Senate Omnibus (R wins) - KY_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Kentucky",
+      "side": "YES",
+      "weight": 1.0246237371938844,
+      "model_price": 0.8093466666666667,
+      "market_price": 0.925011785342992,
+      "edge": -0.11566511867632534
+    },
+    {
+      "name": "Safe Seat Flips: \u226510",
+      "market_slug": "how-many-safe-house-seats-will-flip",
+      "outcome_key": "\u226510",
+      "side": "YES",
+      "weight": 1.0123239491304141,
+      "model_price": 0.3210133333333333,
+      "market_price": 0.24655705062914274,
+      "edge": 0.07445628270419058
+    },
+    {
+      "name": "New England D Representatives 21",
+      "market_slug": "how-many-democratic-representatives-tPuUp2ZgU2",
+      "outcome_key": "21",
+      "side": "YES",
+      "weight": 0.994685711369864,
+      "model_price": 0.18622666666666668,
+      "market_price": 0.37224013850547294,
+      "edge": -0.18601347183880626
+    },
+    {
+      "name": "House Omnibus (D wins) - PA_07_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Pennsylvania 7",
+      "side": "NO",
+      "weight": 0.9811823788456564,
+      "model_price": 0.6193466666666667,
+      "market_price": 0.7261329883851014,
+      "edge": -0.10678632171843472
+    },
+    {
+      "name": "House Omnibus (D wins) - FL_13_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Florida 13",
+      "side": "NO",
+      "weight": 0.9727119509284725,
+      "model_price": 0.47398666666666667,
+      "market_price": 0.5333349984360525,
+      "edge": -0.05934833176938581
+    },
+    {
+      "name": "FL D Representatives 21-28",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "21-28",
+      "side": "NO",
+      "weight": 0.9722718102814365,
+      "model_price": 0.0,
+      "market_price": 0.009722718102814365,
+      "edge": -0.009722718102814365
+    },
+    {
+      "name": "House Omnibus (D wins) - NE_02_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Nebraska 2",
+      "side": "NO",
+      "weight": 0.9648716194847752,
+      "model_price": 0.68216,
+      "market_price": 0.6757731511920149,
+      "edge": 0.006386848807985124
+    },
+    {
+      "name": "TX R Representatives 29-30",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "29-30",
+      "side": "NO",
+      "weight": 0.9474917187694667,
+      "model_price": 0.09868,
+      "market_price": 0.1876278329579558,
+      "edge": -0.08894783295795579
+    },
+    {
+      "name": "House Omnibus (D wins) - MI_08_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Michigan 8",
+      "side": "NO",
+      "weight": 0.9240711659204975,
+      "model_price": 0.3267333333333333,
+      "market_price": 0.4873822450535663,
+      "edge": -0.160648911720233
+    },
+    {
+      "name": "Senate Omnibus (R wins) - MT_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Montana",
+      "side": "YES",
+      "weight": 0.909904592598864,
+      "model_price": 0.43266666666666664,
+      "market_price": 0.8129851075598903,
+      "edge": -0.38031844089322364
+    },
+    {
+      "name": "IL D Representatives 12",
+      "market_slug": "how-many-democratic-representatives-z8ynIAnUPL",
+      "outcome_key": "12",
+      "side": "YES",
+      "weight": 0.8989621139177963,
+      "model_price": 0.09153333333333333,
+      "market_price": 0.025918374552584385,
+      "edge": 0.06561495878074894
+    },
+    {
+      "name": "Dem House Seats >= 246 (wins>=246)",
+      "market_slug": "how-many-house-seats-will-the-democ",
+      "outcome_key": "246+",
+      "side": "NO",
+      "weight": 0.8950419679905843,
+      "model_price": 0.00828,
+      "market_price": 0.19055117339060204,
+      "edge": -0.18227117339060203
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_22_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 22",
+      "side": "NO",
+      "weight": 0.8944020477559764,
+      "model_price": 0.43712,
+      "market_price": 0.8520632850395485,
+      "edge": -0.4149432850395485
+    },
+    {
+      "name": "Dem Senate Seats = 48 (wins=14)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "48",
+      "side": "YES",
+      "weight": 0.8758237130052342,
+      "model_price": 0.14252,
+      "market_price": 0.13052660889508585,
+      "edge": 0.011993391104914153
+    },
+    {
+      "name": "Senate Omnibus (R wins) - LA_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Louisiana",
+      "side": "YES",
+      "weight": 0.8655005009881318,
+      "model_price": 0.7621466666666666,
+      "market_price": 0.955334617379535,
+      "edge": -0.19318795071286832
+    },
+    {
+      "name": "Senate Omnibus (R wins) - KS_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Kansas",
+      "side": "YES",
+      "weight": 0.8654937657758834,
+      "model_price": 0.5525333333333333,
+      "market_price": 0.8782158492023352,
+      "edge": -0.3256825158690019
+    },
+    {
+      "name": "House Omnibus (D wins) - NH_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New Hampshire 1",
+      "side": "NO",
+      "weight": 0.8573201400088858,
+      "model_price": 0.5821466666666667,
+      "market_price": 0.8553921023312486,
+      "edge": -0.2732454356645819
+    },
+    {
+      "name": "New England D Representatives 17-18",
+      "market_slug": "how-many-democratic-representatives-tPuUp2ZgU2",
+      "outcome_key": "17-18",
+      "side": "NO",
+      "weight": 0.854588435027447,
+      "model_price": 0.13161333333333333,
+      "market_price": 0.018997662350621617,
+      "edge": 0.11261567098271172
+    },
+    {
+      "name": "House Omnibus (D wins) - NY_04_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New York 4",
+      "side": "NO",
+      "weight": 0.8413974539365213,
+      "model_price": 0.34224,
+      "market_price": 0.6626516933501306,
+      "edge": -0.32041169335013064
+    },
+    {
+      "name": "TX R Representatives 22",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "22",
+      "side": "YES",
+      "weight": 0.8393042696381139,
+      "model_price": 0.07561333333333334,
+      "market_price": 0.06916814777531365,
+      "edge": 0.006445185558019692
+    },
+    {
+      "name": "TX R Representatives 24",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "24",
+      "side": "YES",
+      "weight": 0.8376000387455972,
+      "model_price": 0.11673333333333333,
+      "market_price": 0.10256207465991407,
+      "edge": 0.014171258673419257
+    },
+    {
+      "name": "FL D Representatives = 10",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "10",
+      "side": "YES",
+      "weight": 0.8354106231188412,
+      "model_price": 0.11081333333333333,
+      "market_price": 0.11481638078353788,
+      "edge": -0.00400304745020455
+    },
+    {
+      "name": "House Omnibus (D wins) - VA_02_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Virginia 2",
+      "side": "NO",
+      "weight": 0.8272666910480524,
+      "model_price": 0.6948933333333334,
+      "market_price": 0.8010002102003542,
+      "edge": -0.1061068768670208
+    },
+    {
+      "name": "FL D Representatives 11-12",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "11-12",
+      "side": "YES",
+      "weight": 0.8214745854957561,
+      "model_price": 0.10521333333333334,
+      "market_price": 0.10140669930182443,
+      "edge": 0.0038066340315089098
+    },
+    {
+      "name": "FL D Representatives = 9",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "9",
+      "side": "YES",
+      "weight": 0.8203239630435818,
+      "model_price": 0.15008,
+      "market_price": 0.13522015610486704,
+      "edge": 0.014859843895132951
+    },
+    {
+      "name": "House Omnibus (D wins) - IA_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Iowa 1",
+      "side": "NO",
+      "weight": 0.8188653773488344,
+      "model_price": 0.6974,
+      "market_price": 0.774985948705854,
+      "edge": -0.077585948705854
+    },
+    {
+      "name": "House Omnibus (D wins) - MI_10_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Michigan 10",
+      "side": "NO",
+      "weight": 0.8103514763815189,
+      "model_price": 0.6494266666666667,
+      "market_price": 0.7520760190445626,
+      "edge": -0.10264935237789585
+    },
+    {
+      "name": "House Omnibus (D wins) - NY_22_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New York 22",
+      "side": "NO",
+      "weight": 0.7959353952463818,
+      "model_price": 0.32449333333333336,
+      "market_price": 0.7099004019293804,
+      "edge": -0.38540706859604706
+    },
+    {
+      "name": "House Omnibus (D wins) - NY_17_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New York 17",
+      "side": "NO",
+      "weight": 0.7922785834012235,
+      "model_price": 0.46368,
+      "market_price": 0.7636980378839512,
+      "edge": -0.3000180378839512
+    },
+    {
+      "name": "Senate Omnibus (R wins) - SD_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "South Dakota",
+      "side": "YES",
+      "weight": 0.7898319035042494,
+      "model_price": 0.8091733333333333,
+      "market_price": 0.9687765182922033,
+      "edge": -0.15960318495887005
+    },
+    {
+      "name": "NY D Representatives 0-8",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "0-8",
+      "side": "NO",
+      "weight": 0.7874376024282966,
+      "model_price": 0.0005466666666666667,
+      "market_price": 0.009651160889133955,
+      "edge": -0.009104494222467289
+    },
+    {
+      "name": "Senate Omnibus (R wins) - AK_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Alaska",
+      "side": "YES",
+      "weight": 0.7820745310096356,
+      "model_price": 0.21422666666666668,
+      "market_price": 0.4554892804406232,
+      "edge": -0.24126261377395652
+    },
+    {
+      "name": "Senate Omnibus (R wins) - AR_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Arkansas",
+      "side": "YES",
+      "weight": 0.7819379524808268,
+      "model_price": 0.7846933333333334,
+      "market_price": 0.9299864899563,
+      "edge": -0.1452931566229666
+    },
+    {
+      "name": "Senate Omnibus (R wins) - TN_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Tennessee",
+      "side": "YES",
+      "weight": 0.7806990068137067,
+      "model_price": 0.8320533333333333,
+      "market_price": 0.9685486188135236,
+      "edge": -0.1364952854801903
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_09_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 9",
+      "side": "YES",
+      "weight": 0.7663085399618593,
+      "model_price": 0.31521333333333335,
+      "market_price": 0.6754829452397088,
+      "edge": -0.3602696119063754
+    },
+    {
+      "name": "House Omnibus (D wins) - MI_07_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Michigan 7",
+      "side": "NO",
+      "weight": 0.7412762067965804,
+      "model_price": 0.6222133333333333,
+      "market_price": 0.7122762150980034,
+      "edge": -0.09006288176467014
+    },
+    {
+      "name": "House Omnibus (D wins) - MI_03_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Michigan 3",
+      "side": "NO",
+      "weight": 0.7167796829307849,
+      "model_price": 0.3276133333333333,
+      "market_price": 0.560854419762709,
+      "edge": -0.2332410864293757
+    },
+    {
+      "name": "Safe R Senate Seats = 10",
+      "market_slug": "how-many-safe-senate-seats-will-rep",
+      "outcome_key": "10",
+      "side": "YES",
+      "weight": 0.7136828232707403,
+      "model_price": 0.035333333333333335,
+      "market_price": 0.0667991533685825,
+      "edge": -0.03146582003524916
+    },
+    {
+      "name": "New England D Representatives 0-12",
+      "market_slug": "how-many-democratic-representatives-tPuUp2ZgU2",
+      "outcome_key": "0-12",
+      "side": "NO",
+      "weight": 0.7101098913469563,
+      "model_price": 0.01868,
+      "market_price": 0.007460501547907668,
+      "edge": 0.01121949845209233
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_03_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 3",
+      "side": "NO",
+      "weight": 0.7043057266041651,
+      "model_price": 0.5332133333333333,
+      "market_price": 0.9009953989431362,
+      "edge": -0.36778206560980287
+    },
+    {
+      "name": "Senate Omnibus (R wins) - MI_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Michigan",
+      "side": "NO",
+      "weight": 0.7010438034887717,
+      "model_price": 0.11705333333333333,
+      "market_price": 0.2177654539494665,
+      "edge": -0.10071212061613317
+    },
+    {
+      "name": "House Omnibus (D wins) - NY_03_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New York 3",
+      "side": "YES",
+      "weight": 0.6853878550707733,
+      "model_price": 0.34704,
+      "market_price": 0.4438937408269431,
+      "edge": -0.09685374082694309
+    },
+    {
+      "name": "OH Senate + House: Non-Dem Senator, >= 4 Dem Reps",
+      "market_slug": "will-oh-elect-a-democratic-senator",
+      "outcome_key": "Non-Dem Senator, >= 4 Dem Reps",
+      "side": "NO",
+      "weight": 0.679757951234172,
+      "model_price": 0.2500133333333333,
+      "market_price": 0.29294327470444825,
+      "edge": -0.042929941371114944
+    },
+    {
+      "name": "FL D Representatives = 8",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "8",
+      "side": "YES",
+      "weight": 0.66912672796231,
+      "model_price": 0.21866666666666668,
+      "market_price": 0.18362329146440437,
+      "edge": 0.035043375202262306
+    },
+    {
+      "name": "Safe R Senate Seats 0 - 2",
+      "market_slug": "how-many-safe-senate-seats-will-rep",
+      "outcome_key": "0 - 2",
+      "side": "NO",
+      "weight": 0.6688413589085311,
+      "model_price": 2.6666666666666667e-05,
+      "market_price": 0.006798748232456449,
+      "edge": -0.006772081565789782
+    },
+    {
+      "name": "CA D Representatives >= 34",
+      "market_slug": "how-many-democratic-representatives",
+      "outcome_key": "34+ (2010 result)",
+      "side": "YES",
+      "weight": 0.6528634605561722,
+      "model_price": 0.9667066666666667,
+      "market_price": 0.959537503485681,
+      "edge": 0.007169163180985705
+    },
+    {
+      "name": "OH House D Count 3",
+      "market_slug": "how-many-democratic-representatives-90qlU6RNUC",
+      "outcome_key": "3",
+      "side": "YES",
+      "weight": 0.6454075540172418,
+      "model_price": 0.3380666666666667,
+      "market_price": 0.363658889943406,
+      "edge": -0.025592223276739323
+    },
+    {
+      "name": "Senate Omnibus (R wins) - OK_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Oklahoma",
+      "side": "YES",
+      "weight": 0.6401209932320642,
+      "model_price": 0.8436266666666666,
+      "market_price": 0.9769746673251701,
+      "edge": -0.1333480006585035
+    },
+    {
+      "name": "Dem Senate Seats = 52 (wins=18)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "52",
+      "side": "NO",
+      "weight": 0.6174200081164835,
+      "model_price": 0.06510666666666666,
+      "market_price": 0.11361089571865784,
+      "edge": -0.048504229051991185
+    },
+    {
+      "name": "OH House D Count 10-15",
+      "market_slug": "how-many-democratic-representatives-90qlU6RNUC",
+      "outcome_key": "10-15",
+      "side": "NO",
+      "weight": 0.6160734209390473,
+      "model_price": 0.00018666666666666666,
+      "market_price": 0.006580433130535536,
+      "edge": -0.006393766463868869
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_45_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 45",
+      "side": "YES",
+      "weight": 0.6023270395311124,
+      "model_price": 0.28834666666666664,
+      "market_price": 0.5908347851536533,
+      "edge": -0.30248811848698665
+    },
+    {
+      "name": "Safe D Senate Seats = 6",
+      "market_slug": "how-many-safe-senate-seats-will-the",
+      "outcome_key": "6",
+      "side": "YES",
+      "weight": 0.5925001260706888,
+      "model_price": 0.0005733333333333334,
+      "market_price": 0.004915348849204202,
+      "edge": -0.004342015515870868
+    },
+    {
+      "name": "IL D Representatives 13",
+      "market_slug": "how-many-democratic-representatives-z8ynIAnUPL",
+      "outcome_key": "13",
+      "side": "YES",
+      "weight": 0.565239355809938,
+      "model_price": 0.20558666666666667,
+      "market_price": 0.09791788878388337,
+      "edge": 0.1076687778827833
+    },
+    {
+      "name": "Dem Senate Seats = 51 (wins=17)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "51",
+      "side": "YES",
+      "weight": 0.5650456602185624,
+      "model_price": 0.09505333333333334,
+      "market_price": 0.163942710621626,
+      "edge": -0.06888937728829266
+    },
+    {
+      "name": "IL D Representatives \u226411",
+      "market_slug": "how-many-democratic-representatives-z8ynIAnUPL",
+      "outcome_key": "\u226411",
+      "side": "YES",
+      "weight": 0.5557123986972548,
+      "model_price": 0.08052,
+      "market_price": 0.0160849896767643,
+      "edge": 0.0644350103232357
+    },
+    {
+      "name": "House Omnibus (D wins) - WA_03_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Washington 3",
+      "side": "NO",
+      "weight": 0.5441458349067393,
+      "model_price": 0.28196,
+      "market_price": 0.4628344326845398,
+      "edge": -0.1808744326845398
+    },
+    {
+      "name": "Senate Omnibus (R wins) - SC_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "South Carolina",
+      "side": "YES",
+      "weight": 0.5414210818474995,
+      "model_price": 0.6562,
+      "market_price": 0.9045464618182721,
+      "edge": -0.24834646181827214
+    },
+    {
+      "name": "R Flips (linear)",
+      "market_slug": "how-many-house-seats-will-the-repub",
+      "outcome_key": "R Flips (linear)",
+      "side": "YES",
+      "weight": 0.5337324382296372,
+      "model_price": 0.2899335999998978,
+      "market_price": 0.15000000000000008,
+      "edge": 0.13993359999989774
+    },
+    {
+      "name": "House Omnibus (D wins) - AZ_02_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Arizona 2",
+      "side": "YES",
+      "weight": 0.5247743081294581,
+      "model_price": 0.5748666666666666,
+      "market_price": 0.2962944128257178,
+      "edge": 0.27857225384094886
+    },
+    {
+      "name": "New England D Representatives 19",
+      "market_slug": "how-many-democratic-representatives-tPuUp2ZgU2",
+      "outcome_key": "19",
+      "side": "YES",
+      "weight": 0.522478103317653,
+      "model_price": 0.06525333333333333,
+      "market_price": 0.00978328901056621,
+      "edge": 0.05547004432276712
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_41_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 41",
+      "side": "YES",
+      "weight": 0.5223420508016892,
+      "model_price": 0.5271066666666666,
+      "market_price": 0.6308861129485841,
+      "edge": -0.10377944628191749
+    },
+    {
+      "name": "OH House D Count 6-7",
+      "market_slug": "how-many-democratic-representatives-90qlU6RNUC",
+      "outcome_key": "6-7",
+      "side": "NO",
+      "weight": 0.5154187358409971,
+      "model_price": 0.09532,
+      "market_price": 0.1643423202090242,
+      "edge": -0.0690223202090242
+    },
+    {
+      "name": "OH Senate + House: Dem Senator, < 4 Dem Reps",
+      "market_slug": "will-oh-elect-a-democratic-senator",
+      "outcome_key": "Dem Senator, < 4 Dem Reps",
+      "side": "YES",
+      "weight": 0.5119184634804339,
+      "model_price": 0.19616,
+      "market_price": 0.15757174530709522,
+      "edge": 0.03858825469290478
+    },
+    {
+      "name": "Senate Omnibus (R wins) - WY_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Wyoming",
+      "side": "YES",
+      "weight": 0.5006852622645517,
+      "model_price": 0.80916,
+      "market_price": 0.9756736975234381,
+      "edge": -0.16651369752343814
+    },
+    {
+      "name": "House Omnibus (D wins) - VA_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Virginia 1",
+      "side": "NO",
+      "weight": 0.4830723247603321,
+      "model_price": 0.69036,
+      "market_price": 0.7300545215975812,
+      "edge": -0.039694521597581245
+    },
+    {
+      "name": "New England D Representatives 20",
+      "market_slug": "how-many-democratic-representatives-tPuUp2ZgU2",
+      "outcome_key": "20",
+      "side": "YES",
+      "weight": 0.48178552869621427,
+      "model_price": 0.42457333333333336,
+      "market_price": 0.57745269927268,
+      "edge": -0.1528793659393466
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_49_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 49",
+      "side": "NO",
+      "weight": 0.4731709651744905,
+      "model_price": 0.3413333333333333,
+      "market_price": 0.7885147207901455,
+      "edge": -0.4471813874568122
+    },
+    {
+      "name": "Senate Omnibus (R wins) - AL_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Alabama",
+      "side": "YES",
+      "weight": 0.45724529286354404,
+      "model_price": 0.7818133333333334,
+      "market_price": 0.9546687258865402,
+      "edge": -0.1728553925532068
+    },
+    {
+      "name": "House Omnibus (D wins) - TX_34_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Texas 34",
+      "side": "NO",
+      "weight": 0.4563716021041446,
+      "model_price": 0.37589333333333336,
+      "market_price": 0.42444266649867024,
+      "edge": -0.04854933316533688
+    },
+    {
+      "name": "TX R Representatives 14-18",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "14-18",
+      "side": "YES",
+      "weight": 0.4468694085501597,
+      "model_price": 0.023106666666666668,
+      "market_price": 0.04138001755463304,
+      "edge": -0.01827335088796637
+    },
+    {
+      "name": "House Omnibus (D wins) - NV_03_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Nevada 3",
+      "side": "NO",
+      "weight": 0.4428186463033251,
+      "model_price": 0.33838666666666667,
+      "market_price": 0.5138199185812496,
+      "edge": -0.17543325191458298
+    },
+    {
+      "name": "Safe R Senate Seats 3 - 5",
+      "market_slug": "how-many-safe-senate-seats-will-rep",
+      "outcome_key": "3 - 5",
+      "side": "NO",
+      "weight": 0.43916605967924055,
+      "model_price": 0.0011333333333333334,
+      "market_price": 0.007775345841865026,
+      "edge": -0.0066420125085316925
+    },
+    {
+      "name": "House Omnibus (D wins) - NC_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "North Carolina 1",
+      "side": "NO",
+      "weight": 0.43859737024306866,
+      "model_price": 0.3623733333333333,
+      "market_price": 0.5344974162996003,
+      "edge": -0.17212408296626702
+    },
+    {
+      "name": "New England D Representatives 13-16",
+      "market_slug": "how-many-democratic-representatives-tPuUp2ZgU2",
+      "outcome_key": "13-16",
+      "side": "NO",
+      "weight": 0.4342510170104998,
+      "model_price": 0.17365333333333333,
+      "market_price": 0.014065709312751628,
+      "edge": 0.1595876240205817
+    },
+    {
+      "name": "House Omnibus (D wins) - AK_AL_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Alaska at-large",
+      "side": "YES",
+      "weight": 0.42822963496771765,
+      "model_price": 0.5794666666666667,
+      "market_price": 0.2766930119332723,
+      "edge": 0.3027736547333944
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_21_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 21",
+      "side": "NO",
+      "weight": 0.4098185778576642,
+      "model_price": 0.28545333333333334,
+      "market_price": 0.8593509794162827,
+      "edge": -0.5738976460829494
+    },
+    {
+      "name": "House Omnibus (D wins) - AZ_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Arizona 1",
+      "side": "NO",
+      "weight": 0.397111576281699,
+      "model_price": 0.6950666666666667,
+      "market_price": 0.738416479677476,
+      "edge": -0.04334981301080931
+    },
+    {
+      "name": "TX Senate + House: Dem Senator, >= 14 Dem Reps",
+      "market_slug": "will-texas-elect-a-democratic-senat",
+      "outcome_key": "Dem Senator, >= 14 Dem Reps",
+      "side": "NO",
+      "weight": 0.37879345317134777,
+      "model_price": 0.20552,
+      "market_price": 0.17880536156468932,
+      "edge": 0.02671463843531069
+    },
+    {
+      "name": "Dem Senate Seats = 45 (wins=11)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "45",
+      "side": "NO",
+      "weight": 0.3736571578731239,
+      "model_price": 0.05722666666666667,
+      "market_price": 0.03244544357843886,
+      "edge": 0.024781223088227812
+    },
+    {
+      "name": "Senate Omnibus (R wins) - WV_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "West Virginia",
+      "side": "YES",
+      "weight": 0.36619153666686505,
+      "model_price": 0.81988,
+      "market_price": 0.9761416698053972,
+      "edge": -0.15626166980539713
+    },
+    {
+      "name": "FL D Representatives 16-20",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "16-20",
+      "side": "NO",
+      "weight": 0.365565036049646,
+      "model_price": 0.006506666666666667,
+      "market_price": 0.018980904617932462,
+      "edge": -0.012474237951265794
+    },
+    {
+      "name": "House Omnibus (D wins) - NM_02_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New Mexico 2",
+      "side": "NO",
+      "weight": 0.35619740123300686,
+      "model_price": 0.3044133333333333,
+      "market_price": 0.5480750520131271,
+      "edge": -0.2436617186797938
+    },
+    {
+      "name": "Nebraska Party (4-way) - I_Other",
+      "market_slug": "which-party-will-win-the-2026-nebra",
+      "outcome_key": "Independent (Other)",
+      "side": "YES",
+      "weight": 0.3410051581456695,
+      "model_price": 0.024853333333333335,
+      "market_price": 0.006687606839557726,
+      "edge": 0.01816572649377561
+    },
+    {
+      "name": "IL D Representatives 14",
+      "market_slug": "how-many-democratic-representatives-z8ynIAnUPL",
+      "outcome_key": "14",
+      "side": "NO",
+      "weight": 0.3393085336020881,
+      "model_price": 0.5990133333333333,
+      "market_price": 0.8142288921347806,
+      "edge": -0.21521555880144727
+    },
+    {
+      "name": "Deep South D Representatives 12",
+      "market_slug": "d-representatives-from-deep-south-a",
+      "outcome_key": "12",
+      "side": "YES",
+      "weight": 0.33473662184633124,
+      "model_price": 0.28697333333333336,
+      "market_price": 0.2840729787918121,
+      "edge": 0.002900354541521266
+    },
+    {
+      "name": "TX Senate + House: Non-Dem Senator, < 14 Dem Reps",
+      "market_slug": "will-texas-elect-a-democratic-senat",
+      "outcome_key": "Non-Dem Senator, < 14 Dem Reps",
+      "side": "YES",
+      "weight": 0.3164465858113241,
+      "model_price": 0.41713333333333336,
+      "market_price": 0.44638446053240904,
+      "edge": -0.029251127199075688
+    },
+    {
+      "name": "FL D Representatives = 7",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "7",
+      "side": "YES",
+      "weight": 0.30683668604246656,
+      "model_price": 0.21213333333333334,
+      "market_price": 0.16270288958663676,
+      "edge": 0.049430443746696584
+    },
+    {
+      "name": "House Omnibus (D wins) - CA_47_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "California 47",
+      "side": "YES",
+      "weight": 0.30088182347977,
+      "model_price": 0.4142266666666667,
+      "market_price": 0.7311187705472688,
+      "edge": -0.3168921038806021
+    },
+    {
+      "name": "Nebraska Party (4-way) - I_Osborn",
+      "market_slug": "which-party-will-win-the-2026-nebra",
+      "outcome_key": "Independent (Dan Osborn)",
+      "side": "NO",
+      "weight": 0.29227278272544793,
+      "model_price": 0.20994666666666667,
+      "market_price": 0.28869272896709663,
+      "edge": -0.07874606230042996
+    },
+    {
+      "name": "Safe D Senate Seats = 1",
+      "market_slug": "how-many-safe-senate-seats-will-the",
+      "outcome_key": "1",
+      "side": "YES",
+      "weight": 0.28955409081011896,
+      "model_price": 0.007013333333333333,
+      "market_price": 0.002830012591866699,
+      "edge": 0.004183320741466634
+    },
+    {
+      "name": "Deep South D Representatives 11",
+      "market_slug": "d-representatives-from-deep-south-a",
+      "outcome_key": "11",
+      "side": "YES",
+      "weight": 0.2726604531447742,
+      "model_price": 0.29277333333333333,
+      "market_price": 0.29056181019193195,
+      "edge": 0.0022115231414013836
+    },
+    {
+      "name": "House Omnibus (D wins) - MT_01_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Montana 1",
+      "side": "YES",
+      "weight": 0.2694936931936995,
+      "model_price": 0.57396,
+      "market_price": 0.32676906650780485,
+      "edge": 0.24719093349219518
+    },
+    {
+      "name": "CA D Representatives >= 39",
+      "market_slug": "how-many-democratic-representatives",
+      "outcome_key": "39+ (2016 result)",
+      "side": "NO",
+      "weight": 0.25927825971681784,
+      "model_price": 0.5281866666666667,
+      "market_price": 0.8669103211659827,
+      "edge": -0.33872365449931596
+    },
+    {
+      "name": "House Omnibus (D wins) - NV_04_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Nevada 4",
+      "side": "NO",
+      "weight": 0.2572683557337356,
+      "model_price": 0.31490666666666667,
+      "market_price": 0.4370279890276922,
+      "edge": -0.12212132236102552
+    },
+    {
+      "name": "Safe D Senate Seats = 0",
+      "market_slug": "how-many-safe-senate-seats-will-the",
+      "outcome_key": "0",
+      "side": "YES",
+      "weight": 0.2433561683372993,
+      "model_price": 0.021533333333333335,
+      "market_price": 0.003259199861180527,
+      "edge": 0.018274133472152808
+    },
+    {
+      "name": "Dem Senate Seats = 44 (wins=10)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "44",
+      "side": "NO",
+      "weight": 0.24104836648380354,
+      "model_price": 0.04938666666666667,
+      "market_price": 0.03208719727789416,
+      "edge": 0.017299469388772512
+    },
+    {
+      "name": "Deep South D Representatives 14",
+      "market_slug": "d-representatives-from-deep-south-a",
+      "outcome_key": "14",
+      "side": "YES",
+      "weight": 0.23826584682269406,
+      "model_price": 0.07144,
+      "market_price": 0.051049163743024366,
+      "edge": 0.020390836256975638
+    },
+    {
+      "name": "Senate Omnibus (R wins) - ID_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Idaho",
+      "side": "YES",
+      "weight": 0.22686389482464694,
+      "model_price": 0.7992533333333334,
+      "market_price": 0.9632559513103605,
+      "edge": -0.1640026179770271
+    },
+    {
+      "name": "Nebraska Party (4-way) - D",
+      "market_slug": "which-party-will-win-the-2026-nebra",
+      "outcome_key": "Democratic",
+      "side": "NO",
+      "weight": 0.22157764597734647,
+      "model_price": 0.03832,
+      "market_price": 0.013688870084234967,
+      "edge": 0.024631129915765035
+    },
+    {
+      "name": "Safe D Senate Seats = 5",
+      "market_slug": "how-many-safe-senate-seats-will-the",
+      "outcome_key": "5",
+      "side": "YES",
+      "weight": 0.20950908773098295,
+      "model_price": 0.0007466666666666666,
+      "market_price": 0.007950249624378885,
+      "edge": -0.007203582957712219
+    },
+    {
+      "name": "House Omnibus (D wins) - IL_17_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Illinois 17",
+      "side": "NO",
+      "weight": 0.1960619032645303,
+      "model_price": 0.5495466666666666,
+      "market_price": 0.8736939771133686,
+      "edge": -0.324147310446702
+    },
+    {
+      "name": "House Omnibus (D wins) - CO_03_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Colorado 3",
+      "side": "YES",
+      "weight": 0.19458546638022667,
+      "model_price": 0.6406666666666667,
+      "market_price": 0.48852492299735156,
+      "edge": 0.15214174366931515
+    },
+    {
+      "name": "Senate Omnibus (R wins) - MS_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Mississippi",
+      "side": "YES",
+      "weight": 0.19408736314145525,
+      "model_price": 0.80376,
+      "market_price": 0.9616852520817183,
+      "edge": -0.15792525208171826
+    },
+    {
+      "name": "Nebraska Party (4-way) - R",
+      "market_slug": "which-party-will-win-the-2026-nebra",
+      "outcome_key": "Republican",
+      "side": "YES",
+      "weight": 0.17284527055751137,
+      "model_price": 0.72688,
+      "market_price": 0.6909307941091107,
+      "edge": 0.035949205890889235
+    },
+    {
+      "name": "Senate Omnibus (R wins) - ME_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Maine",
+      "side": "NO",
+      "weight": 0.16263483845974824,
+      "model_price": 0.42504,
+      "market_price": 0.2591943328773673,
+      "edge": 0.16584566712263266
+    },
+    {
+      "name": "House Omnibus (D wins) - PA_10_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Pennsylvania 10",
+      "side": "NO",
+      "weight": 0.1502522152078873,
+      "model_price": 0.72592,
+      "market_price": 0.6816616117737472,
+      "edge": 0.04425838822625283
+    },
+    {
+      "name": "Deep South D Representatives 10",
+      "market_slug": "d-representatives-from-deep-south-a",
+      "outcome_key": "10",
+      "side": "YES",
+      "weight": 0.14859477956121978,
+      "model_price": 0.07650666666666667,
+      "market_price": 0.11162388777743258,
+      "edge": -0.035117221110765914
+    },
+    {
+      "name": "IL D Representatives 15",
+      "market_slug": "how-many-democratic-representatives-z8ynIAnUPL",
+      "outcome_key": "15",
+      "side": "NO",
+      "weight": 0.14175214335162853,
+      "model_price": 0.021293333333333334,
+      "market_price": 0.023376281213794512,
+      "edge": -0.002082947880461178
+    },
+    {
+      "name": "House Omnibus (D wins) - NY_19_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "New York 19",
+      "side": "NO",
+      "weight": 0.13902131844292964,
+      "model_price": 0.30473333333333336,
+      "market_price": 0.5150965814623721,
+      "edge": -0.21036324812903878
+    },
+    {
+      "name": "FL D Representatives 5-6",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "5-6",
+      "side": "NO",
+      "weight": 0.13415146347922924,
+      "model_price": 0.14425333333333334,
+      "market_price": 0.1843282844993638,
+      "edge": -0.040074951166030465
+    },
+    {
+      "name": "NY D Representatives 20",
+      "market_slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "outcome_key": "20",
+      "side": "NO",
+      "weight": 0.11577099307285342,
+      "model_price": 0.0662,
+      "market_price": 0.1789639565825418,
+      "edge": -0.1127639565825418
+    },
+    {
+      "name": "Dem Senate Seats = 46 (wins=12)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "46",
+      "side": "NO",
+      "weight": 0.09226868436540901,
+      "model_price": 0.0638,
+      "market_price": 0.04076963725698088,
+      "edge": 0.023030362743019117
+    },
+    {
+      "name": "Dems win at least one of OH/IA/AK",
+      "market_slug": "democrats-win-at-least-one-of-ohioi",
+      "outcome_key": "YES",
+      "side": "NO",
+      "weight": 0.07947055603513416,
+      "model_price": 0.9009466666666667,
+      "market_price": 0.7653399719379625,
+      "edge": 0.13560669472870412
+    },
+    {
+      "name": "Deep South D Representatives >= 15",
+      "market_slug": "d-representatives-from-deep-south-a",
+      "outcome_key": "\u226515",
+      "side": "YES",
+      "weight": 0.07670766663912047,
+      "model_price": 0.09745333333333334,
+      "market_price": 0.0511495031458723,
+      "edge": 0.04630383018746104
+    },
+    {
+      "name": "TX R Representatives 28",
+      "market_slug": "how-many-republican-representatives",
+      "outcome_key": "28",
+      "side": "YES",
+      "weight": 0.07176113120816882,
+      "model_price": 0.06293333333333333,
+      "market_price": 0.06405124189491977,
+      "edge": -0.0011179085615864448
+    },
+    {
+      "name": "Senate Omnibus (R wins) - GA_Senate",
+      "market_slug": "will-a-republican-win-in-the-follow",
+      "outcome_key": "Georgia",
+      "side": "YES",
+      "weight": 0.06712229980939122,
+      "model_price": 0.11316,
+      "market_price": 0.17180877429254324,
+      "edge": -0.05864877429254324
+    },
+    {
+      "name": "Dem Senate Seats = 47 (wins=13)",
+      "market_slug": "how-many-seats-will-the-democrats-h",
+      "outcome_key": "47",
+      "side": "NO",
+      "weight": 0.042877535487728116,
+      "model_price": 0.08157333333333333,
+      "market_price": 0.05782105366331995,
+      "edge": 0.02375227967001338
+    },
+    {
+      "name": "Safe Seat Flips: \u226513",
+      "market_slug": "how-many-safe-house-seats-will-flip",
+      "outcome_key": "\u226513",
+      "side": "NO",
+      "weight": 0.033809209577175627,
+      "model_price": 0.2723333333333333,
+      "market_price": 0.1971012364517314,
+      "edge": 0.07523209688160193
+    },
+    {
+      "name": "FL D Representatives 13-15",
+      "market_slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "outcome_key": "13-15",
+      "side": "YES",
+      "weight": 0.02937239914699404,
+      "model_price": 0.05225333333333333,
+      "market_price": 0.06919867553861891,
+      "edge": -0.016945342205285582
+    },
+    {
+      "name": "House Omnibus (D wins) - MI_04_House",
+      "market_slug": "will-a-democrat-win-these-us-house",
+      "outcome_key": "Michigan 4",
+      "side": "YES",
+      "weight": 0.027456268860204948,
+      "model_price": 0.60592,
+      "market_price": 0.4649157376252706,
+      "edge": 0.1410042623747294
+    },
+    {
+      "name": "Deep South D Representatives 13",
+      "market_slug": "d-representatives-from-deep-south-a",
+      "outcome_key": "13",
+      "side": "NO",
+      "weight": 0.020227375113940356,
+      "model_price": 0.15152,
+      "market_price": 0.1434898016527993,
+      "edge": 0.008030198347200701
+    }
+  ]
+}

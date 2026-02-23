@@ -1,0 +1,75 @@
+{
+  "run_dir": "/home/evand/predictions/statarb/tasks/election_2026/runs/20260202_090834",
+  "error": {
+    "final_real_max": 0.8606861458014864,
+    "final_max_error": 0.8606861458014864,
+    "final_weighted_rms": 0.19314008687677464,
+    "final_rms": 0.18870025501522975,
+    "best_real_max": 0.6295039250778236,
+    "n_iterations": 30
+  },
+  "convergence": {
+    "converged": false,
+    "trend_slope": 0.0034701920929302702,
+    "recent_std": 0.042062270600098185,
+    "recent_variance": 0.001769234608035884,
+    "oscillation_score": 0.5,
+    "window": 20,
+    "assessment": "stable"
+  },
+  "delta_lambda": {
+    "available": true,
+    "initial": 3.3497007454268446,
+    "final": 3.125384476748825,
+    "min": 2.1818122874100605,
+    "max": 5.125074914196271,
+    "recent_mean": 3.3454573254398396,
+    "recent_std": 0.7273840549665895,
+    "trend_slope": -0.024560318744088656,
+    "n_constraints": 608,
+    "stable": false
+  },
+  "geweke": {
+    "w_rms": {
+      "available": true,
+      "z_score": -6.895488961181224,
+      "first_mean": 0.1407611657894754,
+      "last_mean": 0.1636868717577302,
+      "converged": false
+    },
+    "real_max": {
+      "available": true,
+      "z_score": -3.0494365045298877,
+      "first_mean": 0.7268552519521823,
+      "last_mean": 0.7730666321699061,
+      "converged": false
+    }
+  },
+  "mixing": {
+    "mean_acceptance_rate": 0.11478950854700855,
+    "final_acceptance_rate": 0.13822435897435897,
+    "max_reject_streak": 341,
+    "ess": null,
+    "tau": null,
+    "ess_efficiency": null
+  },
+  "performance": {
+    "samples_per_iteration": 2000000,
+    "n_chains": 20,
+    "n_iterations": 30,
+    "total_samples": 60000000,
+    "sampling_seconds": 7951.803290128708,
+    "seconds_per_iteration": 265.06010967095693,
+    "ess_per_hour": 327.95519331851455,
+    "ess": 724.3986625680446
+  },
+  "contraction": {
+    "lambda_norm": 364.5680797507037,
+    "lambda_max": 184.58118919714656,
+    "n_constraints": 608,
+    "mahalanobis_sq": 21121.35071937136,
+    "mahalanobis": 145.33186408826992,
+    "n_large_lambda": 28,
+    "n_small_lambda": 47
+  }
+}
