@@ -72,33 +72,93 @@
         .control-stat.dem .value { color: #3b82f6; }
         .control-stat.rep .value { color: #ef4444; }
 
-        /* Hex Map */
+        /* SVG Hex Map */
         .hex-map {
             display: flex; justify-content: center;
             margin-bottom: 20px;
         }
-        .hex-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 44px);
-            gap: 2px;
+        .hex-map svg {
+            max-width: 100%;
+            height: auto;
         }
-        .hex-cell {
-            width: 44px; height: 38px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 11px; font-weight: bold;
+        .hex-poly {
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+        .hex-poly:hover { opacity: 0.8; }
+        .hex-label {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            fill: #fff;
+            pointer-events: none;
+            text-anchor: middle;
+        }
+        .hex-prob {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 8px;
+            fill: rgba(255,255,255,0.8);
+            pointer-events: none;
+            text-anchor: middle;
+        }
+
+        /* House District Panel */
+        .district-panel {
+            background: #1a1a2e;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .district-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .district-panel-header h3 {
+            font-size: 16px;
+            color: #eee;
+            margin: 0;
+        }
+        .district-panel .back-btn {
+            background: #374151;
+            border: none;
+            color: #fff;
+            padding: 6px 14px;
             border-radius: 4px;
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.1s;
-            border: 2px solid transparent;
-            position: relative;
+            font-size: 12px;
         }
-        .hex-cell:hover { transform: scale(1.1); z-index: 10; }
-        .hex-cell.selected { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
-        .hex-cell.locked { border-color: #fbbf24; }
-        .hex-cell.empty { visibility: hidden; }
-        .hex-cell .prob {
-            position: absolute; bottom: 2px; right: 3px;
-            font-size: 8px; opacity: 0.8;
+        .district-panel .back-btn:hover { background: #4b5563; }
+        .district-summary {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .district-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .district-tile {
+            width: 60px; height: 36px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: bold;
+            border: 2px solid transparent;
+            transition: transform 0.1s;
+        }
+        .district-tile:hover { transform: scale(1.1); z-index: 10; }
+        .district-tile.selected {
+            border-color: #fff;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        .district-tile .dist-pct {
+            font-size: 9px;
+            opacity: 0.8;
         }
 
         /* Snake Chart */
@@ -505,7 +565,7 @@
                 overflow-y: visible;
             }
 
-            /* Make hex grid horizontally scrollable */
+            /* Make hex map horizontally scrollable */
             .hex-map {
                 overflow-x: auto;
                 justify-content: flex-start;
@@ -513,7 +573,7 @@
                 -webkit-overflow-scrolling: touch;
             }
 
-            .hex-grid {
+            .hex-map svg {
                 min-width: max-content;
             }
 
@@ -563,24 +623,13 @@
                 display: block;
             }
 
-            /* Smaller hex cells for mobile */
-            .hex-grid {
-                grid-template-columns: repeat(12, 36px);
-                gap: 1px;
-            }
+            /* Smaller hex labels for mobile */
+            .hex-label { font-size: 9px; }
+            .hex-prob { font-size: 7px; }
 
-            .hex-cell {
-                width: 36px;
-                height: 32px;
-                font-size: 9px;
-                border-radius: 3px;
-            }
-
-            .hex-cell .prob {
-                font-size: 7px;
-                bottom: 1px;
-                right: 2px;
-            }
+            /* District panel */
+            .district-tile { width: 50px; height: 32px; font-size: 9px; }
+            .district-tile .dist-pct { font-size: 8px; }
 
             /* Snake chart: smaller items */
             .snake-section h2 { font-size: 14px; }
@@ -608,7 +657,8 @@
             .sidebar h2 { font-size: 12px; margin-bottom: 12px; }
 
             .sample-stats, .top-maps, .selected-race,
-            .locked-summary, .correlations, .markets-panel, .methodology {
+            .locked-summary, .correlations, .markets-panel, .methodology,
+            .district-panel {
                 padding: 12px;
                 margin-bottom: 15px;
             }
@@ -654,17 +704,8 @@
 
         /* Very small phones */
         @media (max-width: 380px) {
-            .hex-grid {
-                grid-template-columns: repeat(12, 30px);
-            }
-
-            .hex-cell {
-                width: 30px;
-                height: 26px;
-                font-size: 8px;
-            }
-
-            .hex-cell .prob { display: none; }
+            .hex-label { font-size: 8px; }
+            .hex-prob { display: none; }
 
             .snake-item {
                 width: 36px;
@@ -717,9 +758,7 @@
                 <span title="Class 2 Senate seats being decided in 2026">35 races contested</span>
             </div>
 
-            <div class="hex-map">
-                <div class="hex-grid" id="hex-grid"></div>
-            </div>
+            <div class="hex-map" id="senate-hex-map"></div>
 
             <div class="snake-section">
                 <h2>Races by Competitiveness (Tipping Point Analysis)</h2>
@@ -764,9 +803,8 @@
                     <span class="separator">•</span>
                     <span>218 needed for control</span>
                 </div>
-                <div class="map-placeholder" style="text-align: center; padding: 40px; background: #1a1a2e; border-radius: 10px; margin-bottom: 20px; color: #666;">
-                    District map coming soon
-                </div>
+                <div class="hex-map" id="house-hex-map"></div>
+                <div id="house-district-panel"></div>
                 <div class="snake-section">
                     <h2>House Races by Competitiveness</h2>
                     <div class="snake-chart" id="house-snake-chart"></div>
@@ -945,10 +983,15 @@
     let currentTab = 'senate';  // Current active tab
     let senateRaces = [];  // Senate races only
     let houseRaces = [];  // House races only
+    let houseExpandedState = null;  // Currently expanded state on House hex map
+    let houseRacesByState = {};  // Cached: { 'CA': ['CA_01_House', ...], ... }
 
     // Tab switching
     function switchTab(tabName) {
         currentTab = tabName;
+        selected = null;  // Clear race selection when switching tabs
+        selectedMap = null;  // Reset selected outcome map when switching tabs
+        houseExpandedState = null;  // Collapse any expanded state
         // Update button states
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.classList.remove('active');
@@ -961,9 +1004,9 @@
         document.getElementById(tabName + '-tab').classList.add('active');
         // Update display
         if (samples.length > 0) {
+            render();  // Full re-render (hex maps, snake charts, outcome maps)
             updateCongressMatrix();
             updateHouseControl();
-            renderTopMaps();  // Re-render with chamber-specific data
         }
     }
 
@@ -990,22 +1033,43 @@
     };
 
     // Hex grid layout (approximate US shape)
-    const hexLayout = [
-        [null, null, null, null, null, null, null, null, null, null, 'ME', null],
-        [null, null, null, null, null, null, 'WI', null, null, 'VT', 'NH', null],
-        ['WA', 'MT', 'ND', 'MN', null, null, 'MI', null, 'NY', 'MA', null, null],
-        ['OR', 'ID', 'SD', 'IA', 'IL', 'IN', 'OH', 'PA', 'NJ', 'CT', 'RI', null],
-        ['NV', 'WY', 'NE', 'MO', 'KY', 'WV', 'VA', 'MD', 'DE', null, null, null],
-        ['CA', 'UT', 'CO', 'KS', 'AR', 'TN', 'NC', 'SC', null, null, null, null],
-        ['AZ', 'NM', 'OK', 'LA', 'MS', 'AL', 'GA', null, 'FL', null, null, null],
-        [null, null, 'TX', null, null, null, null, null, null, null, 'AK', 'HI'],
-    ];
+    // NPR 1-to-1 hex cartogram: exact center coordinates from tilegramsR TopoJSON.
+    // Pointy-top hexagons, circumradius R=79.11. Coordinates are y-flipped for display
+    // (source has south at low y; we flip so north is at top).
+    // Source: https://github.com/bhaskarvk/tilegramsR  data-raw/NPR1to1/NPR1to1.topo.json
+    const hexCenters = {
+        AK:{cx:822.15,cy:949.33}, AL:{cx:1781.32,cy:237.33}, AR:{cx:1575.78,cy:356.00},
+        AZ:{cx:1233.22,cy:237.33}, CA:{cx:1027.68,cy:356.00}, CO:{cx:1233.22,cy:474.67},
+        CT:{cx:2260.90,cy:593.33}, DC:{cx:2123.88,cy:356.00}, DE:{cx:2192.39,cy:474.67},
+        FL:{cx:1849.83,cy:118.67}, GA:{cx:1918.34,cy:237.33}, HI:{cx:753.63,cy:118.67},
+        IA:{cx:1438.76,cy:593.33}, ID:{cx:1027.68,cy:593.33}, IL:{cx:1575.78,cy:593.33},
+        IN:{cx:1712.81,cy:593.33}, KS:{cx:1438.76,cy:356.00}, KY:{cx:1644.29,cy:474.67},
+        LA:{cx:1507.27,cy:237.33}, MA:{cx:2192.39,cy:712.00}, MD:{cx:2055.37,cy:474.67},
+        ME:{cx:2329.42,cy:949.33}, MI:{cx:1781.32,cy:712.00}, MN:{cx:1370.24,cy:712.00},
+        MO:{cx:1507.27,cy:474.67}, MS:{cx:1644.29,cy:237.33}, MT:{cx:1096.20,cy:712.00},
+        NC:{cx:1849.83,cy:356.00}, ND:{cx:1233.22,cy:712.00}, NE:{cx:1370.24,cy:474.67},
+        NH:{cx:2260.90,cy:830.67}, NJ:{cx:2123.88,cy:593.33}, NM:{cx:1301.73,cy:356.00},
+        NV:{cx:1096.20,cy:474.67}, NY:{cx:2055.37,cy:712.00}, OH:{cx:1849.83,cy:593.33},
+        OK:{cx:1370.24,cy:237.33}, OR:{cx:959.17,cy:474.67}, PA:{cx:1986.85,cy:593.33},
+        RI:{cx:2329.42,cy:712.00}, SC:{cx:1986.85,cy:356.00}, SD:{cx:1301.73,cy:593.33},
+        TN:{cx:1712.81,cy:356.00}, TX:{cx:1438.76,cy:118.67}, UT:{cx:1164.71,cy:356.00},
+        VA:{cx:1918.34,cy:474.67}, VT:{cx:2123.88,cy:830.67}, WA:{cx:959.17,cy:712.00},
+        WI:{cx:1507.27,cy:712.00}, WV:{cx:1781.32,cy:474.67}, WY:{cx:1164.71,cy:593.33},
+    };
+    const hexR = 79.11;  // circumradius (all hexes identical, verified from source)
 
     function getStateCode(race) {
+        if (race.includes('House')) return race.split('_')[0];
         return race.replace('_Senate', '').replace('_Special', '');
     }
 
     function getStateName(race) {
+        if (race.includes('House')) {
+            const parts = race.replace('_House', '').split('_');
+            const state = stateNames[parts[0]] || parts[0];
+            const dist = parts[1] === 'AL' ? 'At-Large' : 'District ' + parseInt(parts[1]);
+            return `${state} ${dist}`;
+        }
         const code = getStateCode(race);
         const special = race.includes('Special') ? ' (Special)' : '';
         return (stateNames[code] || code) + special;
@@ -1033,6 +1097,241 @@
         if (dProb > 0.3) return '#f87171';
         if (dProb > 0.1) return '#ef4444';
         return '#b91c1c';
+    }
+
+    // SVG hex polygon point string for pointy-top hexagon
+    // Vertices at angles -90°, -30°, 30°, 90°, 150°, 210° (pointy top/bottom)
+    function hexPoints(cx, cy, R) {
+        const pts = [];
+        for (let i = 0; i < 6; i++) {
+            const angle = Math.PI / 3 * i - Math.PI / 2;  // start at -90° (top vertex)
+            pts.push(`${(cx + R * Math.cos(angle)).toFixed(1)},${(cy + R * Math.sin(angle)).toFixed(1)}`);
+        }
+        return pts.join(' ');
+    }
+
+    // Render an SVG hex map into a container using NPR hex center coordinates.
+    // Coordinates from hexCenters are in source space (y-up = south); we flip y for display.
+    // getCellData(code) returns { color, label, subLabel, title, selected, locked, opacity } or null
+    // options: { onClick(code), onDblClick(code) }
+    function renderHexMap(containerId, getCellData, options = {}) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        // Scale factor: render at this fraction of the source coordinate system.
+        // Source hex R=79.11. We want displayed hexes ~22px circumradius.
+        const displayR = 22;
+        const scale = displayR / hexR;
+
+        // Compute bounding box in source coords
+        const codes = Object.keys(hexCenters);
+        const srcXs = codes.map(c => hexCenters[c].cx);
+        const srcYs = codes.map(c => hexCenters[c].cy);
+        const srcMinX = Math.min(...srcXs);
+        const srcMaxX = Math.max(...srcXs);
+        const srcMinY = Math.min(...srcYs);
+        const srcMaxY = Math.max(...srcYs);
+
+        // SVG dimensions (scaled, with padding for hex radius + border)
+        const pad = displayR + 4;
+        const svgW = (srcMaxX - srcMinX) * scale + 2 * pad;
+        const svgH = (srcMaxY - srcMinY) * scale + 2 * pad;
+
+        let svg = `<svg viewBox="0 0 ${Math.ceil(svgW)} ${Math.ceil(svgH)}" xmlns="http://www.w3.org/2000/svg" style="max-width: ${Math.ceil(svgW)}px;">`;
+
+        for (const code of codes) {
+            const src = hexCenters[code];
+            // Scale and flip y (source has south at low y; we want north at top)
+            const cx = pad + (src.cx - srcMinX) * scale;
+            const cy = pad + (srcMaxY - src.cy) * scale;  // y-flip
+
+            const data = getCellData(code);
+            if (!data) continue;
+
+            const pts = hexPoints(cx, cy, displayR);
+            const strokeColor = data.selected ? '#fff' : data.locked ? '#fbbf24' : 'transparent';
+            const strokeWidth = (data.selected || data.locked) ? 2.5 : 0.5;
+            const opacity = data.opacity !== undefined ? data.opacity : 1;
+            const glow = data.selected ? `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="5"/>` : '';
+
+            svg += `<g class="hex-group" data-code="${code}" style="opacity:${opacity}">`;
+            svg += glow;
+            svg += `<polygon points="${pts}" fill="${data.color}" stroke="${strokeColor}" stroke-width="${strokeWidth}" class="hex-poly"/>`;
+            svg += `<text x="${cx}" y="${cy - 3}" class="hex-label">${data.label}</text>`;
+            if (data.subLabel) {
+                svg += `<text x="${cx}" y="${cy + 9}" class="hex-prob">${data.subLabel}</text>`;
+            }
+            svg += `</g>`;
+        }
+
+        svg += '</svg>';
+        container.innerHTML = svg;
+
+        // Attach event handlers
+        container.querySelectorAll('.hex-group').forEach(g => {
+            const code = g.dataset.code;
+            if (options.onClick) {
+                g.addEventListener('click', () => options.onClick(code));
+            }
+            if (options.onDblClick) {
+                g.addEventListener('dblclick', (e) => {
+                    e.preventDefault();
+                    options.onDblClick(code);
+                });
+            }
+        });
+    }
+
+    // Build Senate hex cell data from stats
+    function senateCellData(code, stats, selectedOutcome) {
+        const race = getRaceForState(code);
+        if (!race) {
+            return { color: '#333', label: code, subLabel: '', title: code, selected: false, locked: false, opacity: 0.3 };
+        }
+
+        if (selectedOutcome && selectedOutcome[race]) {
+            const outcome = selectedOutcome[race];
+            const color = outcome === 'D' ? '#3b82f6' : outcome === 'R' ? '#ef4444' : '#fbbf24';
+            const tag = outcome.startsWith('I') ? 'I' : outcome;
+            return {
+                color, label: code, subLabel: tag, title: `${getStateName(race)}: ${outcome}`,
+                selected: selected === race, locked: !!locks[race], opacity: 1
+            };
+        }
+
+        const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
+        const iProb = (m.I_Osborn || 0) + (m.I_Other || 0);
+        const color = getColor(m.D, iProb);
+        let subLabel;
+        if (iProb > m.D && iProb > m.R) {
+            subLabel = (iProb * 100).toFixed(0);
+        } else if (m.D > m.R) {
+            subLabel = (m.D * 100).toFixed(0);
+        } else {
+            subLabel = (m.R * 100).toFixed(0);
+        }
+        return {
+            color, label: code, subLabel, title: getStateName(race),
+            selected: selected === race, locked: !!locks[race], opacity: 1
+        };
+    }
+
+    // Build House state hex cell data (aggregate across districts)
+    function houseCellData(code, stats, selectedOutcome) {
+        const stateRaces = houseRacesByState[code];
+        if (!stateRaces || stateRaces.length === 0) {
+            return { color: '#333', label: code, subLabel: '', title: code, selected: false, locked: false, opacity: 0.3 };
+        }
+
+        if (selectedOutcome) {
+            // Aggregate outcome map for state
+            let dCount = 0, rCount = 0;
+            for (const race of stateRaces) {
+                if (selectedOutcome[race] === 'D') dCount++;
+                else if (selectedOutcome[race] === 'R') rCount++;
+            }
+            const dFrac = stateRaces.length > 0 ? dCount / stateRaces.length : 0.5;
+            const color = getColor(dFrac);
+            return {
+                color, label: code, subLabel: `${dCount}D`, title: `${stateNames[code]}: ${dCount}D-${rCount}R`,
+                selected: houseExpandedState === code, locked: false, opacity: 1
+            };
+        }
+
+        // Average P(D) across districts
+        let totalD = 0;
+        for (const race of stateRaces) {
+            totalD += (stats.marginals[race]?.D || 0.5);
+        }
+        const avgD = totalD / stateRaces.length;
+        const color = getColor(avgD);
+        const nDist = stateRaces.length;
+        // Count competitive districts (40-60% range)
+        const competitive = stateRaces.filter(r => {
+            const d = stats.marginals[r]?.D || 0.5;
+            return d > 0.4 && d < 0.6;
+        }).length;
+        const subLabel = competitive > 0 ? `${nDist}(${competitive})` : `${nDist}`;
+        return {
+            color, label: code, subLabel,
+            title: `${stateNames[code]}: ${nDist} districts${competitive > 0 ? `, ${competitive} competitive` : ''}`,
+            selected: houseExpandedState === code, locked: false, opacity: 1
+        };
+    }
+
+    // Expand a state on the House hex map to show districts
+    function expandHouseState(code) {
+        if (houseExpandedState === code) {
+            houseExpandedState = null;
+        } else {
+            houseExpandedState = code;
+        }
+        render();
+    }
+
+    function collapseHouseState() {
+        houseExpandedState = null;
+        render();
+    }
+
+    // Render the House district expansion panel
+    function renderHouseDistrictPanel(stats) {
+        const panel = document.getElementById('house-district-panel');
+        if (!panel) return;
+
+        if (!houseExpandedState) {
+            panel.innerHTML = '';
+            return;
+        }
+
+        const stateCode = houseExpandedState;
+        const stateRaces = houseRacesByState[stateCode] || [];
+        if (stateRaces.length === 0) {
+            panel.innerHTML = '';
+            return;
+        }
+
+        // Sort by competitiveness (distance from 0.5, most competitive first)
+        const sorted = [...stateRaces].sort((a, b) => {
+            const aD = stats.marginals[a]?.D || 0.5;
+            const bD = stats.marginals[b]?.D || 0.5;
+            return Math.abs(aD - 0.5) - Math.abs(bD - 0.5);
+        });
+
+        const dCount = stateRaces.filter(r => (stats.marginals[r]?.D || 0.5) > 0.5).length;
+        const rCount = stateRaces.length - dCount;
+        const competitive = stateRaces.filter(r => {
+            const d = stats.marginals[r]?.D || 0.5;
+            return d > 0.4 && d < 0.6;
+        }).length;
+
+        let html = `<div class="district-panel">
+            <div class="district-panel-header">
+                <h3>${stateNames[stateCode] || stateCode} \u2014 ${stateRaces.length} District${stateRaces.length !== 1 ? 's' : ''}</h3>
+                <button class="back-btn" onclick="collapseHouseState()">\u2190 Back to map</button>
+            </div>
+            <div class="district-summary">D: ${dCount} &nbsp; R: ${rCount} &nbsp; Competitive: ${competitive}</div>
+            <div class="district-grid">`;
+
+        for (const race of sorted) {
+            const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
+            const color = getColor(m.D);
+            const distNum = race.replace('_House', '').split('_')[1];
+            const leadPct = m.D > m.R ? Math.round(m.D * 100) : Math.round(m.R * 100);
+            const leadParty = m.D > m.R ? 'D' : 'R';
+            const isSelected = selected === race;
+
+            html += `<div class="district-tile ${isSelected ? 'selected' : ''}"
+                style="background: ${color}"
+                onclick="selectRace('${race}')"
+                title="${stateNames[stateCode]} District ${distNum}: ${leadPct}% ${leadParty}">
+                <span class="dist-num">${stateCode}-${distNum}</span>
+                <span class="dist-pct">${leadPct}${leadParty}</span>
+            </div>`;
+        }
+
+        html += '</div></div>';
+        panel.innerHTML = html;
     }
 
     // Compute autocorrelation at lag k for a numeric sequence
@@ -1146,6 +1445,14 @@
         senateRaces = races.filter(r => r.includes('Senate'));
         houseRaces = races.filter(r => r.includes('House'));
         console.log('Senate races:', senateRaces.length, 'House races:', houseRaces.length);
+
+        // Cache House races grouped by state
+        houseRacesByState = {};
+        for (const race of houseRaces) {
+            const state = race.split('_')[0];
+            if (!houseRacesByState[state]) houseRacesByState[state] = [];
+            houseRacesByState[state].push(race);
+        }
 
         // Load summary (includes markets metadata and max error)
         const summaryResp = await fetch('data/summary.json' + cacheBust);
@@ -1526,66 +1833,47 @@
             document.getElementById('ci-text').textContent = '--';
         }
 
-        // Render hex map
-        const hexGrid = document.getElementById('hex-grid');
-        hexGrid.innerHTML = '';
-
-        // Get selected outcome map if any
-        const selectedOutcome = (selectedMap !== null && topOutcomes[selectedMap])
-            ? topOutcomes[selectedMap].outcomes
+        // Get selected outcome map (tab-aware)
+        let tabOutcomes;
+        if (currentTab === 'senate' && topSenateOutcomes.length > 0) {
+            tabOutcomes = topSenateOutcomes;
+        } else if (currentTab === 'house' && topHouseOutcomes.length > 0) {
+            tabOutcomes = topHouseOutcomes;
+        } else {
+            tabOutcomes = topOutcomes;
+        }
+        const selectedOutcome = (selectedMap !== null && tabOutcomes[selectedMap])
+            ? tabOutcomes[selectedMap].outcomes
             : null;
 
-        for (const row of hexLayout) {
-            for (const stateCode of row) {
-                const cell = document.createElement('div');
-                cell.className = 'hex-cell';
+        // Render Senate SVG hex map
+        renderHexMap('senate-hex-map',
+            (code) => senateCellData(code, stats, selectedOutcome),
+            {
+                onClick: (code) => {
+                    const race = getRaceForState(code);
+                    if (race) selectRace(race);
+                },
+                onDblClick: (code) => {
+                    const race = getRaceForState(code);
+                    if (race) toggleLock(race);
+                }
+            }
+        );
 
-                if (!stateCode) {
-                    cell.classList.add('empty');
-                } else {
-                    const race = getRaceForState(stateCode);
-                    if (race) {
-                        // If showing a specific outcome map, use solid colors
-                        if (selectedOutcome && selectedOutcome[race]) {
-                            const outcome = selectedOutcome[race];
-                            if (outcome === 'D') {
-                                cell.style.background = '#3b82f6';
-                                cell.innerHTML = `${stateCode}<span class="prob">D</span>`;
-                            } else if (outcome === 'R') {
-                                cell.style.background = '#ef4444';
-                                cell.innerHTML = `${stateCode}<span class="prob">R</span>`;
-                            } else {
-                                cell.style.background = '#fbbf24';
-                                cell.innerHTML = `${stateCode}<span class="prob">I</span>`;
-                            }
-                            cell.title = `${getStateName(race)}: ${outcome}`;
-                        } else {
-                            // Show marginal probabilities
-                            const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
-                            const iProb = (m.I_Osborn || 0) + (m.I_Other || 0);
-                            const dPct = (m.D * 100).toFixed(0);
-                            cell.style.background = getColor(m.D, iProb);
-                            // Show leading outcome's probability
-                            const leadingPct = iProb > m.D && iProb > m.R ?
-                                (iProb * 100).toFixed(0) + 'I' :
-                                m.D > m.R ? dPct + 'D' : ((m.R * 100).toFixed(0) + 'R');
-                            cell.innerHTML = `${stateCode}<span class="prob">${leadingPct.slice(0,-1)}</span>`;
-                            cell.title = getStateName(race);
+        // Render House SVG hex map (state-level)
+        if (houseRaces.length > 0) {
+            renderHexMap('house-hex-map',
+                (code) => houseCellData(code, stats, selectedOutcome),
+                {
+                    onClick: (code) => {
+                        if (houseRacesByState[code] && houseRacesByState[code].length > 0) {
+                            expandHouseState(code);
                         }
-
-                        if (locks[race]) cell.classList.add('locked');
-                        if (selected === race) cell.classList.add('selected');
-
-                        cell.addEventListener('click', () => selectRace(race));
-                        cell.addEventListener('dblclick', () => toggleLock(race));
-                    } else {
-                        cell.style.background = '#333';
-                        cell.textContent = stateCode;
-                        cell.style.opacity = 0.3;
                     }
                 }
-                hexGrid.appendChild(cell);
-            }
+            );
+            renderHouseDistrictPanel(stats);
         }
 
         // Render snake charts for each chamber
@@ -1908,7 +2196,7 @@
 
             selectedRace.innerHTML = `
                 <div class="state-name">${getStateName(selected)}</div>
-                <div class="race-type">${selected.includes('Special') ? 'Special Election' : 'Class 2 Senate Race'}</div>
+                <div class="race-type">${selected.includes('House') ? 'House Race' : selected.includes('Special') ? 'Special Election' : 'Class 2 Senate Race'}</div>
                 <div class="prob-display" style="flex-wrap: wrap;">
                     ${probDisplay}
                 </div>
