@@ -2367,452 +2367,1996 @@
     }
   },
   "metadata": {
+    "n_samples": 400000,
+    "max_error": 0.3166919991295951,
+    "rms_error": 0.04692512031748781,
+    "weighted_rms": 0.04371910582564041,
+    "real_max": 0.3008219991295951,
+    "generated_at": "2026-02-22T23:38:36.364317",
+    "snapshot_timestamp": "2026-02-22T22:29:29.770490",
+    "seed": 456,
+    "iterations": 30,
+    "mean_acceptance_rate": 0.18322062728937727,
+    "converged": false,
+    "learning_rate": 0.03,
+    "regularization": 0.05,
+    "samples_per_iter": 400000,
     "source": "polish_v2",
     "snapshot": "congress_20260222_full",
-    "n_total": 400000,
-    "n_displayed": 5000,
-    "generated": "2026-02-22"
+    "n_displayed": 5000
   },
-  "markets": [],
+  "markets": [
+    {
+      "slug": "will-a-republican-win-in-the-follow",
+      "name": "Senate Omnibus (R wins)",
+      "question": "Will a Republican win in the following US Senate 2026 elections?",
+      "type": "multi_race",
+      "url": "https://manifold.markets/questions/will-a-republican-win-in-the-follow",
+      "uniqueBettorCount": 86,
+      "volume": 32607.590240241614,
+      "totalLiquidity": 3350,
+      "related_races": [
+        "FL_Senate_Special",
+        "AK_Senate",
+        "MI_Senate",
+        "NJ_Senate",
+        "IA_Senate",
+        "VA_Senate",
+        "CO_Senate",
+        "WY_Senate",
+        "MS_Senate",
+        "IL_Senate",
+        "SC_Senate",
+        "KS_Senate",
+        "MA_Senate",
+        "LA_Senate",
+        "KY_Senate",
+        "AL_Senate",
+        "GA_Senate",
+        "OK_Senate",
+        "SD_Senate",
+        "NH_Senate",
+        "OR_Senate",
+        "ME_Senate",
+        "AR_Senate",
+        "OH_Senate_Special",
+        "RI_Senate",
+        "TN_Senate",
+        "NC_Senate",
+        "MT_Senate",
+        "MN_Senate",
+        "ID_Senate",
+        "NM_Senate",
+        "WV_Senate",
+        "TX_Senate",
+        "DE_Senate"
+      ],
+      "prices": {
+        "Alabama": 0.9585853514459534,
+        "Alaska": 0.4899643373522212,
+        "Arkansas": 0.9205142082268001,
+        "Colorado": 0.03451421146205512,
+        "Delaware": 0.04629705002284143,
+        "Georgia": 0.1602378578589305,
+        "Idaho": 0.9633938222184094,
+        "Illinois": 0.06527281354639138,
+        "Iowa": 0.5760549344695131,
+        "Kansas": 0.8846744203511021,
+        "Kentucky": 0.9203060993017783,
+        "Louisiana": 0.908819455194728,
+        "Maine": 0.3007249711697668,
+        "Massachusetts": 0.03687770696993908,
+        "Michigan": 0.19401482565575168,
+        "Minnesota": 0.0680264304775138,
+        "Mississippi": 0.9616852520817183,
+        "Montana": 0.8281253036008763,
+        "Nebraska": 0.6772322502382218,
+        "New Hampshire": 0.0875158416569812,
+        "New Jersey": 0.07377531133759549,
+        "New Mexico": 0.09743466707540775,
+        "North Carolina": 0.1469709298867272,
+        "Oklahoma": 0.9767346380571107,
+        "Oregon": 0.04978330062210819,
+        "Rhode Island": 0.04495411794957433,
+        "South Carolina": 0.8822678884399154,
+        "South Dakota": 0.9601563140944269,
+        "Tennessee": 0.96865812198874,
+        "Texas": 0.6819802924428168,
+        "Virginia": 0.05375614805984577,
+        "West Virginia": 0.9761416698053972,
+        "Wyoming": 0.9756736975234381,
+        "Ohio (Special)": 0.556908945273369,
+        "Florida (Special)": 0.8241942489042985
+      }
+    },
+    {
+      "slug": "how-many-seats-will-the-democrats-h",
+      "name": "Dem Senate Seats",
+      "question": "How many seats will the Democrats hold in the U.S. Senate after the 2026 Midterm Election?",
+      "type": "seat_count",
+      "url": "https://manifold.markets/questions/how-many-seats-will-the-democrats-h",
+      "uniqueBettorCount": 27,
+      "volume": 11629.657578824705,
+      "totalLiquidity": 10000,
+      "related_races": [],
+      "prices": {
+        "44": 0.03143015825601146,
+        "45": 0.031780562318897136,
+        "46": 0.03970706813441616,
+        "47": 0.05955651833506943,
+        "48": 0.1272492632880712,
+        "49": 0.18366285674896798,
+        "50": 0.15000000000000002,
+        "51": 0.16417258542757848,
+        "52": 0.12282876513676645,
+        "Other": 0.08961222235422169
+      }
+    },
+    {
+      "slug": "will-republicans-win-the-senate-in-738388924521",
+      "name": "R Senate Control",
+      "question": "Will Republicans win the Senate in the 2026 elections?",
+      "type": "control",
+      "url": "https://manifold.markets/questions/will-republicans-win-the-senate-in-738388924521",
+      "uniqueBettorCount": 123,
+      "volume": 37744.27088865083,
+      "totalLiquidity": 500,
+      "related_races": [],
+      "prices": {}
+    },
+    {
+      "slug": "how-many-safe-senate-seats-will-rep",
+      "name": "Safe R Senate Seats",
+      "question": "How many \"safe\" Senate seats will Republicans win in 2026? (AL AR ID KY LA MS OK SD TN WV WY)",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-safe-senate-seats-will-rep",
+      "uniqueBettorCount": 10,
+      "volume": 1389.8714282892092,
+      "totalLiquidity": 300,
+      "related_races": [
+        "WY_Senate",
+        "MS_Senate",
+        "SD_Senate",
+        "ID_Senate",
+        "AR_Senate",
+        "LA_Senate",
+        "KY_Senate",
+        "TN_Senate",
+        "WV_Senate",
+        "OK_Senate",
+        "AL_Senate"
+      ],
+      "prices": {
+        "0 - 2": 0.006703287392970877,
+        "3 - 5": 0.007658848364157637,
+        "6 - 7": 0.01946838376051078,
+        "8 - 9": 0.04541380455649501,
+        "10": 0.06521752837499684,
+        "11": 0.8555381475508689
+      }
+    },
+    {
+      "slug": "how-many-safe-senate-seats-will-the",
+      "name": "Safe D Senate Seats",
+      "question": "How many \"safe\" Senate seats will the Democrats win in 2026? (CO DE MA NJ OR RI VA)",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-safe-senate-seats-will-the",
+      "uniqueBettorCount": 8,
+      "volume": 1589.182311552863,
+      "totalLiquidity": 400,
+      "related_races": [
+        "CO_Senate",
+        "NJ_Senate",
+        "OR_Senate",
+        "MA_Senate",
+        "RI_Senate",
+        "VA_Senate",
+        "DE_Senate"
+      ],
+      "prices": {
+        "0": 0.0036880437941704037,
+        "1": 0.003174994645305314,
+        "2": 0.019240344330913036,
+        "3": 0.015251057221806452,
+        "4": 0.005083787036126483,
+        "5": 0.009384965944600945,
+        "6": 0.005551203459657753,
+        "7": 0.9386256035674203
+      }
+    },
+    {
+      "slug": "which-party-will-win-the-2026-nebra",
+      "name": "Nebraska Party (4-way)",
+      "question": "Which party will win the 2026 Nebraska Senate race?",
+      "type": "single_race",
+      "url": "https://manifold.markets/questions/which-party-will-win-the-2026-nebra",
+      "uniqueBettorCount": 8,
+      "volume": 5174.282384601158,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "NE_Senate"
+      ],
+      "prices": {
+        "Republican": 0.6903456382373877,
+        "Democratic": 0.013801223911953306,
+        "Independent (Dan Osborn)": 0.2891268238201261,
+        "Independent (Other)": 0.006726314030532974
+      }
+    },
+    {
+      "slug": "which-senate-flip-is-more-likely-de",
+      "name": "Senate Flip Comparison",
+      "question": "Which senate flip is more likely? Dems take TX or OH, or Reps take GA or MI?",
+      "type": "flip_comparison",
+      "url": "https://manifold.markets/questions/which-senate-flip-is-more-likely-de",
+      "uniqueBettorCount": 10,
+      "volume": 486.970179545762,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {
+        "Dems flip TX or OH": 0.43984526490170606,
+        "Reps flip GA or MI": 0.22733632414518212,
+        "neither": 0.31002201859355877,
+        "both": 0.022796392359552983
+      }
+    },
+    {
+      "slug": "democrats-win-at-least-one-of-ohioi",
+      "name": "Dems win at least one of OH/IA/AK",
+      "question": "Democrats win at least one of Ohio/Iowa/Alaska Senate seats?",
+      "type": "union_constraint",
+      "url": "https://manifold.markets/questions/democrats-win-at-least-one-of-ohioi",
+      "uniqueBettorCount": 9,
+      "volume": 225.8744387239979,
+      "totalLiquidity": 250,
+      "related_races": [
+        "AK_Senate",
+        "OH_Senate_Special",
+        "IA_Senate"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "republicans-win-at-least-one-of-mem",
+      "name": "Reps win at least one of ME/MN/NC",
+      "question": "Republicans win at least one of ME/MN/NC Senate seats in 2026?",
+      "type": "union_constraint",
+      "url": "https://manifold.markets/questions/republicans-win-at-least-one-of-mem",
+      "uniqueBettorCount": 10,
+      "volume": 753.1479765840014,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "MN_Senate",
+        "NC_Senate",
+        "ME_Senate"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "democrats-win-iowa-texas-or-both-in",
+      "name": "Dems win Iowa or Texas",
+      "question": "Democrats win Iowa, Texas or both in the 2026 US Senate elections?",
+      "type": "union_constraint",
+      "url": "https://manifold.markets/questions/democrats-win-iowa-texas-or-both-in",
+      "uniqueBettorCount": 7,
+      "volume": 329.5073961383593,
+      "totalLiquidity": 116,
+      "related_races": [
+        "TX_Senate",
+        "IA_Senate"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "republicans-win-a-2026-us-senate-el",
+      "name": "R wins Kamala state (incl ME)",
+      "question": "Republicans win a 2026 US Senate election in a state Kamala won?",
+      "type": "union_constraint",
+      "url": "https://manifold.markets/questions/republicans-win-a-2026-us-senate-el",
+      "uniqueBettorCount": 15,
+      "volume": 894.1032727986064,
+      "totalLiquidity": 114,
+      "related_races": [
+        "CO_Senate",
+        "IL_Senate",
+        "NJ_Senate",
+        "MN_Senate",
+        "NH_Senate",
+        "OR_Senate",
+        "ME_Senate",
+        "MA_Senate",
+        "NM_Senate",
+        "RI_Senate",
+        "VA_Senate",
+        "DE_Senate"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "republicans-win-a-2026-us-senate-el-Ey80cnEUzc",
+      "name": "R wins Kamala state (excl ME)",
+      "question": "Republicans win a 2026 US Senate election in a state Kamala won?(excluding maine)",
+      "type": "union_constraint",
+      "url": "https://manifold.markets/questions/republicans-win-a-2026-us-senate-el-Ey80cnEUzc",
+      "uniqueBettorCount": 9,
+      "volume": 2287.6911074715235,
+      "totalLiquidity": 714,
+      "related_races": [
+        "CO_Senate",
+        "IL_Senate",
+        "NJ_Senate",
+        "MN_Senate",
+        "NH_Senate",
+        "OR_Senate",
+        "MA_Senate",
+        "NM_Senate",
+        "RI_Senate",
+        "VA_Senate",
+        "DE_Senate"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "if-jd-vances-senate-seat-opens-up-w",
+      "name": "Ohio Senate Special D wins",
+      "question": "Will a Democrat win the Ohio Senate special election?",
+      "type": "union_constraint",
+      "url": "https://manifold.markets/questions/if-jd-vances-senate-seat-opens-up-w",
+      "uniqueBettorCount": 37,
+      "volume": 11343.589220322452,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "OH_Senate_Special"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "will-the-democrats-win-the-2026-tex",
+      "name": "D wins TX Senate (standalone)",
+      "question": "Will the Democrats win the 2026 Texas Senate Election?",
+      "type": "union_constraint",
+      "url": "https://manifold.markets/questions/will-the-democrats-win-the-2026-tex",
+      "uniqueBettorCount": 108,
+      "volume": 73708.19852181553,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "TX_Senate"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "will-a-republican-win-the-us-senate",
+      "name": "R wins FL Senate Special (standalone)",
+      "question": "Will a Republican win the US Senate special election in Florida in 2026?",
+      "type": "union_constraint",
+      "url": "https://manifold.markets/questions/will-a-republican-win-the-us-senate",
+      "uniqueBettorCount": 17,
+      "volume": 3410.232424823535,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "FL_Senate_Special"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "which-party-will-win-the-2026-us-se",
+      "name": "Georgia Senate Party",
+      "question": "Which party will win the 2026 US Senate election in Georgia?",
+      "type": "single_race",
+      "url": "https://manifold.markets/questions/which-party-will-win-the-2026-us-se",
+      "uniqueBettorCount": 35,
+      "volume": 102622.99676069984,
+      "totalLiquidity": 500,
+      "related_races": [
+        "GA_Senate"
+      ],
+      "prices": {
+        "Democratic": 0.8397621437017132,
+        "Republican": 0.16023785629828677
+      }
+    },
+    {
+      "slug": "which-party-will-win-the-2026-north",
+      "name": "North Carolina Senate Party",
+      "question": "Which Party will win the 2026 North Carolina senate election?",
+      "type": "single_race",
+      "url": "https://manifold.markets/questions/which-party-will-win-the-2026-north",
+      "uniqueBettorCount": 9,
+      "volume": 366.8951584134078,
+      "totalLiquidity": 200,
+      "related_races": [
+        "NC_Senate"
+      ],
+      "prices": {
+        "Republicans": 0.1469709271694291,
+        "Democrats": 0.853029072830571
+      }
+    },
+    {
+      "slug": "which-party-will-win-the-2026-michi",
+      "name": "Michigan Senate Party",
+      "question": "Which party will win the 2026 Michigan Senate race?",
+      "type": "single_race",
+      "url": "https://manifold.markets/questions/which-party-will-win-the-2026-michi",
+      "uniqueBettorCount": 19,
+      "volume": 832.928824871908,
+      "totalLiquidity": 100,
+      "related_races": [
+        "MI_Senate"
+      ],
+      "prices": {
+        "Democratic party": 0.799240173697094,
+        "Republican party": 0.1964134341489682,
+        "Other": 0.004346392153937846
+      }
+    },
+    {
+      "slug": "which-party-will-win-the-2026-alask",
+      "name": "Alaska Senate Party",
+      "question": "Which party will win the 2026 Alaska Senate race?",
+      "type": "single_race",
+      "url": "https://manifold.markets/questions/which-party-will-win-the-2026-alask",
+      "uniqueBettorCount": 30,
+      "volume": 2530.0463055678465,
+      "totalLiquidity": 100,
+      "related_races": [
+        "AK_Senate"
+      ],
+      "prices": {
+        "Democratic party": 0.509649297727707,
+        "Republican party": 0.4902127543243998,
+        "Other": 0.0001379479478933048
+      }
+    },
+    {
+      "slug": "which-party-will-win-the-2026-senat",
+      "name": "Iowa Senate Party",
+      "question": "Which Party will win the 2026 Senate Election in Iowa",
+      "type": "single_race",
+      "url": "https://manifold.markets/questions/which-party-will-win-the-2026-senat",
+      "uniqueBettorCount": 10,
+      "volume": 289.89305007518647,
+      "totalLiquidity": 200,
+      "related_races": [
+        "IA_Senate"
+      ],
+      "prices": {
+        "Republicans": 0.5817479091422402,
+        "Democrats": 0.4182520908577601
+      }
+    },
+    {
+      "slug": "which-party-will-win-the-2026-texas",
+      "name": "Texas Senate Party",
+      "question": "Which party will win the 2026 Texas Senate race?",
+      "type": "single_race",
+      "url": "https://manifold.markets/questions/which-party-will-win-the-2026-texas",
+      "uniqueBettorCount": 44,
+      "volume": 21201.223822004747,
+      "totalLiquidity": 600,
+      "related_races": [
+        "TX_Senate"
+      ],
+      "prices": {
+        "Democratic party": 0.3136473658163664,
+        "Republican party": 0.6863239358334032,
+        "Other": 2.8698350229742663e-05
+      }
+    },
+    {
+      "slug": "will-democrats-or-republicans-win-a",
+      "name": "Senate D Majority (MC)",
+      "question": "Will Democrats or Republicans win a majority in the senate in 2026?",
+      "type": "seat_count",
+      "url": "https://manifold.markets/questions/will-democrats-or-republicans-win-a",
+      "uniqueBettorCount": 87,
+      "volume": 16071.77423896937,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {
+        "Democrats": 0.37631741578802436,
+        "Republicans": 0.4580787922637358,
+        "Tie": 0.1347860313427288,
+        "Other": 0.03081776060551098
+      }
+    },
+    {
+      "slug": "will-democrats-sweep-the-core-four",
+      "name": "D sweeps core four (GA, MI, NC, ME)",
+      "question": "Will Democrats sweep the \"core four\" Senate races? (Kalshi)",
+      "type": "intersection_constraint",
+      "url": "https://manifold.markets/questions/will-democrats-sweep-the-core-four",
+      "uniqueBettorCount": 4,
+      "volume": 530,
+      "totalLiquidity": 356,
+      "related_races": [
+        "GA_Senate",
+        "MI_Senate",
+        "NC_Senate",
+        "ME_Senate"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "democrats-win-alaska-maine-ohio-and",
+      "name": "D wins AK, ME, OH, NC",
+      "question": "Democrats win Alaska, Maine, Ohio and North Carolina for US Senate?",
+      "type": "intersection_constraint",
+      "url": "https://manifold.markets/questions/democrats-win-alaska-maine-ohio-and",
+      "uniqueBettorCount": 23,
+      "volume": 5491.118293384914,
+      "totalLiquidity": 148,
+      "related_races": [
+        "AK_Senate",
+        "OH_Senate_Special",
+        "NC_Senate",
+        "ME_Senate"
+      ],
+      "prices": {}
+    },
+    {
+      "slug": "will-a-democrat-win-these-us-house",
+      "name": "House Omnibus (D wins)",
+      "question": "Will a Democrat win these US House races in 2026?",
+      "type": "multi_race",
+      "url": "https://manifold.markets/questions/will-a-democrat-win-these-us-house",
+      "uniqueBettorCount": 15,
+      "volume": 2148.6713429775605,
+      "totalLiquidity": 1180,
+      "related_races": [
+        "TX_28_House",
+        "PA_17_House",
+        "CA_40_House",
+        "CO_08_House",
+        "VA_07_House",
+        "VA_01_House",
+        "AK_AL_House",
+        "NJ_09_House",
+        "NJ_05_House",
+        "CA_03_House",
+        "CO_03_House",
+        "NV_01_House",
+        "VA_02_House",
+        "PA_01_House",
+        "NV_04_House",
+        "PA_10_House",
+        "VA_10_House",
+        "WA_03_House",
+        "NY_19_House",
+        "NV_03_House",
+        "NY_18_House",
+        "FL_23_House",
+        "TX_34_House",
+        "MI_08_House",
+        "MI_07_House",
+        "NJ_07_House",
+        "ME_02_House",
+        "CA_13_House",
+        "CA_49_House",
+        "MI_03_House",
+        "NM_02_House",
+        "CA_27_House",
+        "NY_17_House",
+        "WA_08_House",
+        "NY_04_House",
+        "IA_03_House",
+        "CA_45_House",
+        "NH_01_House",
+        "IL_17_House",
+        "CA_21_House",
+        "MT_01_House",
+        "CA_09_House",
+        "CT_05_House",
+        "PA_07_House",
+        "OH_09_House",
+        "TX_15_House",
+        "NY_22_House",
+        "NE_02_House",
+        "WI_03_House",
+        "OR_05_House",
+        "CA_22_House",
+        "MI_10_House",
+        "NH_02_House",
+        "NC_01_House",
+        "FL_13_House",
+        "AZ_06_House",
+        "AZ_01_House",
+        "OH_01_House",
+        "CA_41_House",
+        "WI_01_House",
+        "PA_08_House",
+        "OH_13_House",
+        "IA_01_House",
+        "AZ_02_House",
+        "IN_01_House",
+        "CA_47_House",
+        "NY_03_House",
+        "MI_04_House"
+      ],
+      "prices": {
+        "Alaska at-large": 0.2766930119332723,
+        "Arizona 1": 0.666200234334711,
+        "Arizona 2": 0.3861168820688825,
+        "Arizona 6": 0.7659503269626459,
+        "California 3": 0.8698490707342349,
+        "California 9": 0.6754829452397088,
+        "California 13": 0.5687133500383391,
+        "California 21": 0.8593509794162827,
+        "California 22": 0.8056431728368035,
+        "California 27": 0.9575433672008271,
+        "California 40": 0.26102149301993366,
+        "California 41": 0.5589065256872715,
+        "California 45": 0.5908347851536533,
+        "California 47": 0.7311187705472688,
+        "California 49": 0.7885147207901455,
+        "Colorado 3": 0.48852492299735156,
+        "Colorado 8": 0.6909259670047828,
+        "Connecticut 5": 0.9446918976789151,
+        "Florida 13": 0.5333349984360525,
+        "Florida 23": 0.5081290986705385,
+        "Illinois 17": 0.8736939771133686,
+        "Indiana 1": 0.66035444846912,
+        "Iowa 1": 0.7873880143864719,
+        "Iowa 3": 0.6608120994514397,
+        "Maine 2": 0.7443926141507875,
+        "Michigan 3": 0.560854419762709,
+        "Michigan 4": 0.4649157376252706,
+        "Michigan 7": 0.6310352654037168,
+        "Michigan 8": 0.4873822450535663,
+        "Michigan 10": 0.6935354361819351,
+        "Montana 1": 0.32676906650780485,
+        "Nebraska 2": 0.6138610577480028,
+        "Nevada 1": 0.927046217214187,
+        "Nevada 3": 0.5138199185812496,
+        "Nevada 4": 0.4765708969763849,
+        "New Hampshire 1": 0.8553921023312486,
+        "New Hampshire 2": 0.9414529246212687,
+        "New Jersey 5": 0.5878840726268568,
+        "New Jersey 7": 0.6863025679578633,
+        "New Jersey 9": 0.7653402098353879,
+        "New Mexico 2": 0.5480750520131271,
+        "New York 3": 0.4798786743764965,
+        "New York 4": 0.6626516933501306,
+        "New York 17": 0.6661177345717016,
+        "New York 18": 0.7393187361867344,
+        "New York 19": 0.5150965814623721,
+        "New York 22": 0.7099004019293804,
+        "North Carolina 1": 0.5344974162996003,
+        "Ohio 1": 0.2616024458601323,
+        "Ohio 9": 0.3267243870026317,
+        "Ohio 13": 0.36100225887183546,
+        "Oregon 5": 0.9488828544485475,
+        "Pennsylvania 1": 0.6624044259225296,
+        "Pennsylvania 7": 0.6513078314450202,
+        "Pennsylvania 8": 0.7376833666374786,
+        "Pennsylvania 10": 0.6209265746653413,
+        "Pennsylvania 17": 0.8408408495837014,
+        "Texas 15": 0.5587869530228629,
+        "Texas 28": 0.7844587888677196,
+        "Texas 34": 0.43033755785724026,
+        "Virginia 1": 0.6514833206560723,
+        "Virginia 2": 0.7576689230443807,
+        "Virginia 7": 0.7216531991944805,
+        "Virginia 10": 0.7963232316899187,
+        "Washington 3": 0.4653848192089899,
+        "Washington 8": 0.9501567444192199,
+        "Wisconsin 1": 0.16820778087060106,
+        "Wisconsin 3": 0.6660412062994006
+      }
+    },
+    {
+      "slug": "republicans-have-house-majority-aft",
+      "name": "R House Control",
+      "question": "Republicans have a House majority after 2026 midterms?",
+      "type": "control",
+      "url": "https://manifold.markets/questions/republicans-have-house-majority-aft",
+      "uniqueBettorCount": 343,
+      "volume": 279154.32129566406,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {}
+    },
+    {
+      "slug": "how-many-house-seats-will-the-democ",
+      "name": "Dem House Seats",
+      "question": "How many House seats will the Democrats win in 2026?",
+      "type": "seat_count",
+      "url": "https://manifold.markets/questions/how-many-house-seats-will-the-democ",
+      "uniqueBettorCount": 37,
+      "volume": 3236.598396434584,
+      "totalLiquidity": 600,
+      "related_races": [],
+      "prices": {
+        "215+ (2024 result)": 0.939838194197128,
+        "213+ (2022 result)": 0.9500000000000001,
+        "222+ (2020 result)": 0.78,
+        "218+ (majority)": 0.8800077581305172,
+        "235+ (2018 result)": 0.4099999999999999,
+        "194+ (2016 result)": 0.9636392074427382,
+        "257+ (2008 result)": 0.13964231428304447,
+        "246+": 0.18170882292625293
+      }
+    },
+    {
+      "slug": "will-democrats-win-more-than-230-se",
+      "name": "D House > 230",
+      "question": "Will Democrats win more than 230 seats in the House in the 2026 midterms?",
+      "type": "binary_seat_threshold",
+      "url": "https://manifold.markets/questions/will-democrats-win-more-than-230-se",
+      "uniqueBettorCount": 3,
+      "volume": 265,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {}
+    },
+    {
+      "slug": "will-the-democratic-party-win-more-Sh65d0959n",
+      "name": "D House > 240",
+      "question": "Will the Democratic party win more than 240 US house seats in the 2026 election?",
+      "type": "binary_seat_threshold",
+      "url": "https://manifold.markets/questions/will-the-democratic-party-win-more-Sh65d0959n",
+      "uniqueBettorCount": 12,
+      "volume": 783.3397166080304,
+      "totalLiquidity": 100,
+      "related_races": [],
+      "prices": {}
+    },
+    {
+      "slug": "which-iowa-congressional-districts",
+      "name": "Iowa Congressional Districts (D wins)",
+      "question": "Which Iowa congressional districts will the Democrats win in the 2026 midterms?",
+      "type": "multi_race",
+      "url": "https://manifold.markets/questions/which-iowa-congressional-districts",
+      "uniqueBettorCount": 6,
+      "volume": 178.67,
+      "totalLiquidity": 100,
+      "related_races": [
+        "IA_02_House",
+        "IA_01_House",
+        "IA_03_House",
+        "IA_04_House"
+      ],
+      "prices": {
+        "Iowa's 1st Congressional District": 0.787272614538338,
+        "Iowa's 2nd Congressional District": 0.29241877256317683,
+        "Iowa's 3rd Congressional District": 0.6606851824623298,
+        "Iowa's 4th Congressional District": 0.06476683937823836
+      }
+    },
+    {
+      "slug": "how-many-house-seats-do-the-democra",
+      "name": "D Flips (gains from R)",
+      "question": "How many House seats do the Democrats flip in 2026?",
+      "type": "flip_count",
+      "url": "https://manifold.markets/questions/how-many-house-seats-do-the-democra",
+      "uniqueBettorCount": 16,
+      "volume": 1962.9557864642986,
+      "totalLiquidity": 1100,
+      "related_races": [],
+      "prices": {
+        ">= 5": 0.9283946637851301,
+        ">= 10": 0.8353808697562342,
+        ">= 20": 0.48719438952564736,
+        ">= 30": 0.2134099159636123
+      }
+    },
+    {
+      "slug": "how-many-house-seats-do-the-republi",
+      "name": "R Flips (gains from D)",
+      "question": "How many House seats do the Republicans flip in 2026?",
+      "type": "flip_count",
+      "url": "https://manifold.markets/questions/how-many-house-seats-do-the-republi",
+      "uniqueBettorCount": 9,
+      "volume": 1606.8195558079067,
+      "totalLiquidity": 1100,
+      "related_races": [],
+      "prices": {
+        ">= 5": 0.5923465687019177,
+        ">= 10": 0.3987621280317123,
+        ">= 20": 0.13197725052427342,
+        ">= 2": 0.9216643874228222
+      }
+    },
+    {
+      "slug": "how-many-house-seats-will-flip-in-2",
+      "name": "Total House Flips (linear)",
+      "question": "How many House seats will flip in 2026? [linear, 0-100]",
+      "type": "linear_flip_count",
+      "url": "https://manifold.markets/questions/how-many-house-seats-will-flip-in-2",
+      "uniqueBettorCount": 2,
+      "volume": 562.82,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {}
+    },
+    {
+      "slug": "how-many-house-seats-will-the-democ-29Rtl8ZcQU",
+      "name": "D Flips (linear)",
+      "question": "How many House seats will the Democrats flip in 2026? [linear, 0-100]",
+      "type": "linear_flip_count",
+      "url": "https://manifold.markets/questions/how-many-house-seats-will-the-democ-29Rtl8ZcQU",
+      "uniqueBettorCount": 3,
+      "volume": 793.7636717284854,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {}
+    },
+    {
+      "slug": "how-many-house-seats-will-the-repub",
+      "name": "R Flips (linear)",
+      "question": "How many House seats will the Republicans flip in 2026? [linear, 0-100]",
+      "type": "linear_flip_count",
+      "url": "https://manifold.markets/questions/how-many-house-seats-will-the-repub",
+      "uniqueBettorCount": 5,
+      "volume": 1410.8268666428987,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {}
+    },
+    {
+      "slug": "how-many-safe-house-seats-will-flip",
+      "name": "Safe Seat Flips",
+      "question": "How many \"safe\" House seats will flip in 2026?",
+      "type": "safe_seat_flip_count",
+      "url": "https://manifold.markets/questions/how-many-safe-house-seats-will-flip",
+      "uniqueBettorCount": 4,
+      "volume": 2598.15025309569,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {
+        "\u226510": 0.2003041884622064,
+        "\u226513": 0.1627290338533653,
+        "\u226516": 0.12627211679057582,
+        "\u226520": 0.0864864864864864,
+        "\u226525": 0.06640326633523545
+      }
+    },
+    {
+      "slug": "who-controls-congress-after-the-202",
+      "name": "Congress Control",
+      "question": "Who controls Congress after the 2026 Midterms?",
+      "type": "joint_congress_control",
+      "url": "https://manifold.markets/questions/who-controls-congress-after-the-202",
+      "uniqueBettorCount": 72,
+      "volume": 35530.18801594688,
+      "totalLiquidity": 4000,
+      "related_races": [],
+      "prices": {
+        "Democrats Sweep": 0.3732442421905173,
+        "Republicans Sweep": 0.10319806206997378,
+        "D Senate, R House": 0.010989921763621438,
+        "R Senate, D House": 0.5083554531930747,
+        "Other": 0.004212320782812777
+      }
+    },
+    {
+      "slug": "how-many-democratic-representatives",
+      "name": "CA D Representatives",
+      "question": "How many Democratic Representatives will CA elect in 2026?",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-democratic-representatives",
+      "uniqueBettorCount": 6,
+      "volume": 331.91,
+      "totalLiquidity": 300,
+      "related_races": [
+        "CA_37_House",
+        "CA_18_House",
+        "CA_10_House",
+        "CA_28_House",
+        "CA_40_House",
+        "CA_15_House",
+        "CA_50_House",
+        "CA_03_House",
+        "CA_05_House",
+        "CA_52_House",
+        "CA_16_House",
+        "CA_04_House",
+        "CA_19_House",
+        "CA_30_House",
+        "CA_20_House",
+        "CA_46_House",
+        "CA_36_House",
+        "CA_23_House",
+        "CA_13_House",
+        "CA_49_House",
+        "CA_27_House",
+        "CA_34_House",
+        "CA_44_House",
+        "CA_33_House",
+        "CA_39_House",
+        "CA_45_House",
+        "CA_02_House",
+        "CA_06_House",
+        "CA_08_House",
+        "CA_26_House",
+        "CA_21_House",
+        "CA_43_House",
+        "CA_29_House",
+        "CA_31_House",
+        "CA_35_House",
+        "CA_09_House",
+        "CA_07_House",
+        "CA_01_House",
+        "CA_48_House",
+        "CA_22_House",
+        "CA_25_House",
+        "CA_38_House",
+        "CA_47_House",
+        "CA_12_House",
+        "CA_14_House",
+        "CA_24_House",
+        "CA_41_House",
+        "CA_17_House",
+        "CA_51_House",
+        "CA_42_House",
+        "CA_11_House",
+        "CA_32_House"
+      ],
+      "prices": {
+        "34+ (2010 result)": 0.959537503485681,
+        "39+ (2016 result)": 0.8669103211659827,
+        "40+ (2022 result)": 0.8870978780655925,
+        "43+ (2024 result)": 0.826133160953867,
+        "46+ (2018 result)": 0.6630210736497848,
+        "48+": 0.3826669991295951
+      }
+    },
+    {
+      "slug": "how-many-democratic-representatives-90qlU6RNUC",
+      "name": "OH House D Count",
+      "question": "How many Democratic Representatives will OH elect in 2026?",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-democratic-representatives-90qlU6RNUC",
+      "uniqueBettorCount": 2,
+      "volume": 552.1202409694628,
+      "totalLiquidity": 175,
+      "related_races": [
+        "OH_12_House",
+        "OH_10_House",
+        "OH_04_House",
+        "OH_03_House",
+        "OH_06_House",
+        "OH_01_House",
+        "OH_15_House",
+        "OH_02_House",
+        "OH_11_House",
+        "OH_14_House",
+        "OH_13_House",
+        "OH_09_House",
+        "OH_05_House",
+        "OH_07_House",
+        "OH_08_House"
+      ],
+      "prices": {
+        "0-2": 0.015426154057111738,
+        "3": 0.363658889943406,
+        "4": 0.18431563356947606,
+        "5": 0.14873502284098056,
+        "6-7": 0.1643423202090242,
+        "8-9": 0.1169415462494659,
+        "10-15": 0.006580433130535536
+      }
+    },
+    {
+      "slug": "will-oh-elect-a-democratic-senator",
+      "name": "OH Senate + House",
+      "question": "Will Ohio elect a Democratic Senator in 2026, and will they elect at least 4 Democratic Representatives?",
+      "type": "joint_race_count",
+      "url": "https://manifold.markets/questions/will-oh-elect-a-democratic-senator",
+      "uniqueBettorCount": 6,
+      "volume": 289.6098287499764,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "OH_Senate_Special"
+      ],
+      "prices": {
+        "Dem Senator, >= 4 Dem Reps": 0.2999926371332583,
+        "Dem Senator, < 4 Dem Reps": 0.14566929396728676,
+        "Non-Dem Senator, >= 4 Dem Reps": 0.31416948285482266,
+        "Non-Dem Senator, < 4 Dem Reps": 0.2401685860446323
+      }
+    },
+    {
+      "slug": "how-many-democratic-representatives-yZIZ2AtUyq",
+      "name": "FL D Representatives",
+      "question": "How many Democratic Representatives will Florida elect in 2026?",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-democratic-representatives-yZIZ2AtUyq",
+      "uniqueBettorCount": 5,
+      "volume": 3116.7353108715224,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "FL_26_House",
+        "FL_14_House",
+        "FL_16_House",
+        "FL_21_House",
+        "FL_22_House",
+        "FL_17_House",
+        "FL_23_House",
+        "FL_28_House",
+        "FL_07_House",
+        "FL_02_House",
+        "FL_03_House",
+        "FL_24_House",
+        "FL_18_House",
+        "FL_11_House",
+        "FL_05_House",
+        "FL_19_House",
+        "FL_10_House",
+        "FL_20_House",
+        "FL_12_House",
+        "FL_04_House",
+        "FL_15_House",
+        "FL_27_House",
+        "FL_01_House",
+        "FL_13_House",
+        "FL_08_House",
+        "FL_09_House",
+        "FL_06_House",
+        "FL_25_House"
+      ],
+      "prices": {
+        "0-4": 0.02146504498163159,
+        "5-6": 0.13921145017078856,
+        "7": 0.1526752546120058,
+        "8": 0.1707354957449996,
+        "9": 0.15753868064056162,
+        "10": 0.13288087767575044,
+        "11-12": 0.11671639912164732,
+        "13-15": 0.0782213136103228,
+        "16-20": 0.020335857496477722,
+        "21-28": 0.010219625945814555
+      }
+    },
+    {
+      "slug": "how-many-democratic-representatives-z8ynIAnUPL",
+      "name": "IL D Representatives",
+      "question": "How many Democratic Representatives will Illinois elect in 2026?",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-democratic-representatives-z8ynIAnUPL",
+      "uniqueBettorCount": 4,
+      "volume": 1697.9043252172119,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "IL_08_House",
+        "IL_09_House",
+        "IL_04_House",
+        "IL_01_House",
+        "IL_10_House",
+        "IL_07_House",
+        "IL_14_House",
+        "IL_15_House",
+        "IL_06_House",
+        "IL_02_House",
+        "IL_17_House",
+        "IL_11_House",
+        "IL_13_House",
+        "IL_16_House",
+        "IL_03_House",
+        "IL_12_House",
+        "IL_05_House"
+      ],
+      "prices": {
+        "\u226411": 0.013763882811354612,
+        "12": 0.02136134326900296,
+        "13": 0.07037878403056964,
+        "14": 0.8563170742875129,
+        "15": 0.019434453299516465,
+        "\u226516": 0.018744462302043362
+      }
+    },
+    {
+      "slug": "how-many-democratic-representatives-Pc9ysPsQlN",
+      "name": "NY D Representatives",
+      "question": "How many Democratic representatives will New York elect to the House in 2026?",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-democratic-representatives-Pc9ysPsQlN",
+      "uniqueBettorCount": 5,
+      "volume": 4718.255486791625,
+      "totalLiquidity": 1100,
+      "related_races": [
+        "NY_05_House",
+        "NY_11_House",
+        "NY_15_House",
+        "NY_01_House",
+        "NY_07_House",
+        "NY_16_House",
+        "NY_23_House",
+        "NY_08_House",
+        "NY_02_House",
+        "NY_19_House",
+        "NY_25_House",
+        "NY_18_House",
+        "NY_21_House",
+        "NY_20_House",
+        "NY_17_House",
+        "NY_04_House",
+        "NY_10_House",
+        "NY_06_House",
+        "NY_14_House",
+        "NY_22_House",
+        "NY_12_House",
+        "NY_09_House",
+        "NY_13_House",
+        "NY_26_House",
+        "NY_24_House",
+        "NY_03_House"
+      ],
+      "prices": {
+        "0-8": 0.008505009971224529,
+        "9-12": 0.009033367017728165,
+        "13-14": 0.01036500741037353,
+        "15-16": 0.044240527569223996,
+        "17": 0.0630254257086627,
+        "18": 0.08398145023156736,
+        "19": 0.15124259556673428,
+        "20": 0.24453009175278675,
+        "21": 0.24584503063924823,
+        "22-23": 0.09504302130796768,
+        "24-26": 0.04418847282448178
+      }
+    },
+    {
+      "slug": "how-many-republican-representatives",
+      "name": "TX R Representatives",
+      "question": "How many Republican Representatives will Texas elect in 2026?",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-republican-representatives",
+      "uniqueBettorCount": 10,
+      "volume": 3498.2812953125,
+      "totalLiquidity": 1750,
+      "related_races": [
+        "TX_12_House",
+        "TX_25_House",
+        "TX_28_House",
+        "TX_11_House",
+        "TX_01_House",
+        "TX_22_House",
+        "TX_13_House",
+        "TX_35_House",
+        "TX_09_House",
+        "TX_07_House",
+        "TX_34_House",
+        "TX_06_House",
+        "TX_19_House",
+        "TX_21_House",
+        "TX_32_House",
+        "TX_10_House",
+        "TX_30_House",
+        "TX_20_House",
+        "TX_31_House",
+        "TX_04_House",
+        "TX_02_House",
+        "TX_26_House",
+        "TX_29_House",
+        "TX_24_House",
+        "TX_14_House",
+        "TX_15_House",
+        "TX_36_House",
+        "TX_33_House",
+        "TX_16_House",
+        "TX_03_House",
+        "TX_37_House",
+        "TX_05_House",
+        "TX_18_House",
+        "TX_38_House",
+        "TX_17_House",
+        "TX_08_House",
+        "TX_23_House",
+        "TX_27_House"
+      ],
+      "prices": {
+        "0-8": 0.010431478600716141,
+        "9-13": 0.018443305540906188,
+        "14-18": 0.028732757087662333,
+        "19-21": 0.06364710856777425,
+        "22": 0.05828933133605499,
+        "23": 0.0618839615850447,
+        "24": 0.08495217922103426,
+        "25": 0.09329418809019371,
+        "26": 0.08531590137490025,
+        "27": 0.11347084533944884,
+        "28": 0.1685875708244235,
+        "29-30": 0.17417195016321166,
+        "31-33": 0.022286740571723505,
+        "34-38": 0.016492681696905688
+      }
+    },
+    {
+      "slug": "will-texas-elect-a-democratic-senat",
+      "name": "TX Senate + House",
+      "question": "Will Texas elect a Democratic Senator in 2026, and will they elect at least 14 Democratic Representatives?",
+      "type": "joint_race_count",
+      "url": "https://manifold.markets/questions/will-texas-elect-a-democratic-senat",
+      "uniqueBettorCount": 7,
+      "volume": 2076.4525985849145,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "TX_Senate"
+      ],
+      "prices": {
+        "Dem Senator, >= 14 Dem Reps": 0.15592639166566624,
+        "Dem Senator, < 14 Dem Reps": 0.16598511372081554,
+        "Non-Dem Senator, >= 14 Dem Reps": 0.17238623120630905,
+        "Non-Dem Senator, < 14 Dem Reps": 0.5057022634072093
+      }
+    },
+    {
+      "slug": "d-representatives-from-deep-south-a",
+      "name": "Deep South D Representatives",
+      "question": "D Representatives from Deep South (AL/GA/LA/MS/SC) 2026",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/d-representatives-from-deep-south-a",
+      "uniqueBettorCount": 2,
+      "volume": 618.88014407346,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "MS_03_House",
+        "SC_03_House",
+        "SC_07_House",
+        "GA_05_House",
+        "MS_04_House",
+        "LA_03_House",
+        "GA_01_House",
+        "LA_05_House",
+        "MS_02_House",
+        "SC_01_House",
+        "GA_09_House",
+        "LA_06_House",
+        "AL_03_House",
+        "GA_10_House",
+        "SC_02_House",
+        "GA_06_House",
+        "AL_01_House",
+        "LA_04_House",
+        "LA_01_House",
+        "AL_07_House",
+        "GA_07_House",
+        "GA_03_House",
+        "SC_05_House",
+        "AL_02_House",
+        "GA_11_House",
+        "GA_12_House",
+        "GA_14_House",
+        "GA_04_House",
+        "AL_05_House",
+        "GA_02_House",
+        "AL_04_House",
+        "MS_01_House",
+        "SC_06_House",
+        "GA_13_House",
+        "AL_06_House",
+        "GA_08_House",
+        "SC_04_House",
+        "LA_02_House"
+      ],
+      "prices": {
+        "\u22649": 0.06343103571468843,
+        "10": 0.10264318631145516,
+        "11": 0.17697914509999524,
+        "12": 0.17477380425398828,
+        "13": 0.2843543650395943,
+        "14": 0.09784314525252487,
+        "\u226515": 0.09997531832775369
+      }
+    },
+    {
+      "slug": "how-many-democratic-representatives-tPuUp2ZgU2",
+      "name": "New England D Representatives",
+      "question": "How many Democratic Representatives will New England elect in 2026?",
+      "type": "safe_seat_count",
+      "url": "https://manifold.markets/questions/how-many-democratic-representatives-tPuUp2ZgU2",
+      "uniqueBettorCount": 6,
+      "volume": 3919.2288113400386,
+      "totalLiquidity": 1000,
+      "related_races": [
+        "MA_09_House",
+        "MA_04_House",
+        "RI_01_House",
+        "CT_01_House",
+        "MA_05_House",
+        "CT_04_House",
+        "ME_02_House",
+        "ME_01_House",
+        "CT_03_House",
+        "NH_01_House",
+        "MA_08_House",
+        "CT_05_House",
+        "MA_02_House",
+        "MA_07_House",
+        "MA_01_House",
+        "VT_AL_House",
+        "NH_02_House",
+        "RI_02_House",
+        "MA_06_House",
+        "CT_02_House",
+        "MA_03_House"
+      ],
+      "prices": {
+        "0-12": 0.0074247978397316994,
+        "13-16": 0.013974316503980915,
+        "17-18": 0.018855382017941444,
+        "19": 0.009729888180036984,
+        "20": 0.5706537795537379,
+        "21": 0.37936183590457095
+      }
+    },
+    {
+      "slug": "republican-senate-seats-after-2026",
+      "name": "R Senate Seats (linear)",
+      "question": "Republican Senate seats after 2026 election? (45-55, linear)",
+      "type": "linear_seat_count",
+      "url": "https://manifold.markets/questions/republican-senate-seats-after-2026",
+      "uniqueBettorCount": 5,
+      "volume": 530.0744587161953,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {}
+    },
+    {
+      "slug": "democratic-house-seats-after-2026-2",
+      "name": "D House Seats (linear)",
+      "question": "Democratic House seats after 2026 election? (200-250, linear)",
+      "type": "linear_seat_count",
+      "url": "https://manifold.markets/questions/democratic-house-seats-after-2026-2",
+      "uniqueBettorCount": 6,
+      "volume": 501.25058978362443,
+      "totalLiquidity": 1000,
+      "related_races": [],
+      "prices": {}
+    }
+  ],
   "top_outcomes": [
     {
+      "rank": 1,
+      "sample_count": 11253,
+      "model_prob": 0.0281325,
+      "d_wins": 280,
+      "r_wins": 255,
+      "d_seats": 280,
+      "r_seats": 255,
       "d_senate": 49,
       "r_senate": 51,
       "d_house": 231,
-      "r_house": 204,
-      "probability": 0.0281325
+      "r_house": 204
     },
     {
+      "rank": 2,
+      "sample_count": 8579,
+      "model_prob": 0.0214475,
+      "d_wins": 279,
+      "r_wins": 256,
+      "d_seats": 279,
+      "r_seats": 256,
       "d_senate": 48,
       "r_senate": 52,
       "d_house": 231,
-      "r_house": 204,
-      "probability": 0.0214475
+      "r_house": 204
     },
     {
+      "rank": 3,
+      "sample_count": 8111,
+      "model_prob": 0.0202775,
+      "d_wins": 282,
+      "r_wins": 253,
+      "d_seats": 282,
+      "r_seats": 253,
       "d_senate": 51,
       "r_senate": 49,
       "d_house": 231,
-      "r_house": 204,
-      "probability": 0.0202775
+      "r_house": 204
     },
     {
+      "rank": 4,
+      "sample_count": 7450,
+      "model_prob": 0.018625,
+      "d_wins": 274,
+      "r_wins": 261,
+      "d_seats": 274,
+      "r_seats": 261,
       "d_senate": 49,
       "r_senate": 51,
       "d_house": 225,
-      "r_house": 210,
-      "probability": 0.018625
+      "r_house": 210
     },
     {
+      "rank": 5,
+      "sample_count": 7204,
+      "model_prob": 0.01801,
+      "d_wins": 283,
+      "r_wins": 252,
+      "d_seats": 283,
+      "r_seats": 252,
       "d_senate": 52,
       "r_senate": 48,
       "d_house": 231,
-      "r_house": 204,
-      "probability": 0.01801
+      "r_house": 204
     },
     {
+      "rank": 6,
+      "sample_count": 6600,
+      "model_prob": 0.0165,
+      "d_wins": 281,
+      "r_wins": 254,
+      "d_seats": 281,
+      "r_seats": 254,
       "d_senate": 50,
       "r_senate": 50,
       "d_house": 231,
-      "r_house": 204,
-      "probability": 0.0165
+      "r_house": 204
     },
     {
+      "rank": 7,
+      "sample_count": 6422,
+      "model_prob": 0.016055,
+      "d_wins": 281,
+      "r_wins": 254,
+      "d_seats": 281,
+      "r_seats": 254,
       "d_senate": 49,
       "r_senate": 51,
       "d_house": 232,
-      "r_house": 203,
-      "probability": 0.016055
+      "r_house": 203
     },
     {
+      "rank": 8,
+      "sample_count": 5880,
+      "model_prob": 0.0147,
+      "d_wins": 282,
+      "r_wins": 253,
+      "d_seats": 282,
+      "r_seats": 253,
       "d_senate": 49,
       "r_senate": 51,
       "d_house": 233,
-      "r_house": 202,
-      "probability": 0.0147
+      "r_house": 202
     },
     {
+      "rank": 9,
+      "sample_count": 5540,
+      "model_prob": 0.01385,
+      "d_wins": 266,
+      "r_wins": 269,
+      "d_seats": 266,
+      "r_seats": 269,
       "d_senate": 51,
       "r_senate": 49,
       "d_house": 215,
-      "r_house": 220,
-      "probability": 0.01385
+      "r_house": 220
     },
     {
+      "rank": 10,
+      "sample_count": 5428,
+      "model_prob": 0.01357,
+      "d_wins": 283,
+      "r_wins": 252,
+      "d_seats": 283,
+      "r_seats": 252,
       "d_senate": 49,
       "r_senate": 51,
       "d_house": 234,
-      "r_house": 201,
-      "probability": 0.01357
+      "r_house": 201
     },
     {
+      "rank": 11,
+      "sample_count": 5232,
+      "model_prob": 0.01308,
+      "d_wins": 273,
+      "r_wins": 262,
+      "d_seats": 273,
+      "r_seats": 262,
       "d_senate": 48,
       "r_senate": 52,
       "d_house": 225,
-      "r_house": 210,
-      "probability": 0.01308
+      "r_house": 210
     },
     {
+      "rank": 12,
+      "sample_count": 4929,
+      "model_prob": 0.0123225,
+      "d_wins": 265,
+      "r_wins": 270,
+      "d_seats": 265,
+      "r_seats": 270,
       "d_senate": 50,
       "r_senate": 50,
       "d_house": 215,
-      "r_house": 220,
-      "probability": 0.0123225
+      "r_house": 220
     },
     {
+      "rank": 13,
+      "sample_count": 4889,
+      "model_prob": 0.0122225,
+      "d_wins": 276,
+      "r_wins": 259,
+      "d_seats": 276,
+      "r_seats": 259,
       "d_senate": 51,
       "r_senate": 49,
       "d_house": 225,
-      "r_house": 210,
-      "probability": 0.0122225
+      "r_house": 210
     },
     {
+      "rank": 14,
+      "sample_count": 4652,
+      "model_prob": 0.01163,
+      "d_wins": 280,
+      "r_wins": 255,
+      "d_seats": 280,
+      "r_seats": 255,
       "d_senate": 48,
       "r_senate": 52,
       "d_house": 232,
-      "r_house": 203,
-      "probability": 0.01163
+      "r_house": 203
     },
     {
+      "rank": 15,
+      "sample_count": 4400,
+      "model_prob": 0.011,
+      "d_wins": 275,
+      "r_wins": 260,
+      "d_seats": 275,
+      "r_seats": 260,
       "d_senate": 50,
       "r_senate": 50,
       "d_house": 225,
-      "r_house": 210,
-      "probability": 0.011
+      "r_house": 210
     },
     {
+      "rank": 16,
+      "sample_count": 4246,
+      "model_prob": 0.010615,
+      "d_wins": 278,
+      "r_wins": 257,
+      "d_seats": 278,
+      "r_seats": 257,
       "d_senate": 47,
       "r_senate": 53,
       "d_house": 231,
-      "r_house": 204,
-      "probability": 0.010615
+      "r_house": 204
     },
     {
+      "rank": 17,
+      "sample_count": 4186,
+      "model_prob": 0.010465,
+      "d_wins": 271,
+      "r_wins": 264,
+      "d_seats": 271,
+      "r_seats": 264,
       "d_senate": 49,
       "r_senate": 51,
       "d_house": 222,
-      "r_house": 213,
-      "probability": 0.010465
+      "r_house": 213
     },
     {
+      "rank": 18,
+      "sample_count": 4124,
+      "model_prob": 0.01031,
+      "d_wins": 283,
+      "r_wins": 252,
+      "d_seats": 283,
+      "r_seats": 252,
       "d_senate": 51,
       "r_senate": 49,
       "d_house": 232,
-      "r_house": 203,
-      "probability": 0.01031
+      "r_house": 203
     },
     {
+      "rank": 19,
+      "sample_count": 4036,
+      "model_prob": 0.01009,
+      "d_wins": 277,
+      "r_wins": 258,
+      "d_seats": 277,
+      "r_seats": 258,
       "d_senate": 52,
       "r_senate": 48,
       "d_house": 225,
-      "r_house": 210,
-      "probability": 0.01009
+      "r_house": 210
     },
     {
+      "rank": 20,
+      "sample_count": 3986,
+      "model_prob": 0.009965,
+      "d_wins": 281,
+      "r_wins": 254,
+      "d_seats": 281,
+      "r_seats": 254,
       "d_senate": 48,
       "r_senate": 52,
       "d_house": 233,
-      "r_house": 202,
-      "probability": 0.009965
+      "r_house": 202
     }
   ],
   "top_senate_outcomes": [
     {
       "d_seats": 43,
+      "d_wins": 9,
+      "count": 5,
       "probability": 1.25e-05
     },
     {
       "d_seats": 44,
+      "d_wins": 10,
+      "count": 8204,
       "probability": 0.02051
     },
     {
       "d_seats": 45,
+      "d_wins": 11,
+      "count": 10040,
       "probability": 0.0251
     },
     {
       "d_seats": 46,
+      "d_wins": 12,
+      "count": 13535,
       "probability": 0.0338375
     },
     {
       "d_seats": 47,
+      "d_wins": 13,
+      "count": 24380,
       "probability": 0.06095
     },
     {
       "d_seats": 48,
+      "d_wins": 14,
+      "count": 54691,
       "probability": 0.1367275
     },
     {
       "d_seats": 49,
+      "d_wins": 15,
+      "count": 74267,
       "probability": 0.1856675
     },
     {
       "d_seats": 50,
+      "d_wins": 16,
+      "count": 49536,
       "probability": 0.12384
     },
     {
       "d_seats": 51,
+      "d_wins": 17,
+      "count": 56179,
       "probability": 0.1404475
     },
     {
       "d_seats": 52,
+      "d_wins": 18,
+      "count": 47539,
       "probability": 0.1188475
     },
     {
       "d_seats": 53,
+      "d_wins": 19,
+      "count": 24593,
       "probability": 0.0614825
     },
     {
       "d_seats": 54,
+      "d_wins": 20,
+      "count": 19575,
       "probability": 0.0489375
     },
     {
       "d_seats": 55,
+      "d_wins": 21,
+      "count": 10091,
       "probability": 0.0252275
     },
     {
       "d_seats": 56,
+      "d_wins": 22,
+      "count": 5341,
       "probability": 0.0133525
     },
     {
       "d_seats": 57,
+      "d_wins": 23,
+      "count": 1593,
       "probability": 0.0039825
     },
     {
       "d_seats": 58,
+      "d_wins": 24,
+      "count": 343,
       "probability": 0.0008575
     },
     {
       "d_seats": 59,
+      "d_wins": 25,
+      "count": 78,
       "probability": 0.000195
     },
     {
       "d_seats": 60,
+      "d_wins": 26,
+      "count": 10,
       "probability": 2.5e-05
     }
   ],
   "top_house_outcomes": [
     {
       "d_seats": 200,
+      "count": 3,
       "probability": 7.5e-06
     },
     {
       "d_seats": 201,
+      "count": 3,
       "probability": 7.5e-06
     },
     {
       "d_seats": 202,
+      "count": 2,
       "probability": 5e-06
     },
     {
       "d_seats": 203,
+      "count": 8,
       "probability": 2e-05
     },
     {
       "d_seats": 204,
+      "count": 30,
       "probability": 7.5e-05
     },
     {
       "d_seats": 205,
+      "count": 39,
       "probability": 9.75e-05
     },
     {
       "d_seats": 206,
+      "count": 50,
       "probability": 0.000125
     },
     {
       "d_seats": 207,
+      "count": 138,
       "probability": 0.000345
     },
     {
       "d_seats": 208,
+      "count": 169,
       "probability": 0.0004225
     },
     {
       "d_seats": 209,
+      "count": 261,
       "probability": 0.0006525
     },
     {
       "d_seats": 210,
+      "count": 276,
       "probability": 0.00069
     },
     {
       "d_seats": 211,
+      "count": 291,
       "probability": 0.0007275
     },
     {
       "d_seats": 212,
+      "count": 266,
       "probability": 0.000665
     },
     {
       "d_seats": 213,
+      "count": 3915,
       "probability": 0.0097875
     },
     {
       "d_seats": 214,
+      "count": 2848,
       "probability": 0.00712
     },
     {
       "d_seats": 215,
+      "count": 26932,
       "probability": 0.06733
     },
     {
       "d_seats": 216,
+      "count": 16788,
       "probability": 0.04197
     },
     {
       "d_seats": 217,
+      "count": 9219,
       "probability": 0.0230475
     },
     {
       "d_seats": 218,
+      "count": 10924,
       "probability": 0.02731
     },
     {
       "d_seats": 219,
+      "count": 5667,
       "probability": 0.0141675
     },
     {
       "d_seats": 220,
+      "count": 2781,
       "probability": 0.0069525
     },
     {
       "d_seats": 221,
+      "count": 1479,
       "probability": 0.0036975
     },
     {
       "d_seats": 222,
+      "count": 19715,
       "probability": 0.0492875
     },
     {
       "d_seats": 223,
+      "count": 15932,
       "probability": 0.03983
     },
     {
       "d_seats": 224,
+      "count": 19202,
       "probability": 0.048005
     },
     {
       "d_seats": 225,
+      "count": 35671,
       "probability": 0.0891775
     },
     {
       "d_seats": 226,
+      "count": 10086,
       "probability": 0.025215
     },
     {
       "d_seats": 227,
+      "count": 4011,
       "probability": 0.0100275
     },
     {
       "d_seats": 228,
+      "count": 2747,
       "probability": 0.0068675
     },
     {
       "d_seats": 229,
+      "count": 3755,
       "probability": 0.0093875
     },
     {
       "d_seats": 230,
+      "count": 8383,
       "probability": 0.0209575
     },
     {
       "d_seats": 231,
+      "count": 61892,
       "probability": 0.15473
     },
     {
       "d_seats": 232,
+      "count": 33059,
       "probability": 0.0826475
     },
     {
       "d_seats": 233,
+      "count": 29935,
       "probability": 0.0748375
     },
     {
       "d_seats": 234,
+      "count": 29034,
       "probability": 0.072585
     },
     {
       "d_seats": 235,
+      "count": 8100,
       "probability": 0.02025
     },
     {
       "d_seats": 236,
+      "count": 4535,
       "probability": 0.0113375
     },
     {
       "d_seats": 237,
+      "count": 3927,
       "probability": 0.0098175
     },
     {
       "d_seats": 238,
+      "count": 4457,
       "probability": 0.0111425
     },
     {
       "d_seats": 239,
+      "count": 4961,
       "probability": 0.0124025
     },
     {
       "d_seats": 240,
+      "count": 4783,
       "probability": 0.0119575
     },
     {
       "d_seats": 241,
+      "count": 4876,
       "probability": 0.01219
     },
     {
       "d_seats": 242,
+      "count": 2949,
       "probability": 0.0073725
     },
     {
       "d_seats": 243,
+      "count": 2041,
       "probability": 0.0051025
     },
     {
       "d_seats": 244,
+      "count": 1513,
       "probability": 0.0037825
     },
     {
       "d_seats": 245,
+      "count": 1117,
       "probability": 0.0027925
     },
     {
       "d_seats": 246,
+      "count": 414,
       "probability": 0.001035
     },
     {
       "d_seats": 247,
+      "count": 285,
       "probability": 0.0007125
     },
     {
       "d_seats": 248,
+      "count": 196,
       "probability": 0.00049
     },
     {
       "d_seats": 249,
+      "count": 130,
       "probability": 0.000325
     },
     {
       "d_seats": 250,
+      "count": 85,
       "probability": 0.0002125
     },
     {
       "d_seats": 251,
+      "count": 51,
       "probability": 0.0001275
     },
     {
       "d_seats": 252,
+      "count": 33,
       "probability": 8.25e-05
     },
     {
       "d_seats": 253,
+      "count": 14,
       "probability": 3.5e-05
     },
     {
       "d_seats": 254,
+      "count": 16,
       "probability": 4e-05
     },
     {
       "d_seats": 255,
+      "count": 6,
       "probability": 1.5e-05
     }
   ],
