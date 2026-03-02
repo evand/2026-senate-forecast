@@ -965,6 +965,7 @@
     let samples = [];
     let races = [];
     let chainIds = [];  // Chain ID for each sample (for per-chain ESS)
+    let segmentESS = null;  // Pre-computed segment-aware ESS from summary.json
     let locks = {};
     let seatLock = null;  // Lock to specific R seat count (e.g., 51 = 51R/49D)
     let selected = null;
@@ -1468,17 +1469,33 @@
         topSenateOutcomes = summaryData.top_senate_outcomes || [];
         topHouseOutcomes = summaryData.top_house_outcomes || [];
         marginals = summaryData.marginals || {};
+        segmentESS = summaryData.metadata?.segment_ess || null;
         console.log('Top outcomes loaded:', topOutcomes.length, 'Senate:', topSenateOutcomes.length, 'House:', topHouseOutcomes.length);
 
-        // Estimate ESS from full sample with per-chain awareness
-        essEstimate = estimateESS(samples, chainIds);
-        console.log('ESS estimate:', essEstimate);
+        // Use pre-computed segment ESS if available, fall back to client-side Geyer
+        if (segmentESS) {
+            essEstimate = {
+                n: samples.length,
+                ess: Math.round(segmentESS.min_ess),
+                nChains: segmentESS.n_chains,
+                binding: segmentESS.binding_metric,
+                method: 'batch_means',
+                nSegments: segmentESS.n_segments,
+            };
+            console.log('Using pre-computed segment ESS:', essEstimate);
+        } else {
+            essEstimate = estimateESS(samples, chainIds);
+            console.log('ESS estimate (client-side Geyer):', essEstimate);
+        }
         console.log('Markets loaded:', markets.length, markets.map(m => m.name));
         console.log('Max error:', maxError);
         console.log('Snapshot timestamp:', snapshotTimestamp);
 
+        const essLabel = segmentESS
+            ? `ESS ≈ ${essEstimate.ess.toLocaleString()} (${segmentESS.n_segments} segments, binding: ${essEstimate.binding})`
+            : `ESS ≈ ${essEstimate.ess.toLocaleString()}`;
         document.getElementById('sample-count').textContent =
-            `Source: ${samples.length.toLocaleString()} samples (${essEstimate.nChains} chains), ESS ≈ ${essEstimate.ess.toLocaleString()}`;
+            `Source: ${samples.length.toLocaleString()} samples (${essEstimate.nChains} chains), ${essLabel}`;
         render();
 
         // Update House and Congress tabs
@@ -1767,8 +1784,19 @@
         document.getElementById('expected-seats').textContent =
             projectedR !== null ? `${projectedR}R-${100-projectedR}D` : '--';
 
-        // Compute ESS on filtered samples with per-chain awareness
-        essEstimate = estimateESS(filtered, filteredChainIds);
+        // Use pre-computed segment ESS when unfiltered, client-side Geyer when filtered
+        const isFiltered = Object.keys(locks).length > 0 || seatLock !== null;
+        if (!isFiltered && segmentESS) {
+            essEstimate = {
+                n: samples.length,
+                ess: Math.round(segmentESS.min_ess),
+                nChains: segmentESS.n_chains,
+                binding: segmentESS.binding_metric,
+                method: 'batch_means',
+            };
+        } else {
+            essEstimate = estimateESS(filtered, filteredChainIds);
+        }
         const currentESS = essEstimate.ess;
 
         document.getElementById('stat-total').textContent = samples.length.toLocaleString();
