@@ -870,7 +870,7 @@
                     <span class="value" id="stat-filtered">--</span>
                 </div>
                 <div class="stat-row">
-                    <span class="label" title="Accounts for correlation between samples. ESS = N / τ where τ is the integrated autocorrelation time." style="cursor: help;">Effective sample size</span>
+                    <span class="label" title="Effective sample size measures the number of independent samples. Higher = more reliable. Batch-means estimator accounts for restart boundaries." style="cursor: help;">Effective sample size</span>
                     <span class="value" id="stat-ess">--</span>
                 </div>
                 <div class="stat-row">
@@ -916,7 +916,7 @@
                 <p>This forecast uses Monte Carlo sampling to generate election scenarios consistent with all market constraints.</p>
                 <dl>
                     <dt>Effective Sample Size (ESS)</dt>
-                    <dd>Accounts for correlation between samples. Higher ESS means more reliable estimates. ESS = N / τ where τ is the integrated autocorrelation time.</dd>
+                    <dd>Measures the number of effectively independent samples. Higher ESS means more reliable estimates. Uses batch-means estimator (accounts for restart boundaries between sampling iterations). When filtering races, falls back to client-side Geyer autocorrelation estimator.</dd>
 
                     <dt>Margin of Error (MoE)</dt>
                     <dd>95% confidence interval width for the D Control probability, computed using Wilson score interval based on ESS.</dd>
@@ -1492,8 +1492,8 @@
         console.log('Snapshot timestamp:', snapshotTimestamp);
 
         const essLabel = segmentESS
-            ? `ESS ≈ ${essEstimate.ess.toLocaleString()} (${segmentESS.n_segments} segments, binding: ${essEstimate.binding})`
-            : `ESS ≈ ${essEstimate.ess.toLocaleString()}`;
+            ? `ESS ≈ ${essEstimate.ess.toLocaleString()} (batch-means, ${segmentESS.n_segments} segments, binding: ${essEstimate.binding})`
+            : `ESS ≈ ${essEstimate.ess.toLocaleString()} (Geyer, client-side)`;
         document.getElementById('sample-count').textContent =
             `Source: ${samples.length.toLocaleString()} samples (${essEstimate.nChains} chains), ${essLabel}`;
         render();
