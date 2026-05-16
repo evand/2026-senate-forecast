@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "run_dir": "tasks/election_2026/runs/latest",
-    "config": "tasks/election_2026/problems/congress_joint_weighted_priors.yaml",
+    "run_dir": "models/election_2026/runs/latest",
+    "config": "models/election_2026/problems/congress_joint_weighted_priors.yaml",
     "snapshot": "None",
     "n_samples": 75000,
     "n_outcomes": 245,

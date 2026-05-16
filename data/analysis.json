@@ -1,5 +1,5 @@
 {
-  "run_dir": "/home/evand/predictions/statarb/tasks/election_2026/runs/20260202_090834",
+  "run_dir": "/home/evand/predictions/statarb/models/election_2026/runs/20260202_090834",
   "error": {
     "final_real_max": 0.8606861458014864,
     "final_max_error": 0.8606861458014864,
