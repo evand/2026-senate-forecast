@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Force the HTML itself to re-validate on each load. The JSON data files
-         already cache-bust via ?v=Date.now() in loadData; without this the
-         HTML/JS could go stale in a tab across deploys. -->
-    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
     <title>2026 Senate Forecast</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -402,37 +398,6 @@
             font-size: 10px;
         }
         .price-compare.warning .diff { color: #f59e0b; }
-
-        /* Inline market price shadow (focus-indicator rework) */
-        .market-shadow {
-            display: inline-block;
-            margin-left: 6px;
-            padding: 1px 6px;
-            border-radius: 3px;
-            background: #1f2937;
-            color: #9ca3af;
-            font-size: 10px;
-            font-family: monospace;
-            vertical-align: middle;
-            cursor: help;
-        }
-        .market-shadow.large {
-            font-size: 12px;
-            padding: 2px 8px;
-        }
-        /* Correlation badge on markets-panel items (focus-indicator rework) */
-        .corr-badge {
-            display: inline-block;
-            margin-right: 6px;
-            padding: 1px 5px;
-            border-radius: 3px;
-            background: #1e3a5f;
-            color: #93c5fd;
-            font-size: 9px;
-            font-family: monospace;
-            vertical-align: middle;
-        }
-        .corr-badge.neg { background: #3f1e1e; color: #fca5a5; }
 
         /* Top Maps Panel */
         .top-maps {
@@ -1191,10 +1156,6 @@
             const glow = data.selected ? `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="5"/>` : '';
 
             svg += `<g class="hex-group" data-code="${code}" style="opacity:${opacity}">`;
-            if (data.title) {
-                const t = String(data.title).replace(/</g, '&lt;').replace(/&/g, '&amp;');
-                svg += `<title>${t}</title>`;
-            }
             svg += glow;
             svg += `<polygon points="${pts}" fill="${data.color}" stroke="${strokeColor}" stroke-width="${strokeWidth}" class="hex-poly"/>`;
             svg += `<text x="${cx}" y="${cy - 3}" class="hex-label">${data.label}</text>`;
@@ -1233,10 +1194,8 @@
             const outcome = selectedOutcome[race];
             const color = outcome === 'D' ? '#3b82f6' : outcome === 'R' ? '#ef4444' : '#fbbf24';
             const tag = outcome.startsWith('I') ? 'I' : outcome;
-            const title = `${getStateName(race)}: ${outcome}` +
-                marketShadowText(focusForRaceOutcome(race, outcome));
             return {
-                color, label: code, subLabel: tag, title,
+                color, label: code, subLabel: tag, title: `${getStateName(race)}: ${outcome}`,
                 selected: selected === race, locked: !!locks[race], opacity: 1
             };
         }
@@ -1244,22 +1203,16 @@
         const m = stats.marginals[race] || { D: 0.5, R: 0.5 };
         const iProb = (m.I_Osborn || 0) + (m.I_Other || 0);
         const color = getColor(m.D, iProb);
-        let subLabel, leadOutcome, leadPct;
+        let subLabel;
         if (iProb > m.D && iProb > m.R) {
-            leadPct = iProb; leadOutcome = (m.I_Osborn || 0) >= (m.I_Other || 0) ? 'I_Osborn' : 'I_Other';
             subLabel = (iProb * 100).toFixed(0);
         } else if (m.D > m.R) {
-            leadPct = m.D; leadOutcome = 'D';
             subLabel = (m.D * 100).toFixed(0);
         } else {
-            leadPct = m.R; leadOutcome = 'R';
             subLabel = (m.R * 100).toFixed(0);
         }
-        const displayedTag = leadOutcome.startsWith('I') ? 'I' : leadOutcome;
-        const title = `${getStateName(race)}: ${(leadPct*100).toFixed(0)}% ${displayedTag}` +
-            marketShadowText(focusForRaceOutcome(race, leadOutcome));
         return {
-            color, label: code, subLabel, title,
+            color, label: code, subLabel, title: getStateName(race),
             selected: selected === race, locked: !!locks[race], opacity: 1
         };
     }
@@ -1369,13 +1322,10 @@
             const leadParty = m.D > m.R ? 'D' : 'R';
             const isSelected = selected === race;
 
-            const shadow = marketShadowText(focusForRaceOutcome(race, leadParty));
-            const safeTitle = `${stateNames[stateCode]} District ${distNum}: ${leadPct}% ${leadParty}${shadow}`
-                .replace(/"/g, '&quot;');
             html += `<div class="district-tile ${isSelected ? 'selected' : ''}"
                 style="background: ${color}"
                 onclick="selectRace('${race}')"
-                title="${safeTitle}">
+                title="${stateNames[stateCode]} District ${distNum}: ${leadPct}% ${leadParty}">
                 <span class="dist-num">${stateCode}-${distNum}</span>
                 <span class="dist-pct">${leadPct}${leadParty}</span>
             </div>`;
@@ -1479,440 +1429,13 @@
         };
     }
 
-    // =======================================================================
-    // Focus-indicator primitive (2026-05-26 rework)
-    // =======================================================================
-    // One number — corr(market_resolution, focus) over samples — drives both
-    // "show market price next to model prob" and the markets-panel ranking.
-    // Replaces structural related_races lookups + type-switch in markets panel.
-    // Design: tasks/visualizer_focus_indicator/onboarding.md
-
-    // Per-sample resolution indicators for each market answer.
-    // marketIndicators[slug] = [{answer, indicator: Uint8Array}, ...]
-    // Computed once at load time (sample-static).
-    let marketIndicators = {};
-
-    // Precomputed per-sample seat counts (Senate uses 31 R / 34 D baseline
-    // for non-contested seats; House is fully modeled, no baseline).
-    let senateRPerSample = null;
-    let senateDPerSample = null;
-    let houseRPerSample = null;
-    let houseDPerSample = null;
-
-    function precomputeSampleAggregates() {
-        const n = samples.length;
-        senateRPerSample = new Int16Array(n);
-        senateDPerSample = new Int16Array(n);
-        houseRPerSample = new Int16Array(n);
-        houseDPerSample = new Int16Array(n);
-        for (let i = 0; i < n; i++) {
-            const s = samples[i];
-            let sR = 0, sD = 0, hR = 0, hD = 0;
-            for (const r of senateRaces) {
-                if (s[r] === 'R') sR++;
-                else if (s[r] === 'D') sD++;
-            }
-            for (const r of houseRaces) {
-                if (s[r] === 'R') hR++;
-                else if (s[r] === 'D') hD++;
-            }
-            senateRPerSample[i] = sR;
-            senateDPerSample[i] = sD;
-            houseRPerSample[i] = hR;
-            houseDPerSample[i] = hD;
-        }
-    }
-
-    // Match a multi_race answer text to a race in `candidates`. Handles a
-    // wide range of district-name conventions observed across markets:
-    //   "Alabama"                          → AL_Senate (in candidates)
-    //   "Alaska (Special)"                 → AK_Senate_Special
-    //   "Texas 1st District"               → TX_01_House
-    //   "Iowa's 1st Congressional District"→ IA_01_House
-    //   "Nebraska's 2nd district (OPEN-R)" → NE_02_House  (descriptors stripped)
-    //   "Iowa's 2st district …"            → IA_02_House  (note: source typo "2st")
-    //   "Alaska at-large" / "Alaska AL"    → AK_AL_House
-    //   "Arizona 1"                        → AZ_01_House  (bare number)
-    function _findRaceByAnswerText(text, candidates) {
-        if (!text || !candidates || candidates.length === 0) return null;
-        // Find state code by longest matching state-name prefix (or apostrophe-s).
-        let stateCode = null, stateName = null;
-        for (const [code, name] of Object.entries(stateNames)) {
-            if (text === name
-                || text.startsWith(name + ' ')
-                || text.startsWith(name + ',')
-                || text.startsWith(name + "'s ")) {
-                if (!stateName || name.length > stateName.length) {
-                    stateCode = code; stateName = name;
-                }
-            }
-        }
-        if (!stateCode) return null;
-        // At-large: "Alaska at-large" or "Alabama AL"
-        if (/at[\-\s]?large|\bAL\b/i.test(text)) {
-            return candidates.find(r => r === `${stateCode}_AL_House`) || null;
-        }
-        // Find first digit run (handles "1st", "2nd", "3rd", typo "2st", bare "1").
-        const distMatch = text.match(/(\d+)/);
-        if (distMatch) {
-            const d = String(distMatch[1]).padStart(2, '0');
-            return candidates.find(r => r === `${stateCode}_${d}_House`) || null;
-        }
-        // Special elections: "Ohio (Special)" / "Florida (Special)"
-        if (/special/i.test(text)) {
-            const sp = candidates.find(r => r === `${stateCode}_Senate_Special`);
-            if (sp) return sp;
-        }
-        // Bare state name — return whichever race in candidates is from that state.
-        return candidates.find(r => r.startsWith(stateCode + '_')) || null;
-    }
-
-    // Compute resolution indicators for one market.
-    // Returns array of {answer, indicator} pairs or [] if unsupported.
-    function computeIndicatorsForMarket(m) {
-        const n = samples.length;
-        const result = [];
-        const push = (answer, fn) => {
-            const ind = new Uint8Array(n);
-            for (let i = 0; i < n; i++) ind[i] = fn(samples[i], i) ? 1 : 0;
-            result.push({answer, indicator: ind});
-        };
-
-        if (m.type === 'control') {
-            const isHouse = m.name.toLowerCase().includes('house');
-            const test = isHouse
-                ? (_, i) => houseRPerSample[i] >= 218
-                : (_, i) => (31 + senateRPerSample[i]) >= 51;
-            push('YES', test);
-            push('NO', (s, i) => !test(s, i));
-            return result;
-        }
-
-        if (m.type === 'single_race' && m.race) {
-            // Answer texts vary across markets — observed variants:
-            //   "Democratic" / "Democratic party" / "Democrats"
-            //   "Republican" / "Republican party" / "Republicans"
-            //   "Independent (Dan Osborn)" / "Independent (Other)"
-            //   "Other"  (treated as Other-Independent for our 4-outcome model)
-            const classifyAns = (ans) => {
-                const a = ans.toLowerCase();
-                if (a.includes('osborn')) return 'I_Osborn';
-                if (a.startsWith('independent') || a === 'other') return 'I_Other';
-                if (a.startsWith('democrat')) return 'D';
-                if (a.startsWith('republican')) return 'R';
-                return null;
-            };
-            for (const ans of Object.keys(m.prices)) {
-                const code = classifyAns(ans);
-                if (code) push(ans, (s) => s[m.race] === code);
-            }
-            return result;
-        }
-
-        if (m.type === 'multi_race') {
-            // Direction is in the name: "(D wins)" or "(R wins)".
-            const target = m.name.includes('(R wins)') ? 'R' : 'D';
-            for (const ans of Object.keys(m.prices)) {
-                const race = _findRaceByAnswerText(ans, m.related_races);
-                if (race) push(ans, (s) => s[race] === target);
-            }
-            return result;
-        }
-
-        if (m.type === 'union_constraint' && m.condition) {
-            // "(RACE == OUTCOME) OR (RACE == OUTCOME) ..."
-            const clauses = m.condition.split(' OR ').map(p => {
-                const mm = p.match(/(\w+)\s*==\s*(\w+)/);
-                return mm ? {race: mm[1], outcome: mm[2]} : null;
-            }).filter(c => c);
-            if (clauses.length > 0) {
-                push('YES', (s) => clauses.some(c => s[c.race] === c.outcome));
-                push('NO',  (s) => !clauses.some(c => s[c.race] === c.outcome));
-            }
-            return result;
-        }
-
-        if (m.type === 'intersection_constraint') {
-            // Direction inferred from first letter of name (D… / R…).
-            const target = (m.name.match(/^([DR])/i) || [, 'D'])[1].toUpperCase();
-            const races = m.related_races || [];
-            if (races.length > 0) {
-                const test = (s) => races.every(r => s[r] === target);
-                push('YES', test);
-                push('NO', (s) => !test(s));
-            }
-            return result;
-        }
-
-        if (m.type === 'joint_congress_control') {
-            for (const ans of Object.keys(m.prices)) {
-                const dSenate = (_, i) => (34 + senateDPerSample[i]) >= 51;
-                const rSenate = (_, i) => (31 + senateRPerSample[i]) >= 51;
-                const dHouse  = (_, i) => houseDPerSample[i] >= 218;
-                const rHouse  = (_, i) => houseRPerSample[i] >= 218;
-                if (ans === 'Democrats Sweep')
-                    push(ans, (s, i) => dSenate(s, i) && dHouse(s, i));
-                else if (ans === 'Republicans Sweep')
-                    push(ans, (s, i) => rSenate(s, i) && rHouse(s, i));
-                else if (ans === 'D Senate, R House')
-                    push(ans, (s, i) => dSenate(s, i) && rHouse(s, i));
-                else if (ans === 'R Senate, D House')
-                    push(ans, (s, i) => rSenate(s, i) && dHouse(s, i));
-                // "Other" / "Mixed" skipped — would need independent-senator tracking.
-            }
-            return result;
-        }
-
-        if (m.type === 'binary_seat_threshold') {
-            const match = m.name.match(/([DR])\s+(House|Senate)\s+(>=|<=|>|<)\s*(\d+)/i);
-            if (match) {
-                const party = match[1].toUpperCase();
-                const ch = match[2].toLowerCase();
-                const comp = match[3];
-                const thr = parseInt(match[4], 10);
-                const getCount = (i) => {
-                    if (ch === 'house') return party === 'D' ? houseDPerSample[i] : houseRPerSample[i];
-                    return party === 'D' ? (34 + senateDPerSample[i]) : (31 + senateRPerSample[i]);
-                };
-                const test = (i) => {
-                    const v = getCount(i);
-                    if (comp === '>')  return v > thr;
-                    if (comp === '>=') return v >= thr;
-                    if (comp === '<')  return v < thr;
-                    if (comp === '<=') return v <= thr;
-                    return false;
-                };
-                push('YES', (s, i) => test(i));
-                push('NO',  (s, i) => !test(i));
-            }
-            return result;
-        }
-
-        if (m.type === 'seat_count') {
-            // Only the national-total markets are wired here. State-level
-            // (LA Dem House Seats, VA Dem House Seats) skipped for first slice;
-            // they need per-state House aggregation.
-            let getCount = null;
-            if (/dem senate seats|senate d majority/i.test(m.name)) {
-                getCount = (i) => 34 + senateDPerSample[i];
-            } else if (/senate r majority/i.test(m.name)) {
-                getCount = (i) => 31 + senateRPerSample[i];
-            } else if (/dem house seats/i.test(m.name)) {
-                getCount = (i) => houseDPerSample[i];
-            }
-            if (getCount) {
-                for (const ans of Object.keys(m.prices)) {
-                    const rangeMatch = ans.match(/^(\d+)-(\d+)$/);
-                    const pointMatch = ans.match(/^(\d+)$/);
-                    if (rangeMatch) {
-                        const lo = parseInt(rangeMatch[1], 10), hi = parseInt(rangeMatch[2], 10);
-                        push(ans, (_, i) => { const v = getCount(i); return v >= lo && v <= hi; });
-                    } else if (pointMatch) {
-                        const v0 = parseInt(pointMatch[1], 10);
-                        push(ans, (_, i) => getCount(i) === v0);
-                    }
-                }
-            }
-            return result;
-        }
-
-        // Unsupported: flip_count, linear_*, safe_seat_*, flip_comparison,
-        // joint_race_count, state-level seat_count. Followup work.
-        return result;
-    }
-
-    function precomputeMarketIndicators() {
-        marketIndicators = {};
-        let supported = 0;
-        for (const m of markets) {
-            const inds = computeIndicatorsForMarket(m);
-            if (inds.length > 0) {
-                marketIndicators[m.slug] = inds;
-                supported++;
-            }
-        }
-        console.log(`Precomputed market indicators: ${supported}/${markets.length} markets`);
-    }
-
-    // Pearson correlation between two numeric arrays of equal length.
-    // Works for Uint8Array (binary indicators) and plain arrays alike.
-    function _pearson(x, y) {
-        const n = x.length;
-        if (n === 0 || y.length !== n) return 0;
-        let sx = 0, sy = 0, sxy = 0, sxx = 0, syy = 0;
-        for (let i = 0; i < n; i++) {
-            const xi = x[i], yi = y[i];
-            sx += xi; sy += yi;
-            sxy += xi * yi;
-            sxx += xi * xi;
-            syy += yi * yi;
-        }
-        const num = n * sxy - sx * sy;
-        const denx = n * sxx - sx * sx;
-        const deny = n * syy - sy * sy;
-        if (denx <= 0 || deny <= 0) return 0;
-        return num / Math.sqrt(denx * deny);
-    }
-
-    // ---- Focus indicators ---------------------------------------------------
-    // Per-sample boolean of "what the user is currently looking at."
-    // All return Uint8Array(n) or null. null = no useful focus (suppress shadow).
-
-    // Global focus from current UI state. Used for markets-panel ranking.
-    function focusFromUIState() {
-        const n = samples.length;
-        const lockEntries = Object.entries(locks);
-        const hasLocks = lockEntries.length > 0 || seatLock !== null;
-        if (hasLocks) {
-            const ind = new Uint8Array(n);
-            for (let i = 0; i < n; i++) {
-                const s = samples[i];
-                let ok = true;
-                for (const [r, o] of lockEntries) {
-                    if (s[r] !== o) { ok = false; break; }
-                }
-                if (ok && seatLock !== null) {
-                    if ((31 + senateRPerSample[i]) !== seatLock) ok = false;
-                }
-                ind[i] = ok ? 1 : 0;
-            }
-            return ind;
-        }
-        if (selected) return focusForRaceLeading(selected);
-        return null;
-    }
-
-    // Focus = "selected race equals its leading outcome (D / R / I_Osborn)."
-    // Uses global (unfiltered) marginals so the leading outcome is stable.
-    function focusForRaceLeading(race) {
-        const m = marginals[race] || {};
-        const dP = m.D || 0, rP = m.R || 0;
-        const iO = m.I_Osborn || 0, iX = m.I_Other || 0;
-        const iP = iO + iX;
-        let target;
-        if (iP > dP && iP > rP) target = iO >= iX ? 'I_Osborn' : 'I_Other';
-        else if (dP >= rP) target = 'D';
-        else target = 'R';
-        return focusForRaceOutcome(race, target);
-    }
-
-    function focusForRaceOutcome(race, outcome) {
-        if (!race || !outcome) return null;
-        const n = samples.length;
-        const ind = new Uint8Array(n);
-        for (let i = 0; i < n; i++) ind[i] = samples[i][race] === outcome ? 1 : 0;
-        return ind;
-    }
-
-    // Focus = "all races in outcomeMap match." Used for top-outcome-map panel.
-    function focusForOutcomeMap(outcomeMap) {
-        if (!outcomeMap) return null;
-        const entries = Object.entries(outcomeMap);
-        if (entries.length === 0) return null;
-        const n = samples.length;
-        const ind = new Uint8Array(n);
-        for (let i = 0; i < n; i++) {
-            const s = samples[i];
-            let ok = true;
-            for (const [r, o] of entries) {
-                if (s[r] !== o) { ok = false; break; }
-            }
-            ind[i] = ok ? 1 : 0;
-        }
-        return ind;
-    }
-
-    // Focus = "total senate R seats equals K" (histogram cell).
-    function focusForSenateSeatCount(rCount) {
-        const n = samples.length;
-        const ind = new Uint8Array(n);
-        for (let i = 0; i < n; i++) ind[i] = (31 + senateRPerSample[i]) === rCount ? 1 : 0;
-        return ind;
-    }
-    // Focus = "total house R seats equals K."
-    function focusForHouseSeatCount(rCount) {
-        const n = samples.length;
-        const ind = new Uint8Array(n);
-        for (let i = 0; i < n; i++) ind[i] = houseRPerSample[i] === rCount ? 1 : 0;
-        return ind;
-    }
-
-    // ---- Market matching ----------------------------------------------------
-
-    // Find the (market, answer) most positively correlated with focus.
-    // We pick max positive corr (not max |corr|) so the displayed price
-    // matches the direction the user is looking at — the negative-correlated
-    // mirror answer (e.g., "NO" for a YES-focus market) is implicitly covered
-    // because every market's answer set includes both polarities.
-    function marketForFocus(focus, threshold = 0.9) {
-        if (!focus) return null;
-        let best = null;
-        let bestCorr = threshold;  // strict above
-        for (const slug in marketIndicators) {
-            const market = markets.find(m => m.slug === slug);
-            if (!market) continue;
-            for (const {answer, indicator} of marketIndicators[slug]) {
-                const c = _pearson(indicator, focus);
-                if (c > bestCorr) {
-                    bestCorr = c;
-                    best = { market, answer, corr: c, price: market.prices[answer] };
-                }
-            }
-        }
-        return best;
-    }
-
-    // Rank all markets by max |corr| against focus. Returns top-N entries
-    // with corr ≥ minCorr, sorted by corr desc then volume desc.
-    function ranksByFocus(focus, minCorr = 0.3, topN = 30) {
-        if (!focus) return null;
-        const scored = [];
-        for (const slug in marketIndicators) {
-            const market = markets.find(m => m.slug === slug);
-            if (!market) continue;
-            let bestC = 0, bestAns = null, bestSigned = 0;
-            for (const {answer, indicator} of marketIndicators[slug]) {
-                const c = _pearson(indicator, focus);
-                if (Math.abs(c) > bestC) { bestC = Math.abs(c); bestAns = answer; bestSigned = c; }
-            }
-            if (bestC >= minCorr) scored.push({market, corr: bestC, signedCorr: bestSigned, answer: bestAns});
-        }
-        scored.sort((a, b) =>
-            b.corr - a.corr ||
-            (b.market.volume || 0) - (a.market.volume || 0)
-        );
-        return scored.slice(0, topN);
-    }
-
-    // ---- Inline market shadow renderers ------------------------------------
-
-    // Plain-text shadow for SVG <title> / DOM title attributes.
-    // Returns "" if no market clears threshold.
-    function marketShadowText(focus, threshold = 0.9) {
-        const match = marketForFocus(focus, threshold);
-        if (!match) return '';
-        const pct = (match.price * 100).toFixed(0);
-        return `\nMarket: ${pct}% — ${match.market.name} · ${match.answer}`;
-    }
-
-    // HTML shadow for inline rendering next to a prob.
-    function marketShadowHtml(focus, threshold = 0.9) {
-        const match = marketForFocus(focus, threshold);
-        if (!match) return '';
-        const pct = (match.price * 100).toFixed(0);
-        const tt = `${match.market.name} · ${match.answer} (corr ${match.corr.toFixed(2)})`;
-        const safeTt = tt.replace(/"/g, '&quot;');
-        return ` <span class="market-shadow" title="${safeTt}">mkt ${pct}%</span>`;
-    }
-
     async function loadData() {
-        // `data/samples.json` is the already-downsampled web-tier artifact
-        // produced by `models/election_2026/Makefile :: deploy` (default
-        // WEB_SAMPLES=5000, systematic stride). The previous `?web` branch
-        // expected a separate `samples_web.json` file that the pipeline never
-        // emitted; removed 2026-05-26.
+        // Load samples (use ?web parameter for downsampled version)
+        const useWeb = new URLSearchParams(window.location.search).has('web');
+        const samplesFile = useWeb ? 'samples_web.json' : 'samples.json';
         const cacheBust = '?v=' + Date.now();
-        const samplesResp = await fetch('data/samples.json' + cacheBust);
+        if (useWeb) console.log('Using downsampled samples_web.json for performance');
+        const samplesResp = await fetch('data/' + samplesFile + cacheBust);
         const samplesData = await samplesResp.json();
         samples = samplesData.samples;
         races = samplesData.races;
@@ -1945,12 +1468,7 @@
         topOutcomes = summaryData.top_outcomes || [];
         topSenateOutcomes = summaryData.top_senate_outcomes || [];
         topHouseOutcomes = summaryData.top_house_outcomes || [];
-        // Marginals are derived from the loaded samples — see the populate
-        // call below, after precomputes. This used to read summary.json's
-        // precomputed marginals, but those are computed against the full pool
-        // before deploy-time downsample, so they don't share a denominator
-        // with the 5k samples the page renders. Live marginals keep one
-        // denominator everywhere on the page.
+        marginals = summaryData.marginals || {};
         segmentESS = summaryData.metadata?.segment_ess || null;
         console.log('Top outcomes loaded:', topOutcomes.length, 'Senate:', topSenateOutcomes.length, 'House:', topHouseOutcomes.length);
 
@@ -1972,16 +1490,6 @@
         console.log('Markets loaded:', markets.length, markets.map(m => m.name));
         console.log('Max error:', maxError);
         console.log('Snapshot timestamp:', snapshotTimestamp);
-
-        // Precompute per-sample seat aggregates + market resolution indicators
-        // for focus-indicator primitive (see helper block above).
-        precomputeSampleAggregates();
-        precomputeMarketIndicators();
-
-        // Populate the global (unfiltered) marginals from the loaded samples.
-        // Replaces summary.json's precomputed marginals (different denominator).
-        // Cheap: one pass over 5k × 470 races.
-        marginals = computeStats(samples).marginals;
 
         const essLabel = segmentESS
             ? `ESS ≈ ${essEstimate.ess.toLocaleString()} (batch-means, ${segmentESS.n_segments} segments, binding: ${essEstimate.binding})`
@@ -2147,27 +1655,15 @@
         const hasSenate = outcomes[0]?.outcomes && Object.keys(outcomes[0].outcomes).some(r => r.includes('Senate'));
         const hasHouse = outcomes[0]?.outcomes && Object.keys(outcomes[0].outcomes).some(r => r.includes('House'));
 
+        // Find max probability for bar scaling
+        const maxProb = Math.max(...outcomes.slice(0, 15).map(o => o.model_prob));
+
         let html = '';
         const displayCount = Math.min(15, outcomes.length);
 
-        // Live counts for each displayed outcome — keeps one denominator
-        // (loaded samples) across the bar widths, percentages, and the
-        // "Matching samples" row in the detail panel.
-        const liveCounts = [];
-        for (let i = 0; i < displayCount; i++) {
-            const o = outcomes[i];
-            const focusInd = o.outcomes ? focusForOutcomeMap(o.outcomes) : null;
-            let c = 0;
-            if (focusInd) for (let j = 0; j < focusInd.length; j++) c += focusInd[j];
-            liveCounts.push(c);
-        }
-        const maxCount = Math.max(...liveCounts, 1);
-
         for (let i = 0; i < displayCount; i++) {
             const outcome = outcomes[i];
-            const count = liveCounts[i];
-            const liveProb = samples.length > 0 ? count / samples.length : 0;
-            const barWidth = (count / maxCount) * 100;
+            const barWidth = (outcome.model_prob / maxProb) * 100;
             const isSelected = selectedMap === i;
 
             // Compute Senate/House breakdown
@@ -2201,7 +1697,7 @@
                     <span class="rank">#${outcome.rank}</span>
                     <div class="bar-container">
                         <div class="bar ${controlClass}" style="width: ${barWidth}%">
-                            ${(liveProb * 100).toFixed(1)}%
+                            ${outcome.model_prob.toFixed(1)}%
                         </div>
                     </div>
                     <span class="seats" style="width: 65px; font-size: 9px; line-height: 1.2;">
@@ -2215,26 +1711,19 @@
         if (selectedMap !== null && outcomes[selectedMap]) {
             const outcome = outcomes[selectedMap];
 
-            // Everything below is computed live from the loaded samples; we
-            // don't read precomputed `model_prob`/`indep_prob`/`sample_count`
-            // from summary.json because those use the full-pool denominator
-            // (~461,600) while the page renders only the 5k web tier — they'd
-            // drift. summary.json's role here is just to identify which top-K
-            // outcome maps to display; their stats live on the client.
-            const sampleCount = liveCounts[selectedMap];
-            const samplePct = samples.length > 0 ? (sampleCount / samples.length * 100) : 0;
+            // Compute independent probability directly from marginals
+            const indepProb = outcome.outcomes ? computeIndependentProb(outcome.outcomes) : null;
+            const indepPct = indepProb ? (indepProb * 100) : outcome.indep_prob;
             const detailBreakdown = getOutcomeBreakdown(outcome.outcomes);
-            const indepProb = outcome.outcomes ? computeIndependentProb(outcome.outcomes) : 0;
-            const indepPct = (indepProb || 0) * 100;
 
-            // Focus = this specific outcome map; finds the market that
-            // effectively prices this scenario, if one exists.
-            const mapShadow = marketShadowHtml(focusForOutcomeMap(outcome.outcomes), 0.85);
+            // Get sample count (may be from new field or computed from model_prob)
+            const sampleCount = outcome.sample_count || Math.round(outcome.model_prob * samples.length / 100);
+
             html += `
                 <div class="map-detail">
                     <div class="stat-row">
                         <span class="label">Model probability</span>
-                        <span class="value">${samplePct.toFixed(2)}%${mapShadow}</span>
+                        <span class="value">${outcome.model_prob.toFixed(2)}%</span>
                     </div>
                     <div class="stat-row">
                         <span class="label">Independent probability</span>
@@ -2242,7 +1731,7 @@
                     </div>
                     <div class="stat-row">
                         <span class="label">Matching samples</span>
-                        <span class="value">${sampleCount.toLocaleString()} of ${samples.length.toLocaleString()} (${samplePct.toFixed(1)}%)</span>
+                        <span class="value">${sampleCount.toLocaleString()} (${outcome.model_prob.toFixed(1)}%)</span>
                     </div>
                     ${hasSenate ? `
                     <div class="stat-row">
@@ -2477,25 +1966,17 @@
                     item.style.background = '#fbbf24';
                     item.innerHTML = `<span class="state">${getRaceDisplayName(race)}</span><span class="pct">I</span>`;
                 }
-                item.title = `${getStateName(race)}: ${outcome}` +
-                    marketShadowText(focusForRaceOutcome(race, outcome));
+                item.title = `${race}: ${outcome}`;
             } else {
                 item.style.background = getColor(m.D, iProb);
-                let leadPct, leadOutcome;
-                if (iProb > m.D && iProb > m.R) {
-                    leadPct = (iProb * 100).toFixed(0) + '% I';
-                    leadOutcome = (m.I_Osborn || 0) >= (m.I_Other || 0) ? 'I_Osborn' : 'I_Other';
-                } else if (m.D > m.R) {
-                    leadPct = (m.D * 100).toFixed(0) + '% D'; leadOutcome = 'D';
-                } else {
-                    leadPct = (m.R * 100).toFixed(0) + '% R'; leadOutcome = 'R';
-                }
+                const leadPct = iProb > m.D && iProb > m.R ?
+                    (iProb * 100).toFixed(0) + '% I' :
+                    m.D > m.R ? (m.D * 100).toFixed(0) + '% D' : (m.R * 100).toFixed(0) + '% R';
                 item.innerHTML = `
                     <span class="state">${getRaceDisplayName(race)}</span>
                     <span class="pct">${leadPct}</span>
                 `;
-                item.title = `${getStateName(race)}: ${leadPct}` +
-                    marketShadowText(focusForRaceOutcome(race, leadOutcome));
+                item.title = race;
             }
             item.addEventListener('click', () => selectRace(race));
             item.addEventListener('dblclick', () => toggleLock(race));
@@ -2552,11 +2033,7 @@
             bar.className = 'hist-bar ' + (isDControl ? 'dem' : 'rep');
             if (seatLock === seat && elementId === 'histogram') bar.classList.add('locked');
             bar.style.height = height + '%';
-            const seatFocus = elementId === 'histogram'
-                ? focusForSenateSeatCount(seat)
-                : focusForHouseSeatCount(seat);
-            bar.title = `${seat}R / ${chamberTotal-seat}D: ${(pct * 100).toFixed(1)}% (${count.toLocaleString()} samples)` +
-                marketShadowText(seatFocus);
+            bar.title = `${seat}R / ${chamberTotal-seat}D: ${(pct * 100).toFixed(1)}% (${count.toLocaleString()} samples)`;
             if (elementId === 'histogram') {
                 bar.addEventListener('click', () => toggleSeatLock(seat));
             }
@@ -2709,34 +2186,27 @@
             const iOsborn = m.I_Osborn || 0;
             const iOther = m.I_Other || 0;
 
-            // Inline market shadow per outcome. Threshold lowered slightly
-            // here vs. tooltips because the sidebar is where the user is
-            // actively comparing — better to show a weaker match than nothing.
-            const shadowD = marketShadowHtml(focusForRaceOutcome(selected, 'D'), 0.85);
-            const shadowR = marketShadowHtml(focusForRaceOutcome(selected, 'R'), 0.85);
             let probDisplay = `
                 <div class="prob-item dem">
                     <div class="party">Democrat</div>
-                    <div class="pct">${(m.D * 100).toFixed(1)}%${shadowD}</div>
+                    <div class="pct">${(m.D * 100).toFixed(1)}%</div>
                 </div>
                 <div class="prob-item rep">
                     <div class="party">Republican</div>
-                    <div class="pct">${(m.R * 100).toFixed(1)}%${shadowR}</div>
+                    <div class="pct">${(m.R * 100).toFixed(1)}%</div>
                 </div>`;
 
             if (hasIndependent) {
-                const shadowO = marketShadowHtml(focusForRaceOutcome(selected, 'I_Osborn'), 0.85);
                 probDisplay += `
                 <div class="prob-item" style="color: #fbbf24;">
                     <div class="party">Osborn (I)</div>
-                    <div class="pct">${(iOsborn * 100).toFixed(1)}%${shadowO}</div>
+                    <div class="pct">${(iOsborn * 100).toFixed(1)}%</div>
                 </div>`;
                 if (iOther > 0.001) {
-                    const shadowX = marketShadowHtml(focusForRaceOutcome(selected, 'I_Other'), 0.85);
                     probDisplay += `
                 <div class="prob-item" style="color: #d97706;">
                     <div class="party">Other (I)</div>
-                    <div class="pct">${(iOther * 100).toFixed(1)}%${shadowX}</div>
+                    <div class="pct">${(iOther * 100).toFixed(1)}%</div>
                 </div>`;
                 }
             }
@@ -2821,46 +2291,25 @@
         console.log('Rendering markets panel, selected:', selected, 'markets:', markets.length);
 
         if (markets.length > 0) {
-            // Focus-based ranking. Ranks markets by |corr(market, focus)| above
-            // a min threshold; rest of the markets append in volume order so
-            // nothing disappears from view, just rearranges. When there's no
-            // focus (no selection, no locks), reverts to volume-sorted list.
-            const focusInd = focusFromUIState();
-            let sortedEntries;  // [{market, corr?, signedCorr?, answer?}, ...]
-            if (focusInd) {
-                const ranked = ranksByFocus(focusInd, 0.3, 30) || [];
-                const rankedSlugs = new Set(ranked.map(r => r.market.slug));
-                const tail = [...markets]
-                    .filter(m => !rankedSlugs.has(m.slug))
-                    .sort((a, b) => (b.volume || 0) - (a.volume || 0))
-                    .map(m => ({market: m}));
-                sortedEntries = [...ranked, ...tail];
-            } else {
-                sortedEntries = [...markets]
-                    .sort((a, b) => (b.volume || 0) - (a.volume || 0))
-                    .map(m => ({market: m}));
-            }
-
-            // Header reflects what the focus is.
-            if (Object.keys(locks).length > 0 || seatLock !== null) {
-                const n = Object.keys(locks).length + (seatLock !== null ? 1 : 0);
-                marketsHeader.textContent = `Markets (under ${n} lock${n === 1 ? '' : 's'})`;
-            } else if (selected) {
+            // Sort markets: relevant to selected state first, then by volume
+            let sortedMarkets = [...markets];
+            if (selected) {
+                sortedMarkets.sort((a, b) => {
+                    const aRelevant = a.related_races.includes(selected);
+                    const bRelevant = b.related_races.includes(selected);
+                    if (aRelevant && !bRelevant) return -1;
+                    if (!aRelevant && bRelevant) return 1;
+                    return (b.volume || 0) - (a.volume || 0);
+                });
                 marketsHeader.textContent = `Markets (${getStateCode(selected)})`;
             } else {
+                sortedMarkets.sort((a, b) => (b.volume || 0) - (a.volume || 0));
                 marketsHeader.textContent = 'All Markets';
             }
 
-            marketsList.innerHTML = sortedEntries.map(({market: m, corr, signedCorr, answer}) => {
-                const isRelevant = corr !== undefined && corr >= 0.5;
+            marketsList.innerHTML = sortedMarkets.map(m => {
+                const isRelevant = selected && m.related_races.includes(selected);
                 const volStr = m.volume >= 1000 ? `${(m.volume/1000).toFixed(1)}k` : Math.round(m.volume);
-                // Correlation badge — only shown when focus-driven sort is active.
-                let corrBadge = '';
-                if (corr !== undefined) {
-                    const sign = (signedCorr || 0) < 0 ? 'neg' : '';
-                    const arrow = (signedCorr || 0) < 0 ? '↓' : '↑';
-                    corrBadge = `<span class="corr-badge ${sign}" title="Correlation with current focus (answer: ${answer || '—'})">${arrow}${corr.toFixed(2)}</span>`;
-                }
 
                 // Get price comparison for this market
                 let priceCompare = '';
@@ -2965,7 +2414,7 @@
 
                 return `
                     <div class="market-item ${isRelevant ? 'relevant' : ''}">
-                        ${corrBadge}<a href="${m.url}?r=RXZhbkRhbmllbA" target="_blank">${m.name}</a>
+                        <a href="${m.url}?r=RXZhbkRhbmllbA" target="_blank">${m.name}</a>
                         ${priceCompare}
                         <div class="market-meta">
                             <span class="vol">M$${volStr} vol</span> ·
