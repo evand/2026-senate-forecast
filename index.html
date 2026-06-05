@@ -987,18 +987,6 @@
     let houseExpandedState = null;  // Currently expanded state on House hex map
     let houseRacesByState = {};  // Cached: { 'CA': ['CA_01_House', ...], ... }
 
-    // --- Chamber-control rule: SINGLE SOURCE OF TRUTH ---
-    // VP is JD Vance (R), so R controls the Senate at 50 total seats (VP breaks
-    // ties) and D needs 51. Mirrors statarb/models/election_data.py
-    // CONTROL_THRESHOLDS. These were previously open-coded in ~5 places, three of
-    // which used `senateR >= 51` and mis-colored a 50-50 Senate as Dem
-    // (2026-06-03). Route ALL control checks through these helpers.
-    const SENATE_R_CONTROL_MIN = 50;  // R total seats to control the Senate
-    const SENATE_D_CONTROL_MIN = 51;  // D total seats to control the Senate
-    const HOUSE_CONTROL_MIN = 218;    // seats to control the House (no baseline)
-    const rControlsSenate = (senateR) => senateR >= SENATE_R_CONTROL_MIN;
-    const dControlsSenate = (senateD) => senateD >= SENATE_D_CONTROL_MIN;
-
     // Tab switching
     function switchTab(tabName) {
         currentTab = tabName;
@@ -1567,12 +1555,12 @@
             const senateRWins = senateRaces.filter(r => s[r] === 'R').length;
             totalSenateRWins += senateRWins;
             const senateDWins = senateRaces.filter(r => s[r] === 'D').length;
-            // D needs 51 total; 34 baseline (D-caucus) + D wins.
-            if (dControlsSenate(34 + senateDWins)) dSenateControlCount++;
+            // D needs 51 total. Has 34 baseline. Needs 17 D wins from 35 races.
+            if (34 + senateDWins >= 51) dSenateControlCount++;
 
             // House control: D needs 218 seats (no baseline, all 435 modeled)
             const houseDWins = houseRaces.filter(r => s[r] === 'D').length;
-            if (houseDWins >= HOUSE_CONTROL_MIN) dHouseControlCount++;
+            if (houseDWins >= 218) dHouseControlCount++;
         }
 
         return {
@@ -1680,8 +1668,8 @@
 
             // Compute Senate/House breakdown
             const breakdown = getOutcomeBreakdown(outcome.outcomes);
-            const senateControl = rControlsSenate(breakdown.senateR) ? 'R' : 'D';
-            const houseControl = breakdown.houseR >= HOUSE_CONTROL_MIN ? 'R' : 'D';
+            const senateControl = breakdown.senateR >= 51 ? 'R' : 'D';
+            const houseControl = breakdown.houseR >= 218 ? 'R' : 'D';
 
             // Determine control class based on what chambers are present
             let controlClass;
@@ -1748,7 +1736,7 @@
                     ${hasSenate ? `
                     <div class="stat-row">
                         <span class="label">Senate</span>
-                        <span class="value" style="color: ${rControlsSenate(detailBreakdown.senateR) ? '#ef4444' : '#3b82f6'}">
+                        <span class="value" style="color: ${detailBreakdown.senateR >= 51 ? '#ef4444' : '#3b82f6'}">
                             ${detailBreakdown.senateR}R-${detailBreakdown.senateD}D
                         </span>
                     </div>
@@ -1756,7 +1744,7 @@
                     ${hasHouse ? `
                     <div class="stat-row">
                         <span class="label">House</span>
-                        <span class="value" style="color: ${detailBreakdown.houseR >= HOUSE_CONTROL_MIN ? '#ef4444' : '#3b82f6'}">
+                        <span class="value" style="color: ${detailBreakdown.houseR >= 218 ? '#ef4444' : '#3b82f6'}">
                             ${detailBreakdown.houseR}R-${detailBreakdown.houseD}D
                         </span>
                     </div>
@@ -1921,10 +1909,8 @@
         renderSnakeChart(houseRaces, 'house-snake-chart', stats, selectedOutcome);
 
         // Render histograms for each chamber
-        // Senate: 31 baseline R; R controls at 50 total (VP tiebreak), so bars at
-        // totalR>=50 color red. (Bug fix 2026-06-03: was 51, mis-coloring 50-50 as D.)
-        renderHistogram(filtered, senateRaces, 'histogram', 31, SENATE_R_CONTROL_MIN);
-        renderHistogram(filtered, houseRaces, 'house-histogram', 0, HOUSE_CONTROL_MIN);  // House: 0 baseline
+        renderHistogram(filtered, senateRaces, 'histogram', 31, 51);  // Senate: 31 baseline R, 51 for control
+        renderHistogram(filtered, houseRaces, 'house-histogram', 0, 218);  // House: 0 baseline, 218 for control
 
         // Render top outcome maps
         renderTopMaps();
@@ -2042,8 +2028,7 @@
             const height = maxCount > 0 ? (count / maxCount) * 100 : 0;
 
             const bar = document.createElement('div');
-            // seat = total R seats. R controls at seat >= controlThreshold
-            // (Senate SENATE_R_CONTROL_MIN=50 with VP tiebreak; House 218).
+            // For Senate: < 50 is D control, for House: < 218 is D control
             const isDControl = seat < controlThreshold;
             bar.className = 'hist-bar ' + (isDControl ? 'dem' : 'rep');
             if (seatLock === seat && elementId === 'histogram') bar.classList.add('locked');
@@ -2132,7 +2117,7 @@
         filtered.forEach(s => {
             const dWins = houseRaces.filter(r => s[r] === 'D').length;
             totalDSeats += dWins;
-            if (dWins >= HOUSE_CONTROL_MIN) dControl++;
+            if (dWins >= 218) dControl++;
         });
 
         const dControlPct = (dControl / filtered.length * 100).toFixed(1);
@@ -2155,8 +2140,8 @@
         filtered.forEach(s => {
             const senateDWins = senateRaces.filter(r => s[r] === 'D').length;
             const houseDWins = houseRaces.filter(r => s[r] === 'D').length;
-            const senateD = dControlsSenate(34 + senateDWins);  // 34 baseline D-caucus + wins
-            const houseD = houseDWins >= HOUSE_CONTROL_MIN;
+            const senateD = 34 + senateDWins >= 51;  // 34 baseline D + wins >= 51 for majority
+            const houseD = houseDWins >= 218;
 
             if (senateD && houseD) counts.dd++;
             else if (senateD && !houseD) counts.dr++;
