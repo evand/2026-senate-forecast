@@ -386,6 +386,25 @@
         .market-meta .vol { color: #22c55e; }
         .market-meta .bettors { color: #a78bfa; }
         .market-item.relevant { background: #1e3a5f; margin: 0 -15px; padding: 8px 15px; }
+        .market-item.insig .price-compare { color: #666; }
+        .price-compare .dp-pos { color: #22c55e; }
+        .price-compare .dp-neg { color: #ef4444; }
+        .belief-ticket {
+            background: #1e3a5f; border-radius: 6px; padding: 8px 10px;
+            font-size: 11px; color: #9ca3af; margin-bottom: 10px;
+        }
+        .belief-ticket b { color: #eee; }
+        .engine-note { font-size: 10px; color: #555; margin-top: 8px; }
+        .house-view-toggle { display: flex; gap: 8px; margin: 10px 0 4px; }
+        .house-view-toggle button {
+            background: none; border: 1px solid #444; color: #888;
+            border-radius: 12px; padding: 3px 12px; font-size: 12px; cursor: pointer;
+        }
+        .house-view-toggle button.active { border-color: #eee; color: #eee; background: #333355; }
+        #house-district-map svg path.dist { cursor: pointer; }
+        #house-district-map svg path.dist:hover { filter: brightness(1.3); }
+        .map-attrib { font-size: 10px; color: #555; margin-top: 4px; }
+        .map-attrib a { color: #60a5fa; }
         .price-compare {
             font-size: 11px;
             color: #9ca3af;
@@ -803,8 +822,14 @@
                     <span class="separator">•</span>
                     <span>218 needed for control</span>
                 </div>
+                <div class="house-view-toggle" id="house-view-toggle" style="display:none">
+                    <button id="hv-states" class="active" onclick="setHouseView('states')">States</button>
+                    <button id="hv-districts" onclick="setHouseView('districts')">Districts</button>
+                </div>
                 <div class="hex-map" id="house-hex-map"></div>
                 <div id="house-district-panel"></div>
+                <div id="house-district-map" style="display:none"></div>
+                <div class="map-attrib" id="house-map-attrib" style="display:none"></div>
                 <div class="snake-section">
                     <h2>House Races by Competitiveness</h2>
                     <div class="snake-chart" id="house-snake-chart"></div>
@@ -962,6 +987,256 @@
     </div>
 
     <script>
+    // ================= MarketEngine =================
+    // DOM-free market-event engine: evaluates each tradeable (market, answer)
+    // pair as a boolean event per sample, so market probabilities can be
+    // conditioned on the user's locks exactly like every other view.
+    // Key identity: for a fixed conditioning event A,
+    //   dP = P(M|A) - P(M) = cov(1_A, 1_M) / P(A),
+    // so ranking by |dP| is ranking by |covariance| in interpretable pp units.
+    // Prototyped in tasks/viz_improvements/prototypes/relevance.html.
+    const MarketEngine = (() => {
+        let tradeables = [];        // {name, url, answer, price, liq, vol, type, ev(ctx)->bool, baseCount}
+        let allCtx = [];            // per-sample derived context, parallel to samples
+        let ctxBySample = new Map();// sample object -> ctx (getFilteredSamples returns references)
+        let nAll = 0;
+        let skipped = {};
+        let cfg = null;
+
+        // "44" | "0-8" | ">= 5" | "≥13" | "< 14" | "230+" | "218+ (majority)" | "At least 44" | "Below 35" | "Above 52"
+        function parseRangeKey(k) {
+            k = String(k).trim();
+            let m;
+            if ((m = k.match(/^(\d+)\s*-\s*(\d+)$/))) return v => v >= +m[1] && v <= +m[2];
+            if ((m = k.match(/^(?:>=|≥)\s*(\d+)$/))) return v => v >= +m[1];
+            if ((m = k.match(/^(?:<=|≤)\s*(\d+)$/))) return v => v <= +m[1];
+            if ((m = k.match(/^>\s*(\d+)$/))) return v => v > +m[1];
+            if ((m = k.match(/^<\s*(\d+)$/))) return v => v < +m[1];
+            if ((m = k.match(/^(\d+)\+(\s*\(.*\))?$/))) return v => v >= +m[1];
+            if ((m = k.match(/^[Aa]t least (\d+)$/))) return v => v >= +m[1];
+            if ((m = k.match(/^[Bb]elow (\d+)$/))) return v => v < +m[1];
+            if ((m = k.match(/^[Aa]bove (\d+)$/))) return v => v > +m[1];
+            if ((m = k.match(/^(\d+)$/))) return v => v === +m[1];
+            return null;
+        }
+
+        // "Arizona 1", "Texas 15th District", "Nebraska's 2nd district (OPEN-R)",
+        // "Alaska at-large", "Iowa's 2st district" (sic)
+        function parseDistrictKey(key) {
+            for (const [name, code] of Object.entries(cfg.nameToCode)) {
+                if (!key.startsWith(name)) continue;
+                const rest = key.slice(name.length).replace(/^'s/, '');
+                if (/at.?large/i.test(rest)) return `${code}_AL_House`;
+                const m = rest.match(/(\d{1,2})/);
+                if (m) return `${code}_${m[1].padStart(2, '0')}_House`;
+            }
+            return null;
+        }
+
+        function buildCtx(samples, senateRaces, houseRaces) {
+            allCtx = samples.map(s => {
+                let senD = cfg.baselineD, senR = cfg.baselineR, houseD = 0;
+                const stHouseD = {};
+                for (const r of senateRaces) { if (s[r] === 'D') senD++; else if (s[r] === 'R') senR++; }
+                for (const r of houseRaces) {
+                    if (s[r] === 'D') { houseD++; const st = r.slice(0, 2); stHouseD[st] = (stHouseD[st] || 0) + 1; }
+                }
+                return { senD, senR, senControl: cfg.rControlsSenate(senR) ? 'R' : 'D', houseD, stHouseD, s };
+            });
+            ctxBySample = new Map();
+            samples.forEach((s, i) => ctxBySample.set(s, allCtx[i]));
+        }
+
+        function buildTradeables(markets, races, marginals) {
+            const T = [];
+            skipped = {};
+            const skip = t => skipped[t] = (skipped[t] || 0) + 1;
+            const OC = cfg.outcomeMap;
+            for (const m of markets) {
+                const base = { name: m.name, url: m.url, answer: 'YES',
+                               liq: m.totalLiquidity, vol: m.volume, type: m.type, market: m };
+                const P = m.prices || {};
+                if (m.type === 'single_race' && m.race) {
+                    for (const [text, price] of Object.entries(P)) {
+                        const oc = OC[text];
+                        if (oc) T.push({ ...base, answer: text, price, ev: c => c.s[m.race] === oc });
+                    }
+                } else if (m.type === 'multi_race') {
+                    const rWins = m.name.includes('R wins');
+                    for (const [key, price] of Object.entries(P)) {
+                        let race = null;
+                        const special = key.endsWith(' (Special)');
+                        const bare = special ? key.slice(0, -10) : key;
+                        if (cfg.nameToCode[bare]) {
+                            const code = cfg.nameToCode[bare];
+                            race = marginals[code + '_Senate'] ? code + '_Senate' : code + '_Senate_Special';
+                        } else race = parseDistrictKey(key);
+                        if (race && marginals[race]) {
+                            const want = rWins ? 'R' : 'D';
+                            T.push({ ...base, answer: key, price, ev: c => c.s[race] === want });
+                        } else skip('multi_race key');
+                    }
+                } else if ((m.type === 'union_constraint' || m.type === 'intersection_constraint') && m.condition) {
+                    const isUnion = / OR /.test(m.condition);
+                    const terms = m.condition.split(isUnion ? ' OR ' : ' AND ').map(part => {
+                        const mt = part.match(/(\w+)\s*==\s*(\w+)/);
+                        return mt ? { race: mt[1], outcome: mt[2] } : null;
+                    }).filter(Boolean);
+                    if (terms.length) {
+                        const ev = isUnion ? c => terms.some(t => c.s[t.race] === t.outcome)
+                                           : c => terms.every(t => c.s[t.race] === t.outcome);
+                        T.push({ ...base, price: P['YES'], ev });
+                    } else skip(m.type + ' (condition)');
+                } else if (m.type === 'control') {
+                    const isHouse = m.name.toLowerCase().includes('house');
+                    const ev = isHouse ? c => c.houseD < cfg.houseControlMin : c => c.senControl === 'R';
+                    T.push({ ...base, price: P['YES'], ev });
+                } else if (m.type === 'joint_control') {
+                    // state-keyed: "seat winner's party controls the Senate"
+                    for (const [key, price] of Object.entries(P)) {
+                        const code = cfg.nameToCode[key];
+                        if (!code) { skip('joint_control key'); continue; }
+                        const race = marginals[code + '_Senate'] ? code + '_Senate' : code + '_Senate_Special';
+                        T.push({ ...base, answer: key, price,
+                            ev: c => (c.s[race] === 'D' ? 'D' : c.s[race] === 'R' ? 'R' : 'I') === c.senControl });
+                    }
+                } else if (m.type === 'joint_congress_control') {
+                    const evs = {
+                        'Democrats Sweep': c => c.senControl === 'D' && c.houseD >= cfg.houseControlMin,
+                        'Republicans Sweep': c => c.senControl === 'R' && c.houseD < cfg.houseControlMin,
+                        'D Senate, R House': c => c.senControl === 'D' && c.houseD < cfg.houseControlMin,
+                        'R Senate, D House': c => c.senControl === 'R' && c.houseD >= cfg.houseControlMin,
+                    };
+                    for (const [key, price] of Object.entries(P))
+                        if (evs[key]) T.push({ ...base, answer: key, price, ev: evs[key] });
+                        else skip('joint_congress_control key');
+                } else if (m.type === 'seat_count' || m.type === 'binary_seat_threshold') {
+                    // value from name: "Dem Senate Seats", "D House > 230", "VA Dem House Seats" (state-scoped!)
+                    // Chamber may only be named in the QUESTION (e.g. the supermajority
+                    // markets: name "R 3/5ths Supermajority (60+, 2026)").
+                    const nm = m.name;
+                    const isD = /\b(D|Dem|Dems|Democrat\w*)\b/.test(nm);
+                    const isSen = /Senate/i.test(nm + ' ' + (m.question || ''));
+                    const stM = nm.match(/^([A-Z]{2}) /);
+                    const st = stM && cfg.stateCodes.has(stM[1]) ? stM[1] : null;
+                    let val;
+                    if (st && !isSen) {
+                        const total = races.filter(r => r.startsWith(st + '_') && r.endsWith('_House')).length;
+                        val = isD ? (c => c.stHouseD[st] || 0) : (c => total - (c.stHouseD[st] || 0));
+                    } else {
+                        val = isSen ? (isD ? (c => c.senD) : (c => c.senR))
+                                    : (isD ? (c => c.houseD) : (c => 435 - c.houseD));
+                    }
+                    if (m.type === 'binary_seat_threshold') {
+                        const thr = nm.match(/(>=|≤|<=|≥|>|<)\s*(\d+)/);
+                        const rk = thr && parseRangeKey(`${thr[1]} ${thr[2]}`);
+                        if (rk) T.push({ ...base, price: P['YES'], ev: c => rk(val(c)) });
+                        else skip('binary_seat_threshold name');
+                    } else {
+                        const MAJ = { 'Democrats': c => cfg.dControlsSenate(c.senD), 'Republicans': c => cfg.rControlsSenate(c.senR), 'Tie': c => c.senD === 50 };
+                        const chamberMax = isSen ? 100 : 435;
+                        // Year-answer markets ("when will X next win 60+ seats"):
+                        // name carries "(60+, 2026)"; only the 2026 answer is our event.
+                        const yearThr = nm.match(/\((\d+)\+\s*,\s*(\d{4})\)/);
+                        for (const [key, price] of Object.entries(P)) {
+                            const isYearKey = /^\d{4}$/.test(key.trim()) && +key > chamberMax;
+                            if (isYearKey) {
+                                if (yearThr && key.trim() === yearThr[2])
+                                    T.push({ ...base, answer: key, price, ev: c => val(c) >= +yearThr[1] });
+                                else skip('seat_count year key (other cycle)');
+                                continue;
+                            }
+                            const rk = parseRangeKey(key);
+                            if (rk) T.push({ ...base, answer: key, price, ev: c => rk(val(c)) });
+                            else if (isSen && MAJ[key]) T.push({ ...base, answer: key, price, ev: MAJ[key] });
+                            else skip('seat_count key');
+                        }
+                    }
+                } else if (m.type === 'safe_seat_count' && /^([A-Z]{2}) ([DR]) Rep/.test(m.name)) {
+                    const [, st, party] = m.name.match(/^([A-Z]{2}) ([DR]) Rep/);
+                    const total = races.filter(r => r.startsWith(st + '_') && r.endsWith('_House')).length;
+                    const val = c => party === 'D' ? (c.stHouseD[st] || 0) : total - (c.stHouseD[st] || 0);
+                    for (const [key, price] of Object.entries(P)) {
+                        const rk = parseRangeKey(key);
+                        if (rk) T.push({ ...base, answer: key, price, ev: c => rk(val(c)) });
+                        else skip('safe_seat_count key');
+                    }
+                } else skip(m.type);
+            }
+            tradeables = T.filter(t => t.price !== undefined && isFinite(t.price));
+        }
+
+        function init(options) {
+            cfg = options;
+            const senateRaces = options.races.filter(r => r.includes('Senate'));
+            const houseRaces = options.races.filter(r => r.endsWith('_House'));
+            buildCtx(options.samples, senateRaces, houseRaces);
+            nAll = allCtx.length;
+            buildTradeables(options.markets, options.races, options.marginals);
+            for (const t of tradeables) {
+                let c = 0;
+                for (const x of allCtx) if (t.ev(x)) c++;
+                t.baseCount = c;
+            }
+            return { evaluated: tradeables.length, skipped: { ...skipped } };
+        }
+
+        // Per-answer rows conditioned on filteredSamples (references into samples).
+        // essRatio deflates the conditioned n for the significance test.
+        function answerRows(filteredSamples, essRatio) {
+            const isCond = filteredSamples.length !== nAll;
+            const nCond = filteredSamples.length;
+            return tradeables.map(t => {
+                const pBase = t.baseCount / nAll;
+                let pCond = pBase;
+                if (isCond) {
+                    let c = 0;
+                    for (const s of filteredSamples) { const x = ctxBySample.get(s); if (x && t.ev(x)) c++; }
+                    pCond = nCond ? c / nCond : NaN;
+                }
+                const dP = pCond - pBase;
+                const nEff = Math.max(2, nCond * essRatio);
+                const se = Math.sqrt(Math.max(pCond * (1 - pCond), 1e-6) / nEff);
+                return { t, pBase, pCond, dP, se, edge: pCond - t.price, baseEdge: pBase - t.price,
+                         sig: !isCond || Math.abs(dP) >= 2 * se };
+            });
+        }
+
+        // One row per market: the representative answer maximizes |dP| when
+        // conditioning, else |base - price|.
+        function marketRows(filteredSamples, essRatio, hasBeliefs) {
+            const rows = answerRows(filteredSamples, essRatio);
+            const byMarket = new Map();
+            for (const r of rows) {
+                const cur = byMarket.get(r.t.name);
+                const scoreOf = x => Math.abs(hasBeliefs ? x.dP : x.baseEdge);
+                if (!cur || scoreOf(r) > scoreOf(cur)) byMarket.set(r.t.name, r);
+            }
+            return byMarket;
+        }
+
+        // Sensitivity of each market to one race: |P(M|race=D) - P(M|race=R)|
+        function swingFor(race) {
+            const dCtx = allCtx.filter(c => c.s[race] === 'D');
+            const rCtx = allCtx.filter(c => c.s[race] === 'R');
+            const out = new Map();
+            if (!dCtx.length || !rCtx.length) return out;
+            for (const t of tradeables) {
+                let cd = 0, cr = 0;
+                for (const c of dCtx) if (t.ev(c)) cd++;
+                for (const c of rCtx) if (t.ev(c)) cr++;
+                const swing = cd / dCtx.length - cr / rCtx.length;
+                const cur = out.get(t.name);
+                if (cur === undefined || Math.abs(swing) > Math.abs(cur)) out.set(t.name, swing);
+            }
+            return out;
+        }
+
+        return { init, answerRows, marketRows, swingFor, parseDistrictKey,
+                 get coverage() { return { evaluated: tradeables.length, skipped }; } };
+    })();
+    // =============== end MarketEngine ===============
+
     let samples = [];
     let races = [];
     let chainIds = [];  // Chain ID for each sample (for per-chain ESS)
@@ -986,6 +1261,12 @@
     let houseRaces = [];  // House races only
     let houseExpandedState = null;  // Currently expanded state on House hex map
     let houseRacesByState = {};  // Cached: { 'CA': ['CA_01_House', ...], ... }
+    let engineCoverage = null;  // MarketEngine init result (null = engine unavailable)
+    let houseView = 'states';   // 'states' (drill-down) | 'districts' (435 cartogram)
+    let districtGeo = null;     // Downballot hexmap v3.1 (data/hexcd_v31.json), null = unavailable
+    let districtPaths = null;   // cache: { race: {d, cx, cy} } + statePathsD after projection
+    let statePathsD = null;
+    let districtPriceInfo = null;  // race -> { priceD, src } for direct-priced districts
 
     // --- Chamber-control rule: SINGLE SOURCE OF TRUTH ---
     // VP is JD Vance (R), so R controls the Senate at 50 total seats (VP breaks
@@ -1500,8 +1781,40 @@
             console.log('ESS estimate (client-side Geyer):', essEstimate);
         }
         console.log('Markets loaded:', markets.length, markets.map(m => m.name));
+
+        // Initialize the market-event engine (per-sample evaluation of every market answer)
+        try {
+            const nameToCode = {};
+            for (const [code, name] of Object.entries(stateNames)) nameToCode[name] = code;
+            const cov = MarketEngine.init({
+                markets, races, samples, marginals,
+                nameToCode, stateCodes: new Set(Object.keys(stateNames)),
+                outcomeMap: { 'Republican': 'R', 'Democratic': 'D',
+                              'Independent (Dan Osborn)': 'I_Osborn', 'Independent (Other)': 'I_Other' },
+                baselineD: 34, baselineR: 31,
+                rControlsSenate, dControlsSenate, houseControlMin: HOUSE_CONTROL_MIN,
+            });
+            engineCoverage = cov;
+            console.log('MarketEngine:', cov.evaluated, 'tradeables; skipped:', cov.skipped);
+        } catch (e) {
+            console.error('MarketEngine init failed (markets panel falls back to volume sort):', e);
+            engineCoverage = null;
+        }
         console.log('Max error:', maxError);
         console.log('Snapshot timestamp:', snapshotTimestamp);
+
+        // District cartogram geometry (optional — toggle stays hidden if absent)
+        try {
+            const geoResp = await fetch('data/hexcd_v31.json' + cacheBust);
+            if (geoResp.ok) {
+                districtGeo = await geoResp.json();
+                prepareDistrictGeo();
+                document.getElementById('house-view-toggle').style.display = 'flex';
+                console.log('District cartogram loaded:', Object.keys(districtGeo.districts).length, 'districts');
+            }
+        } catch (e) {
+            console.log('District cartogram unavailable:', e);
+        }
 
         const essLabel = segmentESS
             ? `ESS ≈ ${essEstimate.ess.toLocaleString()} (batch-means, ${segmentESS.n_segments} segments, binding: ${essEstimate.binding})`
@@ -1901,19 +2214,28 @@
             }
         );
 
-        // Render House SVG hex map (state-level)
+        // Render House map: state drill-down or 435-district cartogram
         if (houseRaces.length > 0) {
-            renderHexMap('house-hex-map',
-                (code) => houseCellData(code, stats, selectedOutcome),
-                {
-                    onClick: (code) => {
-                        if (houseRacesByState[code] && houseRacesByState[code].length > 0) {
-                            expandHouseState(code);
+            const useDistricts = houseView === 'districts' && districtPaths;
+            document.getElementById('house-hex-map').style.display = useDistricts ? 'none' : '';
+            document.getElementById('house-district-panel').style.display = useDistricts ? 'none' : '';
+            document.getElementById('house-district-map').style.display = useDistricts ? '' : 'none';
+            document.getElementById('house-map-attrib').style.display = useDistricts ? '' : 'none';
+            if (useDistricts) {
+                renderHouseDistrictMap(stats, selectedOutcome);
+            } else {
+                renderHexMap('house-hex-map',
+                    (code) => houseCellData(code, stats, selectedOutcome),
+                    {
+                        onClick: (code) => {
+                            if (houseRacesByState[code] && houseRacesByState[code].length > 0) {
+                                expandHouseState(code);
+                            }
                         }
                     }
-                }
-            );
-            renderHouseDistrictPanel(stats);
+                );
+                renderHouseDistrictPanel(stats);
+            }
         }
 
         // Render snake charts for each chamber
@@ -2305,8 +2627,14 @@
         const marketsHeader = document.querySelector('#markets-panel h2');
         console.log('Rendering markets panel, selected:', selected, 'markets:', markets.length);
 
-        if (markets.length > 0) {
-            // Sort markets: relevant to selected state first, then by volume
+        if (engineCoverage && markets.length > 0) {
+            // Engine path: rank by dP under locks / swing under selection / |model - price|.
+            renderMarketsPanelEngine(marketsList, marketsHeader, filtered);
+        } else if (markets.length > 0) {
+            // Fallback path (engine init failed): membership sort + per-type compares.
+            // NOTE: the joint_control branch below assumes Balance-of-Power price keys
+            // and silently shows 0% for the current state-keyed market — engine path
+            // handles it correctly.
             let sortedMarkets = [...markets];
             if (selected) {
                 sortedMarkets.sort((a, b) => {
@@ -2442,6 +2770,176 @@
         } else {
             marketsList.innerHTML = '<div style="color: #666; text-align: center; padding: 10px;">No markets loaded</div>';
         }
+    }
+
+    // Engine-backed markets panel. Ranking ladder:
+    //   locks/seat-lock active -> |dP| (what your beliefs move most)
+    //   race selected          -> |swing| = |P(M|race=D) - P(M|race=R)| (sensitivity)
+    //   otherwise              -> |model - price| (standing consistency view)
+    function renderMarketsPanelEngine(marketsList, marketsHeader, filtered) {
+        const escH = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        const fmtpp = v => (v > 0 ? '+' : '') + (v * 100).toFixed(1) + 'pp';
+        const hasBeliefs = Object.keys(locks).length > 0 || seatLock !== null;
+        const essRatio = essEstimate ? Math.min(1, essEstimate.ess / samples.length) : 0.3;
+        const rowMap = MarketEngine.marketRows(filtered, essRatio, hasBeliefs);
+        const swing = (selected && !hasBeliefs) ? MarketEngine.swingFor(selected) : null;
+
+        const score = m => {
+            const r = rowMap.get(m.name);
+            if (hasBeliefs) return r && r.sig ? Math.abs(r.dP) : (r ? Math.abs(r.dP) * 0.1 : -1);
+            if (swing) return swing.has(m.name) ? Math.abs(swing.get(m.name)) : -1;
+            return r ? Math.abs(r.baseEdge) : -1;
+        };
+        const sorted = [...markets].sort((a, b) => score(b) - score(a) || (b.volume || 0) - (a.volume || 0));
+        marketsHeader.textContent = hasBeliefs ? 'Markets (ranked by your locks)'
+            : selected ? `Markets (sensitivity to ${getStateCode(selected)})`
+            : 'Markets (model vs price)';
+
+        let html = '';
+        if (hasBeliefs) {
+            const best = [...rowMap.values()].filter(r => r.sig && isFinite(r.edge))
+                .sort((a, b) => Math.abs(b.edge) - Math.abs(a.edge))[0];
+            if (best && Math.abs(best.edge) > 0.03) {
+                html += `<div class="belief-ticket">Best expression of your locks:
+                    <b>${escH(best.t.name)}</b>${best.t.answer !== 'YES' ? ` [${escH(best.t.answer)}]` : ''}
+                    — model <b>${(best.pCond * 100).toFixed(1)}%</b> vs price <b>${(best.t.price * 100).toFixed(1)}%</b>
+                    → <b>${best.edge > 0 ? 'YES' : 'NO'}</b>
+                    (locks contribute ${fmtpp(best.dP)} of the ${fmtpp(best.edge)} edge)</div>`;
+            }
+        }
+
+        html += sorted.map(m => {
+            const r = rowMap.get(m.name);
+            const isRelevant = selected && m.related_races.includes(selected);
+            const volStr = m.volume >= 1000 ? `${(m.volume / 1000).toFixed(1)}k` : Math.round(m.volume);
+            const insig = r && hasBeliefs && !r.sig;
+            let compare = '';
+            if (r && isFinite(r.pCond)) {
+                const cls = (!insig && Math.abs(r.edge) > 0.05) ? 'warning' : '';
+                const ansStr = r.t.answer !== 'YES' ? `${escH(String(r.t.answer).slice(0, 26))}: ` : '';
+                let extra = '';
+                if (hasBeliefs) extra = insig ? ` <span style="color:#666">(within noise)</span>`
+                    : ` <span class="${r.dP > 0.005 ? 'dp-pos' : r.dP < -0.005 ? 'dp-neg' : ''}">locks ${fmtpp(r.dP)}</span>`;
+                else if (swing && swing.has(m.name) && Math.abs(swing.get(m.name)) > 0.01)
+                    extra = ` <span style="color:#a78bfa">swing ${(Math.abs(swing.get(m.name)) * 100).toFixed(0)}pp</span>`;
+                compare = `<div class="price-compare ${cls}">${ansStr}Mkt ${(r.t.price * 100).toFixed(0)}% vs Model ${(r.pCond * 100).toFixed(0)}%
+                    <span class="diff">(${fmtpp(r.edge)})</span>${extra}</div>`;
+            }
+            return `
+                <div class="market-item ${isRelevant ? 'relevant' : ''} ${insig ? 'insig' : ''}">
+                    <a href="${m.url}?r=RXZhbkRhbmllbA" target="_blank">${escH(m.name)}</a>
+                    ${compare}
+                    <div class="market-meta">
+                        <span class="vol">M$${volStr} vol</span> ·
+                        <span class="bettors">${m.uniqueBettorCount} traders</span>
+                        ${m.related_races.length > 0 && m.related_races.length < 10 ? ` · ${m.related_races.length} races` : ''}
+                    </div>
+                </div>`;
+        }).join('');
+
+        const skipN = Object.values(engineCoverage.skipped || {}).reduce((a, b) => a + b, 0);
+        html += `<div class="engine-note">${engineCoverage.evaluated} market answers scored per-sample${skipN ? ` · ${skipN} answers not evaluable from exported data` : ''}${hasBeliefs ? ` · greyed = |ΔP| &lt; 2·SE at conditioned n` : ''}</div>`;
+        marketsList.innerHTML = html;
+    }
+
+    // ---- 435-district cartogram (Downballot hexmap v3.1, CC BY 4.0) ----
+    // Coordinates live in the source's lon/lat-ish space (equal-area by design
+    // there, CV ~5%); uniform scaling preserves relative area. x is scaled by
+    // cos(38°) for aspect only.
+    function prepareDistrictGeo() {
+        let minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9;
+        for (const rings of Object.values(districtGeo.districts))
+            for (const ring of rings)
+                for (const [x, y] of ring) {
+                    if (x < minX) minX = x; if (x > maxX) maxX = x;
+                    if (y < minY) minY = y; if (y > maxY) maxY = y;
+                }
+        const XS = Math.cos(38 * Math.PI / 180);
+        const W = 1200, sc = W / ((maxX - minX) * XS);
+        const H = (maxY - minY) * sc;
+        const proj = ([x, y]) => [(x - minX) * XS * sc, (maxY - y) * sc];
+        const pathOf = rings => rings.map(ring =>
+            'M' + ring.map(p => { const [x, y] = proj(p); return x.toFixed(1) + ',' + y.toFixed(1); }).join('L') + 'Z'
+        ).join('');
+        districtPaths = { _W: W, _H: H };
+        for (const [race, rings] of Object.entries(districtGeo.districts)) {
+            const ring = rings[0];
+            let sx = 0, sy = 0;
+            for (const p of ring) { const [x, y] = proj(p); sx += x; sy += y; }
+            districtPaths[race] = { d: pathOf(rings), cx: sx / ring.length, cy: sy / ring.length };
+        }
+        statePathsD = Object.values(districtGeo.states).map(pathOf);
+
+        // Direct per-district prices (D-side), for outlines + disagreement dots
+        districtPriceInfo = {};
+        for (const m of markets) {
+            if (m.type === 'multi_race' && m.prices) {
+                const rWins = m.name.includes('R wins');
+                for (const [key, price] of Object.entries(m.prices)) {
+                    const race = MarketEngine.parseDistrictKey(key);
+                    if (race && districtPaths[race])
+                        districtPriceInfo[race] = { priceD: rWins ? 1 - price : price, src: `${m.name} · ${key}` };
+                }
+            } else if (m.type === 'single_race' && m.race && m.race.endsWith('_House') && m.prices) {
+                const pD = m.prices['Democratic'];
+                if (pD !== undefined) districtPriceInfo[m.race] = { priceD: pD, src: m.name };
+            } else if (m.type === 'candidate_race' && m.race && m.race.endsWith('_House')) {
+                if (!districtPriceInfo[m.race]) districtPriceInfo[m.race] = { priceD: null, src: m.name };
+            }
+        }
+        const attrib = document.getElementById('house-map-attrib');
+        attrib.innerHTML = districtGeo.attribution.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/https?:\/\/\S+/, u => `<a href="${u}" target="_blank">${u}</a>`);
+    }
+
+    function setHouseView(v) {
+        houseView = v;
+        document.getElementById('hv-states').classList.toggle('active', v === 'states');
+        document.getElementById('hv-districts').classList.toggle('active', v === 'districts');
+        render();
+    }
+
+    function renderHouseDistrictMap(stats, selectedOutcome) {
+        const container = document.getElementById('house-district-map');
+        if (!districtPaths) return;
+        let el = '';
+        const badges = [];
+        for (const [race, geom] of Object.entries(districtPaths)) {
+            if (race.startsWith('_')) continue;
+            const st = race.slice(0, 2), num = race.split('_')[1];
+            const scenario = selectedOutcome && selectedOutcome[race];
+            const m = stats.marginals[race] || marginals[race] || { D: 0.5 };
+            const dP = scenario ? (scenario === 'D' ? 1 : 0) : (m.D || 0);
+            const info = districtPriceInfo[race];
+            let stroke;
+            if (locks[race]) stroke = `stroke="${locks[race] === 'D' ? '#3b82f6' : '#ef4444'}" stroke-width="2.6"`;
+            else if (selected === race) stroke = 'stroke="#fbbf24" stroke-width="2.4"';
+            else if (info) stroke = 'stroke="#fff" stroke-width="1.3"';
+            else stroke = 'stroke="#14142a" stroke-width="0.4"';
+            const distLabel = `${stateNames[st] || st} ${num === 'AL' ? 'At-Large' : 'District ' + (+num)}`;
+            let title = `${distLabel}: ${(dP * 100).toFixed(1)}% D`;
+            if (info && info.priceD !== null) {
+                const delta = dP - info.priceD;
+                title += ` · market ${(info.priceD * 100).toFixed(0)}% D (${delta > 0 ? '+' : ''}${(delta * 100).toFixed(1)}pp) — ${info.src}`;
+                if (!scenario && Math.abs(delta) >= 0.02) {
+                    const br = Math.min(3.2 * Math.sqrt(Math.abs(delta) / 0.05), 6);
+                    badges.push(`<circle cx="${geom.cx.toFixed(1)}" cy="${geom.cy.toFixed(1)}" r="${br.toFixed(1)}"
+                        fill="#c98500" stroke="#1a1a2e" stroke-width="0.8" pointer-events="none"/>`);
+                }
+            } else if (info) {
+                title += ` · candidate market — ${info.src}`;
+            }
+            el += `<path class="dist" d="${geom.d}" fill="${getColor(dP)}" ${stroke} data-race="${race}"><title>${title}</title></path>`;
+        }
+        let stateEl = '';
+        for (const d of statePathsD)
+            stateEl += `<path d="${d}" fill="none" stroke="#0f0f1e" stroke-width="1.8" pointer-events="none"/>`;
+        container.innerHTML =
+            `<svg viewBox="0 0 ${districtPaths._W.toFixed(0)} ${districtPaths._H.toFixed(0)}" style="width:100%;height:auto">${el}${stateEl}${badges.join('')}</svg>`;
+        container.querySelectorAll('path.dist').forEach(p => {
+            p.addEventListener('click', () => selectRace(p.dataset.race));
+            p.addEventListener('dblclick', () => toggleLock(p.dataset.race));
+        });
     }
 
     function lockRace(race, outcome) {
